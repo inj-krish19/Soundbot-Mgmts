@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+
+  --font-content: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
