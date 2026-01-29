@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import { Link, NavLink } from "react-router";
+import useAuth from "../store/AuthStore";
 
 function Navbar() {
 
-    const [authenticated, setAuhenticated] = useState(false);
+    const auth = useAuth((state) => state.auth);
 
     const navItems = [
         { title: 'Home', route: 'home' },
@@ -10,14 +11,13 @@ function Navbar() {
         { title: 'Contact', route: 'contact' },
     ];
 
-    const authItems = authenticated ? [
+    const authItems = auth ? [
         { title: 'Dashboard', route: 'dashboard' },
         { title: 'Charging', route: 'charging' },
         { title: 'Sessions', route: 'sessions' },
         { title: 'Sign Out', route: 'signout' },
     ] : [
-        { title: 'Sign In', route: 'signin' },
-        { title: 'Sign Up', route: 'signup' },
+        { title: 'Sign In', route: 'verification' },
     ];
 
 
@@ -30,11 +30,11 @@ function Navbar() {
                             <li
                                 key={item.route.toLowerCase()}
                                 className='hover:text-indigo-400 text-sm text-black dark:text-white' >
-                                <a
-                                    href={'/' + item.route.toLowerCase()}
+                                <Link
+                                    to={`/${item.route.toLowerCase()}`}
                                     className='w-12 capitalize' >
                                     {item.title}
-                                </a>
+                                </Link>
                             </li>
                         );
                     }

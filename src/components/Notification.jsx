@@ -8,9 +8,9 @@ import { useEffect } from 'react';
 
 function Notification(props) {
 
-    console.log(props.info);
+    // console.log(props.info);
     let { message, type } = props.info;
-    console.log(message, type);
+    // console.log(message, type);
 
     const [visible, setVisible] = useState(true);
     const types = ['info', 'warning', 'error', 'success']
@@ -41,7 +41,7 @@ function Notification(props) {
 
             return () => clearTimeout(timer);
         }
-    }, [message])
+    }, [props])
 
     if (!visible || !message || types.indexOf(type) == -1) return null;
 
