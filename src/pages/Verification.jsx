@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { FaFacebook, FaGithub, FaGoogle, FaLinkedin } from 'react-icons/fa';
 import Notification from '../components/Notification';
+import { Link } from 'react-router';
+import EmailForm from '../components/EmailForm';
 
-function SignIn() {
+function Verification() {
 
 
 
@@ -38,42 +40,54 @@ function SignIn() {
     const [info, setInfo] = useState({
         message: '',
         type: 'success'
-    })
+    });
+
+    const [resetPassword, setResetPassword] = useState(false);
 
 
     // manual login handler
-    const handleSignIn = async (e) => {
+    const handleVerification = async (e) => {
         e.preventDefault();
 
-        let response = await fetch(`${BACKEND_URL}/auth/signin`, {
+        let res = await fetch(`${BACKEND_URL}/auth/verification`, {
             method: 'POST',
+            headers: {
+                "content-type": "application/json"
+            },
             body: JSON.stringify({
                 email
-            })
-        }).then(r = r.json());
+            }),
+            credentials: 'include'
+        });
+        let response = await res.json();
 
-        console.log(response);
-        if (response.status === 200) {
+        console.log("Response", response);
+        if (res.ok) {
+            setInfo({
+                message: response.message,
+                type: 'success'
+            })
+
             setTimeout(() => {
                 window.location.href = window.location.origin;
             }, [7000]);
         }
 
-        if (response.status === 400) {
+        if (res.status === 400) {
             // notitying as per bad request (warning)
             setInfo({
                 message: 'Please provide email, something went wrong',
                 type: 'warning'
             })
         }
-        if (response.status === 401) {
+        if (res.status === 401) {
             // notitying as per unauthorized (error)
             setInfo({
                 message: 'Something went wrong',
                 type: 'error'
             })
         }
-        if (response.status === 403) {
+        if (res.status === 403) {
             // notitying as per forbidden (error)
             setInfo({
                 message: 'Please provide email',
@@ -81,7 +95,7 @@ function SignIn() {
             })
         }
 
-        if (response.status === 500) {
+        if (res.status === 500) {
             // notitying as per server error (info)
             setInfo({
                 message: 'Issue at server side, Please try later',
@@ -89,6 +103,66 @@ function SignIn() {
             })
         }
 
+    }
+
+
+    const handleResetPassword = async (e, email) => {
+
+        e.preventDefault();
+
+        let res = await fetch(`${BACKEND_URL}/auth/reset-password`, {
+            method: 'POST',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                email
+            })
+        });
+
+        let response = await res.json();
+        console.log("Response", response);
+        if (res.ok) {
+            setInfo({
+                message: response.message,
+                type: 'success'
+            })
+
+            setTimeout(() => {
+                window.location.href = window.location.origin;
+            }, [7000]);
+        }
+
+        if (res.status === 400) {
+            // notitying as per bad request (warning)
+            setInfo({
+                message: 'Please provide email, something went wrong',
+                type: 'warning'
+            })
+        }
+        if (res.status === 401) {
+            // notitying as per unauthorized (error)
+            setInfo({
+                message: 'Something went wrong',
+                type: 'error'
+            })
+        }
+        if (res.status === 403) {
+            // notitying as per forbidden (error)
+            setInfo({
+                message: 'Please provide email',
+                type: 'error'
+            })
+        }
+
+        if (res.status === 500) {
+            // notitying as per server error (info)
+            setInfo({
+                message: 'Issue at server side, Please try later',
+                type: 'info'
+            })
+        }
     }
 
 
@@ -118,19 +192,29 @@ function SignIn() {
 
     return (
         <>
-            <main className='flex justify-center items-center bg-stone-200 dark:bg-stone-800 h-full min-h-screen w-full py-8 px-4'>
+            {resetPassword && <EmailForm data={{
+                title: "Reset Password",
+                handler: handleResetPassword,
+                info: info,
+                alternate: {
+                    text: 'Back to Sign In',
+                    call: (e) => { setResetPassword(false); }
+                }
+            }} />}
+            <main className={`flex justify-center items-center bg-stone-200 dark:bg-stone-800 h-full min-h-screen w-full py-8 px-4 ${resetPassword ? 'hidden' : ''}`}>
                 <div className="flex flex-col justify-around w-3/4 md:w-1/2 h-auto bg-stone-300 dark:bg-stone-700  rounded-md border-2 border-stone-100 p-4 gap-2 ">
                     <span className='font-poppins text-2xl font-bold text-center capitalize text-slate-950 dark:text-slate-50'>Sign In</span>
-                    {/* <div className="border border-slate-200 dark:border-slate-800"></div> */}
-                    <Notification info={info} />
+                    {info && <Notification info={info} />}
                     <div className="flex flex-col">
-                        <form className='flex m-2 flex-col gap-4 justify-around' onSubmit={(e) => { handleSignIn(e) }}>
-                            <div className="flex flex-col justify-center gap-1">
-                                <label htmlFor="email" className='text-slate-800 dark:text-slate-200 text-sm'>Email</label>
+                        <form className='flex m-2 flex-col gap-2 justify-around' onSubmit={(e) => { handleVerification(e) }}>
+                            <div className="flex flex-col justify-center gap-1 mb-2">
+                                <label htmlFor="email" className='text-slate-700 dark:text-slate-300 text-sm'>Email</label>
                                 <input type="email" name="email" id="email" placeholder='ex. john@gmail.com' className='border-2 border-slate-100 outline-slate-100 px-2 py-1 rounded-sm text-gray-800 dark:text-gray-200' value={email} onChange={(e) => {
                                     setEmail(e.target.value);
                                 }} />
                             </div>
+
+                            <span className='text-sm text-rose-400 text-right'><Link onClick={(e) => { setResetPassword(true); }}>Forget Password? Reset Password</Link></span>
 
                             <button type="submit" className='bg-violet-700 text-white p-2 rounded-md'>Submit</button>
 
@@ -166,26 +250,7 @@ function SignIn() {
                             <span>Sign In with Facebook </span>
                         </button>
 
-                        {/* 
-                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-slate-50 text-black p-2 rounded-md'>
-                            <FaGoogle />
-                            <span>Sign In with Google </span>
-                        </button>
-                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-blue-700 text-white p-2 rounded-md'>
-                            <FaLinkedin />
-                            <span>Sign In with LinkedIn </span>
-                        </button>
-                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-black text-white p-2 rounded-md'>
-                            <FaGithub />
-                            <span>Sign In with Github </span>
-                        </button>
-                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-blue-500 text-white p-2 rounded-md'>
-                            <FaFacebook />
-                            <span>Sign In with Facebook </span>
-                        </button>
-                        */}
                     </div>
-
                 </div>
             </main>
         </>
@@ -193,4 +258,4 @@ function SignIn() {
 
 }
 
-export default SignIn;
+export default Verification;
