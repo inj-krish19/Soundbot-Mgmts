@@ -91,33 +91,6 @@ function ChangePassword() {
                     info: info,
                     alternate: null
                 }} />
-                {/* <div className="flex flex-col justify-around w-3/4 md:w-1/2 h-auto bg-stone-300 dark:bg-stone-700 rounded-md border-2 border-stone-100 p-4 gap-2">
-
-                    <span className='font-poppins text-2xl font-bold text-center capitalize text-slate-950 dark:text-slate-50'>Reset Password</span>
-
-                    {info && <Notification info={info} />}
-                    <div className="flex flex-col">
-                        <form className='flex m-2 flex-col gap-4 justify-around' onSubmit={(e) => { handleChangePassword(e); }}>
-                            <div className="flex flex-col justify-center gap-1">
-                                <label htmlFor='password' className='text-slate-700 dark:text-slate-300 text-sm'>Password</label>
-                                <input type="password" name="password" id="password" placeholder='ex. secret@123' className='border-2 border-slate-100 outline-slate-100 px-2 py-1 rounded-sm text-gray-800 dark:text-gray-200' value={password} onChange={(e) => {
-                                    setPassword(e.target.value);
-                                }} />
-                            </div>
-                            <div className="flex flex-col justify-center gap-1">
-                                <label htmlFor='confirm_password' className='text-slate-700 dark:text-slate-300 text-sm'>Confirm Password</label>
-                                <input type="password" name="confirm_password" id="confirm_password" placeholder='ex. secret@123' className='border-2 border-slate-100 outline-slate-100 px-2 py-1 rounded-sm text-gray-800 dark:text-gray-200' value={confirmPassword} onChange={(e) => {
-                                    setConfirmPassword(e.target.value);
-                                }} />
-                            </div>
-
-                            <span className='text-sm text-right text-indigo-400'><Link to={`/reset-password/${hash}`} >Want to access your account? Sign In</Link></span>
-                            <button type="submit" className='bg-violet-700 text-white p-2 rounded-md'>Submit</button>
-
-
-                        </form>
-                    </div>
-                </div> */}
             </main>
         </>
     );
