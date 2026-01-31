@@ -4,10 +4,10 @@ import BackToTop from './components/BackToTop'
 
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
-
-
+import SignOut from './pages/SignOut';
 
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 
 import Verification from './pages/Verification';
@@ -58,8 +58,11 @@ function App() {
 
           <Route path='/auth/reset-password/:hash' element={<ResetPassword />} />
 
+          <Route path='/signout' element={<SignOut />} />
+
         </Routes>
 
+        <Footer />
         <BackToTop />
         <ThemeToggle />
 
