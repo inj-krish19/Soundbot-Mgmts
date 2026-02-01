@@ -9,7 +9,7 @@ function Footer() {
 
     return (
         <>
-            <div className="flex flex-col md:flex-row h-fill px-8 py-4 border-t-2 bg-stone-50 dark:bg-stone-950 border-stone-200 dark:border-stone-800 gap-8">
+            <div className="flex flex-col md:flex-row h-fill px-8 py-4 border-t-2 bg-stone-50 dark:bg-stone-950 border-stone-200 dark:border-stone-800 gap-8 transition transition-colors duration-800">
                 <div className="flex flex-col w-full md:w-4/10 gap-2">
 
                     <div className="flex flex-row items-center gap-4">
