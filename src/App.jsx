@@ -1,6 +1,7 @@
-import './index.css'
 import ThemeToggle from './components/ThemeToggle'
 import BackToTop from './components/BackToTop'
+
+import Home from './pages/Home';
 
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
@@ -51,6 +52,9 @@ function App() {
 
         <Header />
         <Routes>
+
+          <Route path='/' element={<Home />} />
+          <Route path='/home' element={<Home />} />
 
           <Route path='/verification' element={<Verification />} />
           <Route path='/auth/signup/:hash' element={<SignUp />} />
