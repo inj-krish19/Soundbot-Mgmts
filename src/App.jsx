@@ -2,6 +2,7 @@ import ThemeToggle from './components/ThemeToggle'
 import BackToTop from './components/BackToTop'
 
 import Home from './pages/Home';
+import About from './pages/About';
 
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
@@ -50,25 +51,31 @@ function App() {
 
       <Router>
 
-        <Header />
-        <Routes>
+        <main className='flex flex-col h-full min-h-screen w-full justify-around '>
 
-          <Route path='/' element={<Home />} />
-          <Route path='/home' element={<Home />} />
+          <Header />
+          <Routes>
 
-          <Route path='/verification' element={<Verification />} />
-          <Route path='/auth/signup/:hash' element={<SignUp />} />
-          <Route path='/auth/signin/:hash' element={<SignIn />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/about' element={<About />} />
 
-          <Route path='/auth/reset-password/:hash' element={<ResetPassword />} />
+            <Route path='/verification' element={<Verification />} />
+            <Route path='/auth/signup/:hash' element={<SignUp />} />
+            <Route path='/auth/signin/:hash' element={<SignIn />} />
 
-          <Route path='/signout' element={<SignOut />} />
+            <Route path='/auth/reset-password/:hash' element={<ResetPassword />} />
 
-        </Routes>
+            <Route path='/signout' element={<SignOut />} />
 
-        <Footer />
-        <BackToTop />
-        <ThemeToggle />
+          </Routes>
+
+          <Footer />
+          <BackToTop />
+          <ThemeToggle />
+
+        </main>
+
 
       </Router>
 
