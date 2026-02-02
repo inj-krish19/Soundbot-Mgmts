@@ -23,7 +23,7 @@ function Navbar() {
 
     return (
         <>
-            <ul className='hidden md:flex flex-row gap-8 m-2 mx-8 px-8 h-8 justify-center items-center bg-stone-200 dark:bg-stone-800 transition transition-colors duration-400 rounded-md '>
+            <ul className='hidden md:flex flex-row gap-8 m-2 mx-8 px-8 h-8 justify-center items-center bg-stone-200 dark:bg-stone-800 transition-colors duration-400 rounded-md '>
                 {[...navItems, ...authItems].map(
                     item => {
                         return (

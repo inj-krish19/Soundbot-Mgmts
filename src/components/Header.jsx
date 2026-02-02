@@ -7,10 +7,10 @@ function Header() {
 
     return (
         <>
-            <div className='flex flex-row bg-stone-50 dark:bg-stone-950 justify-around items-center h-20 border-b-2 border-stone-200 dark:border-stone-800 p-4 transition transition-colors duration-800'>
+            <div className='flex flex-row bg-stone-50 dark:bg-stone-950 justify-around items-center h-20 border-b-2 border-stone-200 dark:border-stone-800 p-4 transition-colors duration-800'>
                 <div className='flex flex-row justify-center items-center hover:cursor-pointer' onClick={() => window.location.href = '/'}>
                     <img src="/icon.svg" alt="Logo" className='size-18' />
-                    <Link to='/' className='font-poppins text-2xl hover:text-cyan-400 dark:hover:text-emerald-400 font-bold text-black dark:text-white transition transition-colors duration-800'>Soundbot Mgmts</Link>
+                    <Link to='/' className='font-poppins text-2xl hover:text-cyan-400 dark:hover:text-emerald-400 font-bold text-black dark:text-white transition-colors duration-800'>Soundbot Mgmts</Link>
                 </div>
                 <Navbar />
                 <button className='flex md:hidden bg-stone-200 dark:bg-stone-800 size-8 justify-center items-center rounded-sm hover:cursor-pointer'>

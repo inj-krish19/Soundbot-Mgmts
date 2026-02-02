@@ -9,8 +9,8 @@ function Footer() {
 
     return (
         <>
-            <div className="flex flex-col md:flex-row h-fill px-8 py-4 border-t-2 bg-stone-50 dark:bg-stone-950 border-stone-200 dark:border-stone-800 gap-8 transition transition-colors duration-800">
-                <div className="flex flex-col w-full md:w-4/10 gap-2">
+            <div className="flex flex-col md:flex-row h-fill px-8 py-4 border-t-2 bg-stone-50 dark:bg-stone-950 border-stone-200 dark:border-stone-800 gap-8 transition-colors duration-800 mt-auto">
+                <div className="flex flex-col w-full md:w-2/5 gap-2">
 
                     <div className="flex flex-row items-center gap-4">
                         <img src='/logo.png' className='size-36' />
@@ -43,7 +43,7 @@ function Footer() {
 
                 </div>
 
-                <div className="flex flex-row w-full md:w-6/10 justify-around items-center gap-4">
+                <div className="flex flex-row w-full md:w-3/5 justify-around items-center gap-4">
 
                     <div className="flex flex-col gap-4 justify-center">
                         <span className='text-slate-800 dark:text-slate-200 text-md font-bold'>Legal</span>
