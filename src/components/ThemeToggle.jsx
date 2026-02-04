@@ -7,23 +7,35 @@ const ThemeToggle = () => {
 
     useEffect(() => {
 
-        const dark = localStorage.getItem("theme") === "dark" || window.matchMedia('window-prefer-schems: dark');
+        // does local storage has preference
+        const storedTheme = localStorage.getItem("theme");
+
+        const dark = storedTheme
+            ? storedTheme === "dark" // store what ever prefernce is 
+            : window.matchMedia('(prefers-color-scheme: dark)').matches; // no preference then system preference
 
         setIsDark(dark);
-        document.documentElement.classList.add('dark');
-        localStorage.setItem("theme", "dark");
+
+        if (dark) {
+            document.documentElement.classList.add(dark ? 'dark' : '');
+            localStorage.setItem("theme", "dark");
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem("theme", "light");
+        }
 
     }, []);
 
     const changeMode = () => {
 
         let preference = !isDark;
+        console.log(location.href, "tells ", preference ? "dark" : "light");
 
         if (preference) {
-            localStorage.setItem("theme", "light");
+            localStorage.setItem("theme", "dark");
             document.documentElement.classList.add('dark');
         } else {
-            localStorage.setItem("theme", "dark");
+            localStorage.setItem("theme", "light");
             document.documentElement.classList.remove('dark');
         }
 

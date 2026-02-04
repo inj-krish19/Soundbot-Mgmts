@@ -1,5 +1,13 @@
-import ThemeToggle from './components/ThemeToggle'
-import BackToTop from './components/BackToTop'
+import Layout from './Layout'
+import useAuth from './store/AuthStore';
+import ErrorBoundary from './ErrorBoundary';
+
+
+import { useEffect, useState } from 'react';
+import { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router';
+
+
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -10,11 +18,9 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 
 import ResetPassword from './pages/ResetPassword';
-import ChangePassword from './pages/ChangePassword';
-import ChangeEmail from './pages/ChangeEmail';
 
 import SignOut from './pages/SignOut';
-import Setting from './pages/Setting';
+import Loading from './pages/Loading';
 
 import Error from './pages/Error';
 import Warning from './pages/Warning';
@@ -22,18 +28,11 @@ import Success from './pages/Success';
 
 
 
-import Header from './components/Header';
-import Footer from './components/Footer';
 
-
-
-
-import { BrowserRouter as Router, Route, Routes } from 'react-router';
-import useAuth from './store/AuthStore';
-import { useEffect } from 'react';
-import Warning from './pages/Warning';
 
 function App() {
+
+  const [loading, setLoading] = useState(true);
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const setAuth = useAuth((state) => state.setAuth);
@@ -42,62 +41,70 @@ function App() {
 
     (async () => {
 
-      let response = await fetch(`${BACKEND_URL}/auth/me`, {
-        method: 'POST',
-        headers: {
-          "content-type": "application/json"
-        },
-        credentials: 'include'
-      });
+      try {
+        let response = await fetch(`${BACKEND_URL}/auth/me`, {
+          method: 'POST',
+          headers: {
+            "content-type": "application/json"
+          },
+          credentials: 'include'
+        });
 
-      let res = await response.json();
-      setAuth(res['authenticated']);
+        let res = await response.json();
+        setAuth(res['authenticated']);
 
-      console.log(res);
+        console.log(res);
+      } catch (err) {
+      } finally {
+        setLoading(false);
+      }
 
     })();
 
   }, []);
 
+  if (loading) return <Loading />
+
   return (
     <>
 
-      <Router>
-
-        <main className='flex flex-col h-full min-h-screen w-full justify-around '>
-
-          <Header />
-          <Routes>
-
-            <Route path='/' element={<Home />} />
-            <Route path='/home' element={<Home />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/contact' element={<Contact />} />
-
-            <Route path='/verification' element={<Verification />} />
-            <Route path='/auth/signup/:hash' element={<SignUp />} />
-            <Route path='/auth/signin/:hash' element={<SignIn />} />
-
-            <Route path='/auth/reset-password/:hash' element={<ResetPassword />} />
-            <Route path='/signout' element={<SignOut />} />
-
-            <Route path='/success' element={<Success />} />
-            <Route path='/error' element={<Error />} />
-            <Route path='/warning' element={<Warning />} />
-
-          </Routes>
-
-          <Footer />
-          <BackToTop />
-          <ThemeToggle />
-
-        </main>
+      <ErrorBoundary>
+        <Router>
+          <Suspense fallback={<Loading />} >
 
 
-      </Router>
+            <Routes>
 
+              <Route element={<Layout />}>
+
+                <Route path='/' element={<Home />} />
+                <Route path='/home' element={<Home />} />
+                <Route path='/about' element={<About />} />
+                <Route path='/contact' element={<Contact />} />
+
+                <Route path='/verification' element={<Verification />} />
+                <Route path='/auth/signup/:hash' element={<SignUp />} />
+                <Route path='/auth/signin/:hash' element={<SignIn />} />
+
+                <Route path='/auth/reset-password/:hash' element={<ResetPassword />} />
+
+                <Route path='/loading' element={<Loading />} />
+                <Route path='/signout' element={<SignOut />} />
+
+                <Route path='/success' element={<Success />} />
+                <Route path='/error' element={<Error />} />
+                <Route path='/warning' element={<Warning />} />
+
+              </Route>
+
+            </Routes>
+
+
+          </Suspense>
+        </Router>
+      </ErrorBoundary>
     </>
   )
 }
 
-export default App
+export default App;
