@@ -13,15 +13,15 @@ function Features() {
             <section className="flex flex-col gap-8 px-4 md:px-8 py-16">
 
                 <span className="font-poppins text-2xl text-center font-bold text-indigo-400">Features</span>
-                <p className="px-12 font-inter text-md text-slate-700 dark:text-slate-300 ">
+                <p className="md:px-12 font-inter text-md text-slate-700 dark:text-slate-300 ">
                     <span className="text-2xl text-emerald-400 dark:text-sky-400 font-bold font-poppins font-italic">Soundbot solves problem of, </span>
                     people use headphones for hours without visibility into listening duration, frequency, or long-term impact. Soundbot bridges this gap by monitoring daily usage, organizing it into structured data, and presenting clear visual reports—so users can make informed decisions about their listening habits.
                 </p>
-                <div className="flex flex-wrap flex-row px-4 py-2 gap-4 justify-around items-center">
+                <div className="flex flex-wrap flex-row px-4 py-2 gap-8 md:gap-4 justify-around items-center">
                     {
                         features.map(feature => {
                             return (
-                                <div className={`p-3 flex flex-col gap-4 size-48 rounded-md justify-center items-center bg-` + feature.color + `-500 `} key={feature.title}>
+                                <div className={`p-3 flex flex-col gap-4 size-60 md:size-48 rounded-md justify-center items-center bg-` + feature.color + `-500 `} key={feature.title}>
                                     <span className="text-center text-slate-200 text-md font-inter font-bold">{feature.title}</span>
                                     <p className="text-slate-300 text-sm">{feature.content}</p>
                                 </div>

@@ -19,7 +19,7 @@ function Contact() {
             <main className='flex flex-col min-h-screen h-full w-full gap-12 px-4 md:px-8 py-4'>
                 <span className='text-slate-900 dark:text-slate-100 font-poppins text-lg font-bold text-center'>Contact</span>
 
-                <div className="flex flex-row gap-8 px-8 justify-center items-center">
+                <div className="flex flex-col md:flex-row gap-8 px-8 justify-center items-center">
 
                     <img src='/player/earphone.png' className="size-48 self-center rounded-4xl border border-teal-600" />
 
@@ -34,7 +34,7 @@ function Contact() {
 
                 <span className='text-slate-900 dark:text-slate-100 font-poppins text-lg font-bold text-center'>Official Pages</span>
 
-                <div className="flex flex-row gap-8 px-8 justify-center items-center">
+                <div className="flex flex-col md:flex-row gap-8 px-8 justify-center items-center">
                     <img src='/player/headphone.png' className="size-48 self-center rounded-4xl border border-teal-600" />
 
                     <div className="flex flex-col gap-2">

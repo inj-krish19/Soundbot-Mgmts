@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import Hero from '../components/Hero';
 import Features from '../components/Features';
 import Preview from '../components/Preview';
@@ -48,8 +48,8 @@ function Home() {
         <>
             <main className='relative flex flex-col min-h-screen h-full w-full px-8 py-4 gap-12 bg-gradient-to-br from-sky-400 to-emerald-400 dark:from-emerald-400 dark:to-sky-400 via-transparent transition delay-150 duration-1000 ease-in-out'>
 
-                {position_waves.map(position => {
-                    return (<motion.div
+                {position_waves.map((position, index) => {
+                    return (<motion.div key={index}
                         className={`absolute ${position} dark:text-white/20 text-indigo-400/20`}
                         animate={{ y: [0, -20, 0] }}
                         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -59,8 +59,8 @@ function Home() {
                 })}
 
 
-                {position_headphones.map(position => {
-                    return (<motion.div
+                {position_headphones.map((position, index) => {
+                    return (<motion.div key={index}
                         className={`absolute ${position} dark:text-white/20 text-indigo-400/20`}
                         animate={{ y: [0, -15, 0], rotate: [-5, 5, -5] }}
                         transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
@@ -70,8 +70,8 @@ function Home() {
                 })}
 
 
-                {position_discs.map(position => {
-                    return (<motion.div
+                {position_discs.map((position, index) => {
+                    return (<motion.div key={index}
                         className={`absolute ${position} dark:text-white/20 text-indigo-400/20`}
                         animate={{ rotate: 360 }}
                         transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
@@ -81,8 +81,8 @@ function Home() {
                 })}
 
 
-                {position_musics.map(position => {
-                    return (<motion.div
+                {position_musics.map((position, index) => {
+                    return (<motion.div key={index}
                         className={`absolute ${position} dark:text-white/15 text-indigo-600/20`}
                         animate={{ y: [0, 25, 0] }}
                         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}

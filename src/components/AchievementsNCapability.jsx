@@ -20,22 +20,22 @@ function AchievementsNCapability() {
                 <div className="flex flex-col flex-wrap gap-8 md:w-1/2">
 
                     <div className="flex flex-row flex-wrap lg:no-wrap justify-around items-center gap-6 text-center">
-                        <div className="p-6 rounded-xl border border-slate-200 dark:border-slate-700">
-                            <p className="text-3xl font-bold text-emerald-500">#1</p>
+                        <div className="p-6 rounded-xl border border-sky-400/30 dark:border-emerald-400/30">
+                            <p className="text-3xl font-bold text-sky-500 dark:text-emerald-500">#1</p>
                             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
                                 Monitoring headphone and streaming usage
                             </p>
                         </div>
 
-                        <div className="p-6 rounded-xl border border-slate-200 dark:border-slate-700">
-                            <p className="text-3xl font-bold text-emerald-500">900+</p>
+                        <div className="p-6 rounded-xl border border-sky-400/30 dark:border-emerald-400/30">
+                            <p className="text-3xl font-bold text-sky-500 dark:text-emerald-500">900+</p>
                             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
                                 Active users accessing Soundbot insights
                             </p>
                         </div>
 
-                        <div className="p-6 rounded-xl border border-slate-200 dark:border-slate-700">
-                            <p className="text-3xl font-bold text-emerald-500">1st</p>
+                        <div className="p-6 rounded-xl border border-sky-400/30 dark:border-emerald-400/30">
+                            <p className="text-3xl font-bold text-sky-500 dark:text-emerald-500">1st</p>
                             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
                                 Usage visualization focused audio analytics
                             </p>
@@ -59,10 +59,10 @@ function AchievementsNCapability() {
 
                     <span className="text-sky-400 dark:text-emerald-400 text-lg font-poppins">Soundbot have some in app cute characters like,</span>
                     <div className="flex flex-row flex-wrap justify-around items-center gap-6">
-                        <img src={`${BACKEND_URL}/PFPs/bleep.png`} className="size-28 rounded-full border border-slate-200 dark:border-slate-700" />
-                        <img src={`${BACKEND_URL}/PFPs/wav.png`} className="size-28 rounded-full border border-slate-200 dark:border-slate-700" />
-                        <img src={`${BACKEND_URL}/PFPs/ohm.png`} className="size-28 rounded-full border border-slate-200 dark:border-slate-700" />
-                        <img src={`${BACKEND_URL}/PFPs/vinnies_spin.png`} className="size-28 rounded-full border border-slate-200 dark:border-slate-700" />
+                        <img src={`${BACKEND_URL}/PFPs/bleep.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
+                        <img src={`${BACKEND_URL}/PFPs/wav.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
+                        <img src={`${BACKEND_URL}/PFPs/ohm.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
+                        <img src={`${BACKEND_URL}/PFPs/vinnies_spin.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
                     </div>
 
                 </div>

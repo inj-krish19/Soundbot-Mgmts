@@ -39,7 +39,7 @@ function Notification(props) {
 
             return () => clearTimeout(timer);
         }
-    }, [props])
+    }, [message])
 
     if (!visible || !message || types.indexOf(type) == -1) return null;
 

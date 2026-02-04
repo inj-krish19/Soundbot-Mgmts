@@ -17,13 +17,11 @@ function HowItWorks() {
                     {
                         steps.map(step => {
                             return (
-                                <>
-                                    <div className="flex flex-col gap-4 rounded-md bg-violet-400 justify-center items-center p-4 size-72" key={step.step}>
-                                        <span className="rounded-full p-3 bg-violet-500 font-bold font-poppins text-fuchsia-400">{step.step}</span>
-                                        <span className="text-slate-100 font-poppins text-cenetr font-bold">{step.title}</span>
-                                        <p className="text-slate-200 font-inter text-center">{step.description}</p>
-                                    </div>
-                                </>
+                                <div className="flex flex-col gap-4 rounded-md bg-violet-400 justify-center items-center p-4 size-72 " key={step.step}>
+                                    <span className="rounded-full p-3 bg-violet-500 font-bold font-poppins text-fuchsia-400">{step.step}</span>
+                                    <span className="text-slate-100 font-poppins text-cenetr font-bold">{step.title}</span>
+                                    <p className="text-slate-200 font-inter text-center text-sm">{step.description}</p>
+                                </div>
                             );
                         })
                     }

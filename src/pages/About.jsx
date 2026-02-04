@@ -69,8 +69,8 @@ function About() {
 
                         <div className="flex flex-row gap-4 justify-start items-center">
 
-                            {links.map(link => {
-                                return (<Link className="flex flex-row" to={link.link}>
+                            {links.map((link, index) => {
+                                return (<Link className="flex flex-row" to={link.link} key={index}>
                                     {link.component}
                                 </Link>);
                             })}
