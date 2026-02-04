@@ -32,13 +32,17 @@ const ThemeToggle = () => {
     }
 
     return (
+        <>
+            {/* Implementation 2 : Mobile native app */}
+            {/* <div className="fixed size-10 flex bg-blue-200 dark:bg-teal-200 p-2 bottom-20 md:bottom-6 right-6 justify-center items-center border rounded-full  border-teal-200 dark:border-blue-200"> */}
 
-        <div className="fixed size-10 flex bg-blue-200 dark:bg-teal-200 p-2 bottom-6 right-6 justify-center items-center border rounded-full  border-teal-200 dark:border-blue-200">
-            <button onClick={changeMode} >
-                {isDark ? <IoMoon color='var(--color-sky-400)' className='size-6' /> : <IoSunny color='var(--color-indigo-400)' className='size-6' />}
-            </button>
-        </div>
-
+            {/* Implementation 1 : Drop Down Sticky Navbar */}
+            <div className="fixed size-10 flex bg-blue-200 dark:bg-teal-200 p-2 bottom-6 right-6 justify-center items-center border rounded-full  border-teal-200 dark:border-blue-200">
+                <button onClick={changeMode} >
+                    {isDark ? <IoMoon color='var(--color-sky-400)' className='size-6' /> : <IoSunny color='var(--color-indigo-400)' className='size-6' />}
+                </button>
+            </div>
+        </>
     );
 
 }
