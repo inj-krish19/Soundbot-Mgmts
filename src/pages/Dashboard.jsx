@@ -6,6 +6,9 @@ import { BsCalendarWeek } from 'react-icons/bs'
 import { LuAudioLines } from 'react-icons/lu'
 
 import { Link } from 'react-router'
+import CreatePlayer from '../components/CreatePlayer'
+import CreateSession from '../components/CreateSession'
+import { getSVGByPlayerType } from '../components/CreatePlayer'
 
 
 function Dashboard() {
@@ -19,6 +22,10 @@ function Dashboard() {
         { title: 'AI Insights', link: '/insights' },
     ]
 
+    const [playerPanel, setPlayerPanel] = useState(false);
+    const [sessionPanel, setSessionPanel] = useState(false);
+    const [chargingPanel, setChargingPanel] = useState(false);
+
     useEffect(() => {
 
         setSummary([
@@ -27,6 +34,7 @@ function Dashboard() {
             { title: "Monthly Usage", data: "1.8K", units: " minutes", component: <MdCalendarMonth size={24} className='text-cyan-400 dark:text-slate-200' /> },
             { title: "Last Session", data: "45", units: " minutes", component: <SiSession size={24} className='text-cyan-400 dark:text-slate-200' /> },
             { title: "Last Charging Playback", data: "317", units: " minutes", component: <LuAudioLines size={24} className='text-cyan-400 dark:text-slate-200' /> },
+            { title: "Buddy Player", data: "Vinnies Spin", units: "", component: getSVGByPlayerType('headphone', 'text-cyan-400 dark:text-slate-200') }
         ]);
 
         setPlayers([
@@ -38,6 +46,7 @@ function Dashboard() {
     }, [])
 
     const nickname = 'nick';
+    const player = "headphone";
 
 
 
@@ -45,6 +54,8 @@ function Dashboard() {
     return (
         <>
             <main className='relative flex flex-col gap-8 min-h-screen w-full h-full px-4 md:px-8 py-4'>
+                {playerPanel && <CreatePlayer panel={setPlayerPanel} />}
+                {sessionPanel && <CreateSession panel={setSessionPanel} />}
 
                 <div className="flex flex-col gap-8">
 
@@ -112,9 +123,21 @@ function Dashboard() {
 
                         <div className="flex flex-row flex-wrap gap-4 ">
 
-                            <button className='bg-sky-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer'>Create Player</button>
-                            <button className='bg-emerald-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' >Create Session</button>
-                            <button className='bg-rose-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' >Create Charging</button>
+                            <button className='bg-sky-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
+                                setPlayerPanel(true);
+                                setSessionPanel(false);
+                                setChargingPanel(false);
+                            }} >Create Player</button>
+                            <button className='bg-emerald-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
+                                setPlayerPanel(false);
+                                setSessionPanel(true);
+                                setChargingPanel(false);
+                            }} >Create Session</button>
+                            <button className='bg-rose-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
+                                setPlayerPanel(false);
+                                setSessionPanel(false);
+                                setChargingPanel(true);
+                            }} >Create Charging</button>
 
                         </div>
 

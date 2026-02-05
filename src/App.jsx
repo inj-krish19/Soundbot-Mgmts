@@ -9,22 +9,26 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router';
 
 
 
-import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
 
-import Verification from './pages/Verification';
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
+const Dashboard = lazy(() => import('./pages/Dashboard'));
 
-import ResetPassword from './pages/ResetPassword';
+const Verification = lazy(() => import('./pages/Verification'));
+const SignUp = lazy(() => import('./pages/SignUp'));
+const SignIn = lazy(() => import('./pages/SignIn'));
 
-import SignOut from './pages/SignOut';
-import Loading from './pages/Loading';
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
+const ChangePassword = lazy(() => import('./pages/ChangePassword'));
+const ChangeEmail = lazy(() => import('./pages/ChangeEmail'));
 
-import Error from './pages/Error';
-import Warning from './pages/Warning';
-import Success from './pages/Success';
+const SignOut = lazy(() => import('./pages/SignOut'));
+import Loading from './pages/Loading'
+
+const Error = lazy(() => import('./pages/Error'));
+const Warning = lazy(() => import('./pages/Warning'));
+const Success = lazy(() => import('./pages/Success'));
 
 
 
@@ -82,11 +86,15 @@ function App() {
                 <Route path='/about' element={<About />} />
                 <Route path='/contact' element={<Contact />} />
 
+                <Route path='/dashboard' element={<Dashboard />} />
+
                 <Route path='/verification' element={<Verification />} />
                 <Route path='/auth/signup/:hash' element={<SignUp />} />
                 <Route path='/auth/signin/:hash' element={<SignIn />} />
 
                 <Route path='/auth/reset-password/:hash' element={<ResetPassword />} />
+                <Route path='/auth/change-password/:hash' element={<ChangePassword />} />
+                <Route path='/auth/email/:hash' element={<ChangeEmail />} />
 
                 <Route path='/loading' element={<Loading />} />
                 <Route path='/signout' element={<SignOut />} />
