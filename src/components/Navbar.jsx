@@ -11,8 +11,8 @@ function Navbar() {
 
     const authItems = auth ? [
         { title: 'Dashboard', route: 'dashboard' },
-        { title: 'Charging', route: 'charging' },
         { title: 'Sessions', route: 'sessions' },
+        { title: 'Charging', route: 'charging' },
         { title: 'Sign Out', route: 'signout' },
     ] : [
         { title: 'About', route: 'about' },

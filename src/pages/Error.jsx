@@ -32,8 +32,8 @@ function Error({ title, message, advice_note }) {
                     >
                         <span className="text-slate-900 dark:text-slate-100 font-bold capitalize">{title || "Something went wrong"}</span>
                         <div className="flex flex-col items-center gap-2">
-                            <p className="text-slate-800 dark:text-slate-200 font-bold text-sm">{message || "We ran into a temporary server issue while signing you in."}</p>
-                            <p className="text-slate-800 dark:text-slate-200 font-bold text-sm">{advice_note || "Please wait a moment and retry. If the issue persists, reach out to our support team."}</p>
+                            <p className="text-center text-slate-800 dark:text-slate-200 font-bold text-sm">{message || "We ran into a temporary server issue while signing you in."}</p>
+                            <p className="text-center text-slate-800 dark:text-slate-200 font-bold text-sm">{advice_note || "Please wait a moment and retry. If the issue persists, reach out to our support team."}</p>
                         </div>
                     </motion.div>
 

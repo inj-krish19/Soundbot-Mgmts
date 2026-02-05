@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 const Layout = () => {
 
     const location = useLocation();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     return (
 

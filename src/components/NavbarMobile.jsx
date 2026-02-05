@@ -17,8 +17,8 @@ function NavbarMobile() {
 
     const authItems = auth ? [
         { title: 'Dashboard', route: 'dashboard', component: <TbLayoutDashboardFilled /> },
-        { title: 'Charging', route: 'charging', component: <TbRecharging /> },
         { title: 'Sessions', route: 'sessions', component: <SiSession /> },
+        { title: 'Charging', route: 'charging', component: <TbRecharging /> },
         { title: 'SignOut', route: 'signout', component: <VscSignOut /> },
     ] : [
         { title: 'About', route: 'about', component: <GoPerson /> },
@@ -39,7 +39,7 @@ function NavbarMobile() {
                                 className='flex hover:text-indigo-400 hover:font-bold text-sm text-black dark:text-white transition transititon-colors duration-200 bg-slate-300 dark:bg-slate-700 w-full justify-center items-center rounded-md' >
                                 <Link
                                     to={`/${item.route.toLowerCase()}`}
-                                    className='p-2 capitalize ' >
+                                    className='p-2 w-full text-center capitalize ' >
                                     {item.title}
                                 </Link>
                             </li>

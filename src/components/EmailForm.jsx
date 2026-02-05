@@ -8,7 +8,7 @@ function EmailForm(props) {
     const [email, setEmail] = useState('');
 
     return (
-        <div className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 left-1/2 w-3/4 md:w-1/2 h-auto ">
+        <div className="absolute top-1/2 -translate-1/2 left-1/2 w-3/4 md:w-1/2 h-auto ">
             <div className="flex flex-col justify-around bg-stone-300 dark:bg-stone-700 rounded-md border-2 border-stone-100 p-4 gap-2">
 
                 {title && <span className='font-poppins text-2xl font-bold text-center capitalize text-slate-950 dark:text-slate-50'>{title}</span>}

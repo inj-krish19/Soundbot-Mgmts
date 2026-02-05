@@ -52,7 +52,7 @@ function Notification(props) {
 
             {/* Manual Close */}
             <button onClick={() => { setVisible(false) }}>
-                <RxCross2 color={'var(--color-slate-800)'} />
+                <RxCross2 className='text-slate-200' />
             </button>
         </div>
     );
