@@ -9,6 +9,7 @@ import { Link } from 'react-router'
 import CreatePlayer from '../components/CreatePlayer'
 import CreateSession from '../components/CreateSession'
 import { getSVGByPlayerType } from '../components/CreatePlayer'
+import CreateCharging from '../components/CreateCharging'
 
 
 function Dashboard() {
@@ -56,6 +57,7 @@ function Dashboard() {
             <main className='relative flex flex-col gap-8 min-h-screen w-full h-full px-4 md:px-8 py-4'>
                 {playerPanel && <CreatePlayer panel={setPlayerPanel} />}
                 {sessionPanel && <CreateSession panel={setSessionPanel} />}
+                {chargingPanel && <CreateCharging panel={setChargingPanel} />}
 
                 <div className="flex flex-col gap-8">
 

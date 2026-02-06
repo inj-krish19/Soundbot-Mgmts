@@ -57,7 +57,7 @@ function CreatePlayer({ panel }) {
             });
             let response = await res.json();
 
-            if (res.status === 200) {
+            if (res.status === 201) {
                 setInfo({
                     message: response.message,
                     type: 'success'
@@ -78,7 +78,7 @@ function CreatePlayer({ panel }) {
             if (res.status === 401) {
                 setInfo({
                     message: response.message,
-                    type: 'warning'
+                    type: 'error'
                 });
             }
 
