@@ -10,6 +10,16 @@ function CreateCharging({ panel }) {
     const [player, setPlayer] = useState(null);
     const [players, setPlayers] = useState([]);
 
+    const [chargingStartDate, setChargingStartDate] = useState(new Date().toISOString().split('T')[0]);
+    const [chargingEndDate, setChargingEndDate] = useState(new Date().toISOString().split('T')[0]);
+
+    const [chargingStartTime, setChargingStartTime] = useState(new Date().toISOString().split('T')[1].substring(0, 5));
+    const [chargingEndTime, setChargingEndTime] = useState(new Date().toISOString().split('T')[1].substring(0, 5));
+
+    const [firstSessionDate, setFirstSessionDate] = useState(new Date().toISOString().split('T')[0]);
+    const [lastSessionDate, setLastSessionDate] = useState(new Date().toISOString().split('T')[0]);
+
+    const [note, setNote] = useState('');
     const [info, setInfo] = useState({
         message: 'If the player does not require charging, use it for tracking and maintaining active listening time.',
         type: 'info'
@@ -34,7 +44,89 @@ function CreateCharging({ panel }) {
         }
         main();
 
-    }, [])
+    }, []);
+
+
+    const submitCharging = async (e) => {
+
+        try {
+
+            e.preventDefault();
+
+            console.log({
+                player: player._id, chargingStartDate, chargingEndDate, chargingStartTime, chargingEndTime, firstSessionDate, lastSessionDate, note
+            });
+
+            let res = await fetch(`${BACKEND_URL}/charging/`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    player: player._id, chargingStartDate, chargingEndDate, chargingStartTime, chargingEndTime, firstSessionDate, lastSessionDate, note
+                })
+            });
+
+            let response = await res.json();
+
+
+            if (res.status === 201) {
+                setInfo({
+                    message: response.message,
+                    type: 'success'
+                })
+
+                setTimeout(() => {
+                    panel(false);
+                }, 3000);
+            }
+
+
+            if (res.status === 400) {
+                setInfo({
+                    message: response.message,
+                    type: 'warning'
+                })
+            }
+
+            if (res.status === 401) {
+                setInfo({
+                    message: response.message,
+                    type: 'error'
+                })
+            }
+
+            if (res.status === 403) {
+                setInfo({
+                    message: response.message,
+                    type: 'error'
+                });
+            }
+
+            if (res.status === 404) {
+                setInfo({
+                    message: response.message,
+                    type: 'warning'
+                })
+            }
+
+
+            if (res.status === 500) {
+                setInfo({
+                    message: 'Issue at server side, Please try later',
+                    type: 'info'
+                })
+            }
+
+        } catch (err) {
+            setInfo({
+                message: 'Something went wrong',
+                type: 'info'
+            })
+        }
+
+    }
 
 
     return (
@@ -46,7 +138,7 @@ function CreateCharging({ panel }) {
                 <ImCross className="absolute top-3 right-3 text-rose-400" onClick={() => { panel(false) }} />
                 <Notification info={info} />
 
-                <form className="flex flex-col flex-wrap justify-around gap-4 w-full">
+                <form className="flex flex-col flex-wrap justify-around gap-4 w-full" onSubmit={(e) => submitCharging(e)}>
 
                     <div className="flex flex-col gap-1">
                         <label htmlFor="player" className="text-slate-700 dark:text-slate-300 text-sm">Player</label>
@@ -76,38 +168,38 @@ function CreateCharging({ panel }) {
 
                     <div className="flex flex-col gap-1">
                         <label htmlFor="chargingStartDate" className="text-slate-700 dark:text-slate-300 text-sm">Charging Start Date</label>
-                        <input type="date" name="chargingStartDate" id="chargingStartDate" defaultValue={new Date().toISOString().split('T')[0]} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                        <input type="date" name="chargingStartDate" id="chargingStartDate" value={chargingStartDate} onChange={(e) => { setChargingStartDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                     </div>
 
                     <div className="flex flex-col gap-1">
                         <label htmlFor="chargingEndDate" className="text-slate-700 dark:text-slate-300 text-sm">Charging End Date</label>
-                        <input type="date" name="chargingEndDate" id="chargingEndDate" defaultValue={new Date().toISOString().split('T')[0]} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                        <input type="date" name="chargingEndDate" id="chargingEndDate" value={chargingEndDate} onChange={(e) => { setChargingEndDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                     </div>
 
                     <div className="flex flex-row gap-2 w-full">
                         <div className="flex flex-col gap-1 w-1/2">
                             <label htmlFor="chargingStartTime" className="text-slate-700 dark:text-slate-300 text-sm">Charging Start Time</label>
-                            <input type="time" name="chargingStartTime" id="chargingStartTime" defaultValue={new Date().toISOString().split('T')[1].substring(0, 5)} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                            <input type="time" name="chargingStartTime" id="chargingStartTime" value={chargingStartTime} onChange={(e) => { setChargingStartTime(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                         </div>
                         <div className="flex flex-col gap-1 w-1/2">
                             <label htmlFor="chargingEndTime" className="text-slate-700 dark:text-slate-300 text-sm">Charging End Time</label>
-                            <input type="time" name="chargingEndTime" id="chargingEndTime" defaultValue={new Date().toISOString().split('T')[1].substring(0, 5)} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                            <input type="time" name="chargingEndTime" id="chargingEndTime" value={chargingEndTime} onChange={(e) => { setChargingEndTime(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-1">
                         <label htmlFor="firstSessionDate" className="text-slate-700 dark:text-slate-300 text-sm">First Session Date</label>
-                        <input type="date" name="firstSessionDate" id="firstSessionDate" defaultValue={new Date().toISOString().split('T')[0]} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                        <input type="date" name="firstSessionDate" id="firstSessionDate" value={firstSessionDate} onChange={(e) => { setFirstSessionDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                     </div>
 
                     <div className="flex flex-col gap-1">
                         <label htmlFor="lastSessionDate" className="text-slate-700 dark:text-slate-300 text-sm">Last Session Date</label>
-                        <input type="date" name="lastSessionDate" id="lastSessionDate" defaultValue={new Date().toISOString().split('T')[0]} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                        <input type="date" name="lastSessionDate" id="lastSessionDate" value={lastSessionDate} onChange={(e) => { setLastSessionDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                     </div>
 
                     <div className="flex flex-col gap-1">
                         <label htmlFor="note" className="text-slate-700 dark:text-slate-300 text-sm">Note</label>
-                        <input type="text" name="note" id="note" placeholder="ex. Gone for Walk" className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200" />
+                        <input type="text" name="note" id="note" placeholder="ex. Gone for Walk" value={note} onChange={(e) => { setNote(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200" />
                     </div>
 
                     <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins">Submit</button>
