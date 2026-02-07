@@ -68,7 +68,7 @@ function Dashboard() {
                         <p className='text-slate-700 dark:text-slate-300 text-sm'>Track your audio usage and insights.</p>
                     </div>
 
-                    <div className="flex flex-wrap md:flex-row w-full gap-4 justify-center">
+                    <div className="flex flex-wrap flex-row w-full gap-4 justify-center">
                         {summary.map((summary, index) => {
                             return (
                                 <div className="flex flex-row py-2 px-4 gap-4 justify-around items-center border border-purple-400/20 rounded-md w-60" key={index}>
@@ -94,7 +94,7 @@ function Dashboard() {
                             {players.map(streamingPlayer => {
                                 return (
                                     <>
-                                        <div className="flex flex-col gap-1 border border-emerald-400 outline hover:outline-emerald-400 rounded-md px-3 py-1 size-48 items-center" key={streamingPlayer.nickname}>
+                                        <div className="flex flex-col gap-1 border border-emerald-400 outline outline-emerald-400 hover:outline-2 rounded-md px-3 py-1 size-48 items-center" key={streamingPlayer.nickname}>
                                             <img src={`/player/${streamingPlayer.type}.png`} className='size-36 ' />
                                             <div className="flex flex-col gap-1 items-center">
                                                 <span className='text-violet-400 text-md font-poppins font-bold'>{streamingPlayer.nickname}</span>

@@ -36,12 +36,6 @@ function Home() {
     ];
 
 
-    useEffect(() => {
-        // (async () => { setData([await fetch(`${BACKEND_URL}/user/`, { credentials: 'include' }).then(r => r.json())][0]['data']); })();
-        // (async () => { console.log([await fetch(`${BACKEND_URL}/user/`, { credentials: 'include' }).then(r => r.json())]); })();
-        // console.log(data)
-    }, []);
-
 
 
     return (

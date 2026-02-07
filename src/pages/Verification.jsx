@@ -3,6 +3,7 @@ import { FaFacebook, FaGithub, FaGoogle, FaLinkedin } from 'react-icons/fa';
 import Notification from '../components/Notification';
 import { Link } from 'react-router';
 import EmailForm from '../components/EmailForm';
+import { responseHandler, errorHandler } from '../utils/response-handler';
 
 function Verification() {
 
@@ -47,60 +48,31 @@ function Verification() {
 
     // manual login handler
     const handleVerification = async (e) => {
-        e.preventDefault();
 
-        let res = await fetch(`${BACKEND_URL}/auth/verification`, {
-            method: 'POST',
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify({
-                email
-            }),
-            credentials: 'include'
-        });
-        let response = await res.json();
+        try {
 
-        console.log("Response", response);
-        if (res.ok) {
-            setInfo({
-                message: response.message,
-                type: 'success'
-            })
+            e.preventDefault();
 
-            setTimeout(() => {
-                window.location.href = window.location.origin;
-            }, [7000]);
-        }
+            let res = await fetch(`${BACKEND_URL}/auth/verification`, {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    email
+                }),
+                credentials: 'include'
+            });
 
-        if (res.status === 400) {
-            // notitying as per bad request (warning)
-            setInfo({
-                message: 'Please provide email, something went wrong',
-                type: 'warning'
-            })
-        }
-        if (res.status === 401) {
-            // notitying as per unauthorized (error)
-            setInfo({
-                message: 'Something went wrong',
-                type: 'error'
-            })
-        }
-        if (res.status === 403) {
-            // notitying as per forbidden (error)
-            setInfo({
-                message: 'Please provide email',
-                type: 'error'
-            })
-        }
+            responseHandler(res.clone(), setInfo);
+            if (res.ok) {
+                setTimeout(() => {
+                    window.location.href = window.location.origin;
+                }, [7000]);
+            }
 
-        if (res.status === 500) {
-            // notitying as per server error (info)
-            setInfo({
-                message: 'Issue at server side, Please try later',
-                type: 'info'
-            })
+        } catch (err) {
+            errorHandler(err, setInfo);
         }
 
     }
