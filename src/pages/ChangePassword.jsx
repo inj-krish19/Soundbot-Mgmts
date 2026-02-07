@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Notification from '../components/Notification';
 import { Link } from 'react-router';
 import PasswordForm from '../components/PasswordForm';
+import { responseHandler, errorHandler } from '../utils/response-handler';
 
 function ChangePassword() {
 
@@ -21,62 +22,30 @@ function ChangePassword() {
 
     const handleChangePassword = async (e, password, confirm_password) => {
 
-        e.preventDefault();
+        try {
 
-        let res = await fetch(`${BACKEND_URL}/auth/change-password/${hash}`, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                password, confirm_password
-            }),
-            credentials: 'include'
-        });
-        let response = await res.json();
+            e.preventDefault();
 
-
-        if (res.ok) {
-            setInfo({
-                message: response.message,
-                type: 'success'
+            let res = await fetch(`${BACKEND_URL}/auth/change-password/${hash}`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    password, confirm_password
+                }),
+                credentials: 'include'
             });
 
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 5000);
-        }
+            responseHandler(res.clone(), setInfo);
+            if (res.ok) {
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 5000);
+            }
 
-
-        if (res.status === 400) {
-            setInfo({
-                message: response.message,
-                type: 'warning'
-            });
-        }
-
-
-        if (res.status === 401) {
-            setInfo({
-                message: response.message,
-                type: 'error'
-            });
-        }
-
-
-        if (res.status === 403) {
-            setInfo({
-                message: response.message,
-                type: 'warning'
-            });
-        }
-
-
-        if (res.status === 500) {
-            setInfo({
-                message: 'Issue at server side, Please try later',
-                type: 'info'
-            })
+        } catch (err) {
+            errorHandler(err, setInfo);
         }
 
     }

@@ -3,6 +3,7 @@ import Notification from '../components/Notification';
 import { Link } from 'react-router';
 import PasswordForm from '../components/PasswordForm';
 import EmailForm from '../components/EmailForm';
+import { responseHandler, errorHandler } from '../utils/response-handler';
 
 function ChangeEmail() {
 
@@ -23,62 +24,30 @@ function ChangeEmail() {
 
     const handleChangeEmail = async (e, email) => {
 
-        e.preventDefault();
+        try {
 
-        let res = await fetch(`${BACKEND_URL}/auth/email/${hash}`, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                email
-            }),
-            credentials: 'include'
-        });
-        let response = await res.json();
+            e.preventDefault();
 
-
-        if (res.ok) {
-            setInfo({
-                message: response.message,
-                type: 'success'
+            let res = await fetch(`${BACKEND_URL}/auth/email/${hash}`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email
+                }),
+                credentials: 'include'
             });
 
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 5000);
-        }
+            responseHandler(res.clone(), setInfo);
+            if (res.ok) {
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 5000);
+            }
 
-
-        if (res.status === 400) {
-            setInfo({
-                message: response.message,
-                type: 'warning'
-            });
-        }
-
-
-        if (res.status === 401) {
-            setInfo({
-                message: response.message,
-                type: 'error'
-            });
-        }
-
-
-        if (res.status === 403) {
-            setInfo({
-                message: response.message,
-                type: 'warning'
-            });
-        }
-
-
-        if (res.status === 500) {
-            setInfo({
-                message: 'Issue at server side, Please try later',
-                type: 'info'
-            })
+        } catch (err) {
+            errorHandler(err, setInfo);
         }
 
     }
