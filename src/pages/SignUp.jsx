@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Notification from '../components/Notification';
+import { responseHandler, errorHandler } from '../utils/response-handler'
 
 function SignUp() {
 
@@ -29,23 +30,31 @@ function SignUp() {
 
 
     useEffect(() => {
-        (async () => {
-            let response = await fetch(`${BACKEND_URL}/pfp/`, {
-                headers: {
-                    "content-type": "application/json"
+
+        try {
+
+            (async () => {
+                let response = await fetch(`${BACKEND_URL}/pfp/`, {
+                    headers: {
+                        "content-type": "application/json"
+                    }
+                }).then(r => r.json());
+
+                console.log("Response", response);
+
+                if (response.code === 200) {
+                    setPFPs(response.data);
+                    setProfilePicture(`${BACKEND_URL}${response.data[2]}`);
+                } else {
+                    setPFPs([]);
                 }
-            }).then(r => r.json());
 
-            console.log("Response", response);
+            })();
 
-            if (response.code === 200) {
-                setPFPs(response.data);
-                setProfilePicture(`${BACKEND_URL}${response.data[2]}`);
-            } else {
-                setPFPs([]);
-            }
+        } catch (err) {
+            errorHandler(err, setInfo);
+        }
 
-        })();
     }, []);
 
 
@@ -62,9 +71,8 @@ function SignUp() {
             }),
             credentials: 'include'
         });
-        let response = await res.json();
 
-
+        responseHandler(res.clone(), setInfo);
         if (res.ok) {
             setInfo({
                 message: response.message,
@@ -74,38 +82,6 @@ function SignUp() {
             setTimeout(() => {
                 window.location.href = '/dashboard';
             }, 5000);
-        }
-
-
-        if (res.status === 400) {
-            setInfo({
-                message: response.message,
-                type: 'warning'
-            });
-        }
-
-
-        if (response.code === 401) {
-            setInfo({
-                message: response.message,
-                type: 'error'
-            });
-        }
-
-
-        if (res.status === 403) {
-            setInfo({
-                message: response.message,
-                type: 'warning'
-            });
-        }
-
-
-        if (res.status === 500) {
-            setInfo({
-                message: 'Issue at server side, Please try later',
-                type: 'info'
-            })
         }
 
     }

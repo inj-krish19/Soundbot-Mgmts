@@ -11,6 +11,8 @@ async function responseHandler(res, setInfo) {
         });
     }
 
+    // notifying as per bad request (warning)
+    // notifying as per not found (warning)
     if (res.status === 400 || res.status === 404) {
         setInfo({
             message: response.message,
@@ -18,6 +20,8 @@ async function responseHandler(res, setInfo) {
         });
     }
 
+    // notifying as per unauthorized (error)
+    // notifying as per forbidden (error)
     if (res.status === 401 || res.status === 403) {
         setInfo({
             message: response.message,
@@ -25,6 +29,7 @@ async function responseHandler(res, setInfo) {
         });
     }
 
+    // notifying as per server error (info)
     if (res.status === 500) {
         setInfo({
             message: INTERNAL_SERVER_ERROR_MESSAGE,

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Notification from '../components/Notification';
+import { responseHandler, errorHandler } from '../utils/response-handler';
 
 function SignOut() {
 
@@ -13,31 +14,25 @@ function SignOut() {
 
     const handleSignOut = async (e) => {
 
-        let res = await fetch(`${BACKEND_URL}/auth/signout`, {
-            method: 'POST',
-            headers: {
-                "content-type": "application/json"
-            },
-            credentials: 'include'
-        });
-        let response = await res.json();
+        try {
 
-        if (res.ok) {
-            setInfo({
-                message: response.message,
-                type: 'success'
+            let res = await fetch(`${BACKEND_URL}/auth/signout`, {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json"
+                },
+                credentials: 'include'
             });
 
-            setTimeout(() => {
-                window.location.href = '/'
-            }, 5000);
-        }
+            responseHandler(res.clone(), setInfo);
+            if (res.ok) {
+                setTimeout(() => {
+                    window.location.href = '/'
+                }, 5000);
+            }
 
-        if (res.status === 500) {
-            setInfo({
-                message: 'Issue at server side, Please try later',
-                type: 'info'
-            });
+        } catch (err) {
+            errorHandler(err, setInfo);
         }
 
     }
