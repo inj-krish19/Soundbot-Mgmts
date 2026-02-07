@@ -5,6 +5,7 @@ import { ImCross } from "react-icons/im";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { useState } from "react";
 
+import { responseHandler, errorHandler } from '../utils/response-handler';
 import Notification from './Notification';
 import { BACKEND_URL } from '../store/UrlStore';
 
@@ -55,50 +56,12 @@ function CreatePlayer({ panel }) {
                     name, nickname, company, type, wireless, RGB
                 })
             });
+
+            responseHandler(res.clone(), setInfo);
             let response = await res.json();
 
-            if (res.status === 201) {
-                setInfo({
-                    message: response.message,
-                    type: 'success'
-                });
-
-                setTimeout(() => {
-                    panel(false);
-                }, 3000);
-            }
-
-            if (res.status === 400) {
-                setInfo({
-                    message: response.message,
-                    type: 'warning'
-                });
-            }
-
-            if (res.status === 401) {
-                setInfo({
-                    message: response.message,
-                    type: 'error'
-                });
-            }
-
-            if (res.status === 403) {
-                setInfo({
-                    message: response.message,
-                    type: 'error'
-                });
-            }
-
-            if (res.status === 500) {
-                setInfo({
-                    message: 'Issue at server side, Please try later'
-                })
-            }
-
-
-
         } catch (err) {
-            console.log(err);
+            errorHandler(err, setInfo);
         }
 
 

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getSVGByPlayerType } from './CreatePlayer'
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions, ListboxSelectedOption } from "@headlessui/react";
 import { BACKEND_URL } from "../store/UrlStore";
+import { responseHandler, errorHandler } from '../utils/response-handler';
 
 function CreateSession({ panel }) {
 
@@ -26,21 +27,29 @@ function CreateSession({ panel }) {
 
 
     useEffect(() => {
-        (async () => {
-            let response = await fetch(`${BACKEND_URL}/player/`, {
-                method: 'GET',
-                headers: {
-                    "content-type": "application/json"
-                },
-                credentials: 'include'
-            });
 
-            let res = await response.json();
+        try {
 
-            setPlayers(res.data);
-            setPlayer(res.data?.[0] || null)
+            (async () => {
+                let response = await fetch(`${BACKEND_URL}/player/`, {
+                    method: 'GET',
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    credentials: 'include'
+                });
 
-        })();
+                let res = await response.json();
+
+                setPlayers(res.data);
+                setPlayer(res.data?.[0] || null)
+
+            })();
+
+        } catch (err) {
+            errorHandler(err, setInfo);
+        }
+
     }, []);
 
 
@@ -61,63 +70,11 @@ function CreateSession({ panel }) {
                 })
             });
 
-            let response = await response.json();
-
-
-            if (res.status === 201) {
-                setInfo({
-                    message: response.message,
-                    type: 'success'
-                });
-
-                setTimeout(() => {
-                    panel(false);
-                });
-            }
-
-
-            if (res.status === 400) {
-                setInfo({
-                    message: response.message,
-                    type: 'warning'
-                })
-            }
-
-            if (res.status === 401) {
-                setInfo({
-                    message: response.message,
-                    type: 'error'
-                })
-            }
-
-
-            if (res.status === 403) {
-                setInfo({
-                    message: response.message,
-                    type: 'error'
-                });
-            }
-
-            if (res.status === 404) {
-                setInfo({
-                    message: response.message,
-                    type: 'warning'
-                })
-            }
-
-
-            if (res.status === 500) {
-                setInfo({
-                    message: 'Issue at server side, Please try later',
-                    type: 'info'
-                })
-            }
+            responseHandler(res.clone(), setInfo);
+            let response = await res.json();
 
         } catch (err) {
-            setInfo({
-                message: 'Something went wrong',
-                type: 'error'
-            })
+            errorHandler(err, setInfo);
         }
 
     }
