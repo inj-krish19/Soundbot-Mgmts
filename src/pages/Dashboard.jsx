@@ -30,12 +30,12 @@ function Dashboard() {
     useEffect(() => {
 
         setSummary([
-            { title: "Todays' Usage", data: "29", units: " minutes", component: <MdAudiotrack size={24} className='text-cyan-400 dark:text-slate-200' /> },
-            { title: "Weekly Usage", data: "200", units: " minutes", component: <BsCalendarWeek size={24} className='text-cyan-400 dark:text-slate-200' /> },
-            { title: "Monthly Usage", data: "1.8K", units: " minutes", component: <MdCalendarMonth size={24} className='text-cyan-400 dark:text-slate-200' /> },
-            { title: "Last Session", data: "45", units: " minutes", component: <SiSession size={24} className='text-cyan-400 dark:text-slate-200' /> },
-            { title: "Last Charging Playback", data: "317", units: " minutes", component: <LuAudioLines size={24} className='text-cyan-400 dark:text-slate-200' /> },
-            { title: "Buddy Player", data: "Vinnies Spin", units: "", component: getSVGByPlayerType('headphone', 'text-cyan-400 dark:text-slate-200') }
+            { title: "Todays' Usage", data: "29", units: " minutes", component: <MdAudiotrack size={24} className='text-teal-400 dark:text-slate-200' /> },
+            { title: "Weekly Usage", data: "200", units: " minutes", component: <BsCalendarWeek size={24} className='text-teal-400 dark:text-slate-200' /> },
+            { title: "Monthly Usage", data: "1.8K", units: " minutes", component: <MdCalendarMonth size={24} className='text-teal-400 dark:text-slate-200' /> },
+            { title: "Last Session", data: "45", units: " minutes", component: <SiSession size={24} className='text-teal-400 dark:text-slate-200' /> },
+            { title: "Last Charging Playback", data: "317", units: " minutes", component: <LuAudioLines size={24} className='text-teal-400 dark:text-slate-200' /> },
+            { title: "Buddy Player", data: "Vinnies Spin", units: "", component: getSVGByPlayerType('headphone', 'text-teal-400 dark:text-slate-200') }
         ]);
 
         setPlayers([
