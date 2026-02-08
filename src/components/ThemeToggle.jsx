@@ -29,7 +29,6 @@ const ThemeToggle = () => {
     const changeMode = () => {
 
         let preference = !isDark;
-        console.log(location.href, "tells ", preference ? "dark" : "light");
 
         if (preference) {
             localStorage.setItem("theme", "dark");
