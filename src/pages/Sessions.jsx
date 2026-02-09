@@ -42,7 +42,7 @@ function Sessions() {
         try {
 
             const main = async () => {
-                let res = await fetch(`${BACKEND_URL}/session/`, {
+                let res = await fetch(`${BACKEND_URL}/session/paging/latest`, {
                     method: 'GET',
                     headers: {
                         "content-type": "application/json"
@@ -71,9 +71,9 @@ function Sessions() {
 
     return (
         <>
-            <main className='relative flex flex-col gap-8 px-4 md:px-8 py-2'>
+            {visible && <SessionCard session={session} />}
+            <main className='flex flex-col gap-8 w-full min-h-screen h-full px-4 md:px-8 py-2'>
 
-                {visible && <SessionCard session={session} />}
 
                 <div className="flex flex-row flex-wrap justify-around gap-4 p-4">
                     {summary.map(summary => {
@@ -89,25 +89,25 @@ function Sessions() {
 
                 <table>
                     <tbody className='flex flex-col gap-4'>
-                        <tr className='flex flex-row w-full justify-around items-center border-b-2 border-slate-700 pb-4'>
-                            <th className='text-slate-800 dark:text-slate-200 text-md w-full '>Start Date</th>
-                            <th className='text-slate-800 dark:text-slate-200 text-md w-full '>End Date</th>
-                            <th className='text-slate-800 dark:text-slate-200 text-md w-full '>Start Time</th>
-                            <th className='text-slate-800 dark:text-slate-200 text-md w-full '>End Time</th>
-                            <th className='text-slate-800 dark:text-slate-200 text-md w-full '>Volume</th>
-                            <th className='text-slate-800 dark:text-slate-200 text-md w-full '>Note</th>
+                        <tr className='flex flex-row w-full justify-between items-center border-b-2 border-slate-700 pb-4'>
+                            <th className='w-1/6 text-slate-800 dark:text-slate-200 text-md w-full '>Start Date</th>
+                            <th className='w-1/6 text-slate-800 dark:text-slate-200 text-md w-full '>End Date</th>
+                            <th className='w-1/6 text-slate-800 dark:text-slate-200 text-md w-full '>Start Time</th>
+                            <th className='w-1/6 text-slate-800 dark:text-slate-200 text-md w-full '>End Time</th>
+                            <th className='w-1/6 text-slate-800 dark:text-slate-200 text-md w-full '>Volume</th>
+                            <th className='w-1/6 text-slate-800 dark:text-slate-200 text-md w-full text-left'>Note</th>
                         </tr>
 
                         {sessions.map(session => {
                             return (
                                 <>
-                                    <tr className='flex flex-row w-full justify-around items-center py-1 border-b border-slate-700 hover:cursor-pointer' key={session._id} onMouseEnter={(e) => { setVisible(true); setSession(session); }} onMouseLeave={(e) => { setVisible(false); }} >
-                                        <td className='text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.startDate}</td>
-                                        <td className='text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.endDate}</td>
-                                        <td className='text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.startTime}</td>
-                                        <td className='text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.endTime}</td>
-                                        <td className='text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.volume * 100}</td>
-                                        <td className='text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.note || "-"}</td>
+                                    <tr className='flex w-full justify-between py-1 border-b border-slate-700 hover:cursor-pointer' key={session._id} onMouseEnter={(e) => { setVisible(true); setSession(session); }} onMouseLeave={(e) => { setVisible(false); }} >
+                                        <td className='w-1/6 text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.startDate}</td>
+                                        <td className='w-1/6 text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.endDate}</td>
+                                        <td className='w-1/6 text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.startTime}</td>
+                                        <td className='w-1/6 text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.endTime}</td>
+                                        <td className='w-1/6 text-slate-700 dark:text-slate-300 w-full text-sm text-center'>{session.volume * 100}</td>
+                                        <td className='w-1/6 text-slate-700 dark:text-slate-300 w-full text-sm text-center text-left'>{session.note || "-"}</td>
                                     </tr >
                                 </>
                             )

@@ -66,7 +66,7 @@ function CreateSession({ panel }) {
                 },
                 credentials: "include",
                 body: JSON.stringify({
-                    player: player._id, startDate, endDate, startTime, endTime, volume: volume * 0.01, note
+                    player: player._id, startDate, endDate, startTime, endTime, volume: Math.round(volume * 0.01, 2), note
                 })
             });
 
