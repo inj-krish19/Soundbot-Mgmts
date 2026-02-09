@@ -13,6 +13,8 @@ const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 
+const Charging = lazy(() => import('./pages/Charging'));
+const Sessions = lazy(() => import('./pages/Sessions'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 
 const Verification = lazy(() => import('./pages/Verification'));
@@ -87,6 +89,8 @@ function App() {
                 <Route path='/contact' element={<Contact />} />
 
                 <Route path='/dashboard' element={<Dashboard />} />
+                <Route path='/charging' element={<Charging />} />
+                <Route path='/sessions' element={<Sessions />} />
 
                 <Route path='/verification' element={<Verification />} />
                 <Route path='/auth/signup/:hash' element={<SignUp />} />
