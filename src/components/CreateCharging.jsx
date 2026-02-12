@@ -100,7 +100,7 @@ function CreateCharging({ panel }) {
                         <label htmlFor="player" className="text-slate-700 dark:text-slate-300 text-sm">Player</label>
                         <Listbox value={player} onChange={setPlayer} >
 
-                            {(!player || player.length === 0) && <span className="text-rose-500 text-md">Please add streaming player first</span>}
+                            {(!player || players.length === 0) && <span className="text-rose-500 text-md">Please add streaming player first</span>}
 
                             {player && <ListboxButton className='px-4 py-2 border-2 border-slate-100 outline-slate-100 rounded-sm flex items-center gap-2'>
                                 {getSVGByPlayerType(player.type, 'text-purple-400')}
