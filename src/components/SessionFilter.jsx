@@ -6,7 +6,7 @@ import { BACKEND_URL } from '../store/UrlStore';
 import { getSVGByPlayerType } from "./CreatePlayer";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 
-function SessionFilter({ panelState, hoveredState, setData }) {
+function SessionFilter({ panelState, hoveredState, loadingState, setData }) {
 
     const [info, setInfo] = useState({
         message: '',
@@ -14,7 +14,7 @@ function SessionFilter({ panelState, hoveredState, setData }) {
     })
 
     // player state handle
-    const [player, setPlayer] = useState(null);
+    const [player, setPlayer] = useState({ type: 'none', nickname: 'All Players Selected' });
     const [players, setPlayers] = useState([]);
 
 
@@ -36,6 +36,7 @@ function SessionFilter({ panelState, hoveredState, setData }) {
 
     const submitFilter = async (e) => {
 
+        loadingState(true);
         e.preventDefault();
 
         let res = await fetch(`${BACKEND_URL}/session/filter/data`, {
@@ -45,12 +46,13 @@ function SessionFilter({ panelState, hoveredState, setData }) {
             },
             body: JSON.stringify({
                 player: player._id || null, "dateRange": [startDate, endDate],
-                "timeRange": [startTime, endTime], "volume": [active, volume]
+                "timeRange": [startTime, endTime], "volume": [active, volume / 100]
             }),
             credentials: "include"
         });
 
         let response = await res.json();
+        console.log(response);
 
         for (let resp of response.data) {
             resp['startDate'] = cleanDate(resp['startDate']);
@@ -61,7 +63,10 @@ function SessionFilter({ panelState, hoveredState, setData }) {
 
         setTimeout(() => {
             panelState(false);
-        }, 1000)
+
+            setTimeout(() => { loadingState(false); }, 1500);
+
+        }, 500)
         console.log(response);
 
     }
@@ -72,8 +77,8 @@ function SessionFilter({ panelState, hoveredState, setData }) {
         setActive("");
         e.preventDefault();
 
+        setPlayer('');
         setVolume("");
-        setPlayer(players?.[0]);
 
         setEndDate("");
         setStartDate("");
@@ -96,7 +101,6 @@ function SessionFilter({ panelState, hoveredState, setData }) {
             let response = await res.json();
             console.log(response.data);
 
-            setPlayer(response.data?.[0]);
             setPlayers(response.data);
 
         }
@@ -124,14 +128,17 @@ function SessionFilter({ panelState, hoveredState, setData }) {
 
                                 <Listbox value={player} onChange={setPlayer}>
 
-                                    {(!player || players.length === 0) && <span className="text-rose-400 text-sm">Please add streaming player first</span>}
+                                    {players.length === 0 && <span className="text-rose-400 text-sm">Please add streaming player first</span>}
 
-                                    {player && <ListboxButton className='px-2 py-1 border-2 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm flex items-center gap-2'>
-                                        {getSVGByPlayerType(player.type, 'size-4 text-emerald-400')}
+                                    {players.length !== 0 && <ListboxButton className='px-2 py-1 border-2 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm flex items-center gap-2'>
+                                        {player?.type !== 'none' && getSVGByPlayerType(player.type, 'size-4 text-emerald-400')}
                                         <span className="text-teal-400 text-sm">{player.nickname}</span>
                                     </ListboxButton>}
 
                                     {players.length !== 0 && <ListboxOptions className='outline-2 outline-slate-800 dark:outline-slate-200 rounded-sm'>
+                                        <ListboxOption value={{ type: 'none', nickname: 'All Players Selected' }} className='px-2 py-1 flex items-center gap-2 hover:bg-emerald-200 hover:cursor-pointer'>
+                                            <span className="text-teal-400 text-sm">All Players Selected</span>
+                                        </ListboxOption>
                                         {players.map(streamingPlayer => {
                                             return (
                                                 <ListboxOption key={streamingPlayer._id} value={streamingPlayer} className='px-2 py-1 flex items-center gap-2 hover:bg-emerald-200 hover:cursor-pointer'>
