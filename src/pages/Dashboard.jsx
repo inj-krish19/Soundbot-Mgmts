@@ -12,6 +12,7 @@ import { getSVGByPlayerType } from '../components/CreatePlayer'
 import CreateCharging from '../components/CreateCharging'
 import { errorHandler, responseHandler } from '../utils/response-handler'
 import { BACKEND_URL } from '../store/UrlStore'
+import { eclipseNumber } from '../utils/eclipse-text'
 
 
 function Dashboard() {
@@ -77,6 +78,7 @@ function Dashboard() {
 
                 for (let key in response.data) {
                     summary[key]['data'] = response.data[key]['data'];
+                    summary[key]['type'] = response.data[key]['type'];
                     summary[key]['units'] = response.data[key]['units'];
                 }
 
@@ -126,7 +128,7 @@ function Dashboard() {
                                     {summary.component}
                                     <div className="flex flex-col">
                                         <p className='text-cyan-600 text-sm'>{summary.title}</p>
-                                        <p className='text-sky-600 dark:text-purple-300 text-sm'><span className='font-bold font-poppins text-md'>{summary.data}</span>{summary.units}</p>
+                                        <p className='text-sky-600 dark:text-purple-300 text-sm'><span className='font-bold font-poppins text-md'>{summary.type === "number" ? eclipseNumber(summary.data) : summary.data}</span>{summary.units}</p>
                                     </div>
                                 </div>
                             )

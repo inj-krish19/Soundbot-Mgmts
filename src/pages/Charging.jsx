@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { FaHeadphones, FaHome, FaListUl } from 'react-icons/fa';
+
 import { FiInfo } from 'react-icons/fi'
+import { HiRefresh } from 'react-icons/hi';
 import { IoCalendar } from 'react-icons/io5'
+import { IoIosFunnel } from 'react-icons/io';
+import { LuArrowUpDown } from 'react-icons/lu';
+import { FaHeadphones, FaListUl } from 'react-icons/fa';
+
 import { BACKEND_URL } from '../store/UrlStore';
 import { cleanDate } from '../utils/date';
-import { eclipseText } from '../utils/eclipse-text';
+import { eclipseText, eclipseNumber } from '../utils/eclipse-text';
 import { responseHandler, errorHandler } from '../utils/response-handler';
+
+import Loading from '../components/Loading';
 import ChargingCard from '../components/ChargingCard';
-import { getSVGByPlayerType } from '../components/CreatePlayer';
+import ChargingFilter from '../components/ChargingFilter';
+
 
 function Charging() {
 
-    const [visible, setVisible] = useState(false);
+    const [note, setNote] = useState('');
+
+    const [filterVisibility, setFilterVisibility] = useState(false);
+    const [chargingVisibility, setChargingVisibility] = useState(false);
 
     const [charging, setCharging] = useState(null);
     const [chargings, setChargings] = useState([]);
@@ -30,15 +41,82 @@ function Charging() {
             title: 'Most Charged Player', component: <FaHeadphones size={24} className='text-teal-400 dark:text-slate-200' />
         },
     });
+
+    const [loading, setLoading] = useState(false);
     const [info, setInfo] = useState({
         message: '',
         type: ''
-    })
+    });
+
+
+    const filterNote = async (e) => {
+
+        try {
+
+            setLoading(true);
+            e.preventDefault();
+
+            let res = await fetch(`${BACKEND_URL}/charging/filter/note`, {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({ note }),
+                credentials: "include"
+            });
+
+            responseHandler(res.clone(), setInfo);
+            let response = await res.json();
+
+            for (let resp of response.data) {
+                resp['firstSessionDate'] = cleanDate(resp['firstSessionDate']);
+                resp['lastSessionDate'] = cleanDate(resp['lastSessionDate']);
+                resp['chargingEndDate'] = cleanDate(resp['chargingEndDate']);
+                resp['chargingStartDate'] = cleanDate(resp['chargingStartDate']);
+            }
+
+            setChargings(response.data);
+            setTimeout(() => { setLoading(false); }, 2000);
+
+        } catch (err) {
+            errorHandler(res, err);
+        }
+
+    }
+
+
+    const main = async () => {
+
+        setLoading(true);
+        let res = await fetch(`${BACKEND_URL}/charging/paging/latest`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: 'include'
+        });
+
+        responseHandler(res.clone(), setInfo);
+        let response = await res.json();
+
+        for (let resp of response.data) {
+            resp['chargingStartDate'] = cleanDate(resp['chargingStartDate']);
+            resp['chargingEndDate'] = cleanDate(resp['chargingEndDate']);
+            resp['firstSessionDate'] = cleanDate(resp['firstSessionDate']);
+            resp['lastSessionDate'] = cleanDate(resp['lastSessionDate']);
+        }
+
+        setChargings(response.data);
+        setTimeout(() => { setLoading(false) }, 2000);
+
+    }
+
 
     useEffect(() => {
 
         try {
 
+            setLoading(true);
             const getSummary = async () => {
 
                 let res = await fetch(`${BACKEND_URL}/dashboard/charging`, {
@@ -54,6 +132,7 @@ function Charging() {
 
                 for (let key in response.data) {
                     summary[key]['data'] = response.data[key]['data'];
+                    summary[key]['type'] = response.data[key]['type'];
                     summary[key]['units'] = response.data[key]['units'];
                 }
 
@@ -62,31 +141,8 @@ function Charging() {
             }
             getSummary();
 
-            const main = async () => {
-
-                let res = await fetch(`${BACKEND_URL}/charging/paging/latest`, {
-                    method: 'GET',
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    credentials: 'include'
-                });
-
-                responseHandler(res.clone(), setInfo);
-                let response = await res.json();
-
-                for (let resp of response.data) {
-                    resp['chargingStartDate'] = cleanDate(resp['chargingStartDate']);
-                    resp['chargingEndDate'] = cleanDate(resp['chargingEndDate']);
-                    resp['firstSessionDate'] = cleanDate(resp['firstSessionDate']);
-                    resp['lastSessionDate'] = cleanDate(resp['lastSessionDate']);
-                }
-
-                console.log(response.data);
-                setChargings(response.data);
-
-            }
             main();
+            setTimeout(() => { setLoading(false) }, 2000);
 
         } catch (err) {
             errorHandler(err, setInfo);
@@ -96,9 +152,10 @@ function Charging() {
 
     return (
         <>
-            <main className="relative flex flex-col gap-8 w-full min-h-screen h-full px-2 md:px-4 py-2">
+            <main className="relative flex flex-col gap-8 w-full min-h-screen h-full px-4 md:px-8 py-2">
 
-                {visible && charging && <ChargingCard charging={charging} />}
+                {chargingVisibility && !filterVisibility && charging && <ChargingCard charging={charging} />}
+                {filterVisibility && <ChargingFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setChargings} />}
 
                 <div className="flex flex-row flex-wrap gap-4 p-4 justify-around ">
                     {Object.entries(summary).map(([index, summary]) => {
@@ -107,14 +164,30 @@ function Charging() {
                                 {summary.component}
                                 <div className="flex flex-col">
                                     <p className='text-cyan-600 text-sm'>{summary.title}</p>
-                                    <p className='text-sky-600 dark:text-purple-300 text-sm'><span className='font-poppins font-bold'>{summary.data}</span> {summary.units}</p>
+                                    <p className='text-sky-600 dark:text-purple-300 text-sm'><span className='font-poppins font-bold'>{summary.type === "number" ? eclipseNumber(summary.data) : summary.data}</span> {summary.units}</p>
                                 </div>
                             </div>
                         )
                     })}
                 </div>
 
-                <table className='hidden lg:block'>
+
+                <div className="px-4 py-2 flex flex-row justify-around items-center gap-4 border-2 border-slate-200 dark:border-slate-800 rounded-md ">
+
+                    <form className='w-full flex flex-row items-center gap-4' onSubmit={(e) => { filterNote(e); }}>
+                        <input type="search" name="search" id="search" value={note} onChange={(e) => { setNote(e.target.value); }} placeholder='Search ...' className='px-2 py-1 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 rounded-sm w-full text-sm' />
+                        <button type="submit" className='px-2 py-1 bg-purple-500 text-white font-bold font-poppins rounded-sm hover:cursor-pointer'>Submit</button>
+                    </form>
+
+                    <HiRefresh size={24} className='text-emerald-300 transition ease-in hover:-rotate-90 hover:scale-110 hover:cursor-pointer active:-rotate-270' onClick={() => { main(); }} />
+                    <IoIosFunnel size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setFilterVisibility(true); }} />
+                    <LuArrowUpDown size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setChargings(chargings.toReversed()) }} />
+
+                </div>
+
+                {loading && <Loading />}
+
+                {!loading && <table className='hidden lg:block'>
                     <tbody className='flex flex-col gap-4'>
                         <tr className='flex flex-row w-full justify-between items-center border-b-2 border-slate-700 pb-4'>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200'>Start Date</th>
@@ -129,7 +202,7 @@ function Charging() {
                         {chargings.map(charging => {
                             return (
                                 <>
-                                    <tr className='flex flex-row w-full justify-between border-b-1 border-slate-700 pb-1' onMouseEnter={(e) => { setVisible(true); setCharging(charging); }} onMouseLeave={(e) => { setVisible(false); setCharging(null); }}  >
+                                    <tr className='flex flex-row w-full justify-between border-b-1 border-slate-700 pb-1' onMouseEnter={(e) => { setChargingVisibility(true); setCharging(charging); }} onMouseLeave={(e) => { setChargingVisibility(false); setCharging(null); }}  >
                                         <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingStartDate}</td>
                                         <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingEndDate}</td>
                                         <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.firstSessionDate}</td>
@@ -143,9 +216,9 @@ function Charging() {
                             )
                         })}
                     </tbody>
-                </table>
+                </table>}
 
-                <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
+                {!loading && <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
                     {chargings.map(charging => {
                         return (
                             <div className="w-full lg:w-2/5 flex flex-col sm:flex-row px-4 py-2 gap-8 border border-purple-400/20 rounded-md items-center justify-evenly">
@@ -166,7 +239,7 @@ function Charging() {
                             </div>
                         )
                     })}
-                </div>
+                </div>}
 
             </main>
         </>

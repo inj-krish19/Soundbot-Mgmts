@@ -10,7 +10,7 @@ import { LuAudioLines, LuArrowDownUp } from 'react-icons/lu'
 import { cleanDate } from '../utils/date';
 import Loading from '../components/Loading';
 import { BACKEND_URL } from '../store/UrlStore';
-import { eclipseText } from '../utils/eclipse-text';
+import { eclipseNumber, eclipseText } from '../utils/eclipse-text';
 import SessionCard from '../components/SessionCard';
 import SessionFilter from '../components/SessionFilter';
 import { responseHandler, errorHandler } from '../utils/response-handler';
@@ -94,7 +94,7 @@ function Sessions() {
         }
 
         setSessions(response.data);
-        setTimeout(() => { setLoading(false) }, 2000);;
+        setTimeout(() => { setLoading(false) }, 2000);
 
     }
 
@@ -118,6 +118,7 @@ function Sessions() {
 
                 for (let key in response.data) {
                     summary[key]['data'] = response.data[key]['data'];
+                    summary[key]['type'] = response.data[key]['type'];
                     summary[key]['units'] = response.data[key]['units'];
                 }
 
@@ -136,8 +137,8 @@ function Sessions() {
 
     return (
         <>
-            {sessionVisibility && <SessionCard session={session} />}
-            {filterVisibility && <SessionFilter panelState={setFilterVisibility} hoveredState={setSessionVisibilility} loadingState={setLoading} setData={setSessions} />}
+            {sessionVisibility && !filterVisibility && session && <SessionCard session={session} />}
+            {filterVisibility && <SessionFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setSessions} />}
             <main className='flex flex-col gap-8 w-full min-h-screen h-full px-4 md:px-8 py-2'>
 
 
@@ -148,7 +149,7 @@ function Sessions() {
                                 {summary.component}
                                 <div className="flex flex-col">
                                     <p className='text-cyan-600 text-sm'>{summary.title}</p>
-                                    <p className='text-sky-600 dark:text-purple-300 text-sm '><span className='font-bold font-poppins text-md'>{summary.data}</span> {summary.units}</p>
+                                    <p className='text-sky-600 dark:text-purple-300 text-sm '><span className='font-bold font-poppins text-md'>{summary.type === "number" ? eclipseNumber(summary.data) : summary.data}</span> {summary.units}</p>
                                 </div>
                             </div>
                         )
@@ -158,7 +159,7 @@ function Sessions() {
                 <div className="px-4 py-2 flex flex-row justify-around items-center gap-4 border-2 border-slate-200 dark:border-slate-800 rounded-md">
 
                     <form className="w-full flex flex-row items-center gap-4" onSubmit={(e) => { filterNote(e); }}>
-                        <input type="search" name="search" id="search" placeholder='Search ...' className='px-2 py-1 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 rounded-sm w-full' value={note} onChange={(e) => setNote(e.target.value)} />
+                        <input type="search" name="search" id="search" value={note} onChange={(e) => setNote(e.target.value)} placeholder='Search ...' className='px-2 py-1 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded-sm w-full text-sm' />
                         <button type="submit" className='px-2 py-1 bg-purple-500 text-white font-bold font-poppins rounded-sm hover:cursor-pointer'>Submit</button>
                     </form>
 
