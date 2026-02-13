@@ -6,7 +6,7 @@ import { BACKEND_URL } from '../store/UrlStore';
 import { getSVGByPlayerType } from "./CreatePlayer";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 
-function SessionFilter({ panelState, hoveredState, loadingState, setData }) {
+function SessionFilter({ panelState, loadingState, setData }) {
 
     const [info, setInfo] = useState({
         message: '',
@@ -77,7 +77,7 @@ function SessionFilter({ panelState, hoveredState, loadingState, setData }) {
         setActive("");
         e.preventDefault();
 
-        setPlayer('');
+        setPlayer({ type: 'none', nickname: 'All Players Selected' });
         setVolume("");
 
         setEndDate("");
@@ -98,9 +98,8 @@ function SessionFilter({ panelState, hoveredState, loadingState, setData }) {
                 },
                 credentials: "include"
             });
-            let response = await res.json();
-            console.log(response.data);
 
+            let response = await res.json();
             setPlayers(response.data);
 
         }
@@ -110,20 +109,20 @@ function SessionFilter({ panelState, hoveredState, loadingState, setData }) {
 
     return (
         <>
-            <div className="fixed top-1/2 left-1/2 -translate-1/2 w-3/4 md:w-1/3 h-auto flex flex-col bg-stone-300 dark:bg-stone-700 px-4 py-2 rounded-sm z-100">
+            <div className="fixed top-1/2 left-1/2 -translate-1/2 w-3/4 md:w-1/3 h-auto flex flex-col bg-stone-300 dark:bg-stone-700 px-4 py-2 rounded-sm z-50">
 
-                <ImCross className="absolute top-3 right-3 text-rose-400 " onClick={() => { panelState(false); hoveredState(false); }} />
+                <ImCross className="absolute top-3 right-3 text-rose-400 " onClick={() => { panelState(false); }} />
 
                 <div className="flex flex-col gap-2 ">
 
                     <div className="flex flex-col mb-2">
-                        <span className="text-indigo-400 font-bold font-poppins text-md">Filter Panel</span>
+                        <span className="text-indigo-400 font-bold font-poppins text-md">Session Filter Panel</span>
                         <span className="text-rose-400 font-poppins text-xs">* Atleast one of the filter should be selected</span>
                     </div>
 
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-1 ">
-                            <p className="text-emerald-400 text-sm font-semibold">Player</p>
+                            <span className="text-emerald-400 text-sm font-semibold">Player</span>
                             <div className="flex flex-col gap-1">
 
                                 <Listbox value={player} onChange={setPlayer}>
@@ -153,37 +152,37 @@ function SessionFilter({ panelState, hoveredState, loadingState, setData }) {
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <p className="text-emerald-400 text-sm font-semibold">Date Range</p>
+                            <span className="text-emerald-400 text-sm font-semibold">Date Range</span>
                             <div className="flex flex-row gap-2 justify-center items-center">
 
                                 <div className="flex flex-col gap-1 w-1/2">
-                                    <p className="text-slate-800 dark:text-slate-200 text-xs">Start Date</p>
+                                    <span className="text-slate-800 dark:text-slate-200 text-xs">Start Date</span>
                                     <input type="date" value={startDate} onChange={(e) => { setStartDate(new Date(e.target.value)?.toISOString()?.split('T')?.[0] || "") }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200 px-2 py-1 rounded-sm text-center text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
                                 <div className="flex flex-col gap-1 w-1/2">
-                                    <p className="text-slate-800 dark:text-slate-200 text-xs">End Date</p>
+                                    <span className="text-slate-800 dark:text-slate-200 text-xs">End Date</span>
                                     <input type="date" value={endDate} onChange={(e) => { setEndDate(new Date(e.target.value).toISOString().split('T')[0]) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200  px-2 py-1 rounded-sm text-center text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <p className="text-emerald-400 text-sm font-semibold">Time Range</p>
+                            <span className="text-emerald-400 text-sm font-semibold">Time Range</span>
                             <div className="flex flex-row gap-2 justify-center">
 
                                 <div className="flex flex-col gap-1 w-1/2">
-                                    <p className="text-slate-800 dark:text-slate-200 text-xs">Start Time</p>
+                                    <span className="text-slate-800 dark:text-slate-200 text-xs">Start Time</span>
                                     <input type="time" value={startTime} onChange={(e) => { setStartTime(e.target.value) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200  px-2 py-1 rounded-sm text-center text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
                                 <div className="flex flex-col gap-1 w-1/2">
-                                    <p className="text-slate-800 dark:text-slate-200 text-xs">End Time</p>
+                                    <span className="text-slate-800 dark:text-slate-200 text-xs">End Time</span>
                                     <input type="time" value={endTime} onChange={(e) => { setEndTime(e.target.value) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200  px-2 py-1 rounded-sm text-center text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex flex-row gap-2 justify-between items-center">
-                            <p className="text-emerald-400 text-sm font-semibold">Volume</p>
+                            <span className="text-emerald-400 text-sm font-semibold">Volume</span>
 
                             <div className="flex flex-row gap-2">
                                 <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${active === "lte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setActive("lte")}>{"<="}</span>
