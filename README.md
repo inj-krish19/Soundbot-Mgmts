@@ -1,20 +1,154 @@
-# Soundbot-Mgmt-UI
+# 🎧 Soundbot Mgmts – UI
 
-Soundbot Management UI, is the user interface for a streaming player and its management of the data.
+Soundbot Mgmts is a listening session and device management platform that allows users to track their daily, monthly, and yearly audio usage. It provides powerful dashboard visualizations and insights into listening patterns, device charging data, and usage behavior.
 
-# React + Vite
+This repository contains the **Web Application** built using **Vite + React**.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## 🚀 Deployment Platform
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Vercel
 
-## React Compiler
+Website: `https://soundbot-mgmt-ui.vercel.app`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Core
+
+- **React** – Component-based UI library for building dynamic user interfaces.
+- **Vite** – Fast development server and optimized production build tool.
+- **Tailwind CSS** – Utility-first CSS framework for rapid and consistent styling.
+- **Zustand** – Lightweight global state management.
+- **React Icons** – Icon library integration.
+- **Headless UI** – Accessible unstyled UI components (Listbox, Dialog, etc.).
+- **Framer Motion** – Animations and transitions.
+- **Recharts** – Data visualization charts for dashboards.
+
+---
+
+## 👨‍💻 Author
+
+Developed by: _INJ KRISH_
+
+---
+
+## 🌟 Project Idea
+
+Soundbot Mgmts allows users to:
+
+- Track listening session durations.
+- Monitor daily, monthly, yearly usage.
+- Track wireless player charging (earbuds, earphones, headphones).
+- Manage wired players as usage ranges.
+- Analyze patterns through visual dashboards.
+
+The platform aims to help users understand listening habits and optimize usage behavior.
+
+---
+
+## 📦 Core Functionalities
+
+- OAuth Login UI (Google, Facebook)
+- JWT-based session handling via cookies
+- Dashboard with charts and summary cards
+- Streaming Player(Device) management
+- Listening session tracking
+- Profile selection mechanism
+- Responsive modern UI
+- Dark/Light theme support
+- Animated transitions
+
+---
+
+## 📊 Dashboard & Visualization
+
+The frontend provides:
+
+- Daily usage charts
+- Monthly comparison charts
+- Yearly summary charts
+- Player usage distribution
+- Charging analytics
+
+All charts are built using **Recharts**.
+
+---
+
+## 📂 Project Structure (Example)
+
+```
+src/
+│
+├── assets/          # Public Resources
+├── components/      # UI components like Loading
+├── pages/           # Pages like Dashboard
+├── utils/           # Stores, Constants, Util Functions
+└── App.jsx
+```
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/inj-krish19/Soundbot-Mgmt-UI.git
+cd frontend
+```
+
+### 2️⃣ Install Dependencies
+
+```bash
+npm install
+```
+
+### 3️⃣ Run Development Server
+
+```bash
+npm run dev
+```
+
+### 4️⃣ Build for Production
+
+```bash
+npm run build
+```
+
+### 5️⃣ Preview Production Build
+
+```bash
+npm run preview
+```
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file in root:
+
+```
+Currently Not disclosable as Develeopment
+```
+
+---
+
+## 🔮 Future Enhancements
+
+- Monthly and yearly downloadable reports
+- Email-based report summary export
+- Advanced AI-driven insights
+- Listening habit recommendations
+- More advanced interactive charts
+- Smart player recommendation engine
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+This project is currently private and under development.

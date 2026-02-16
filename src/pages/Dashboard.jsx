@@ -58,6 +58,23 @@ function Dashboard() {
     const [sessionPanel, setSessionPanel] = useState(false);
     const [chargingPanel, setChargingPanel] = useState(false);
 
+
+    const getPlayers = async () => {
+
+        let res = await fetch(`${BACKEND_URL}/player/`, {
+            method: 'GET',
+            headers: {
+                'content-type': "application/json"
+            },
+            credentials: "include",
+        });
+
+        let response = await res.json();
+        setPlayers(response.data);
+
+    }
+
+
     useEffect(() => {
 
 
@@ -91,11 +108,7 @@ function Dashboard() {
         }
 
 
-        setPlayers([
-            { type: 'earbud', nickname: "Z4" },
-            { type: 'earphone', nickname: "Alright 65" },
-            { type: 'headphone', nickname: "Vinnies Spin" },
-        ]);
+        getPlayers();
 
     }, [])
 
