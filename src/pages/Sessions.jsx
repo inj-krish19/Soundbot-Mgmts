@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 
-import { FaListUl } from 'react-icons/fa'
+import { FaListUl, FaTrashAlt } from 'react-icons/fa'
 import { HiRefresh } from 'react-icons/hi'
 import { IoIosFunnel } from 'react-icons/io'
 import { FaPuzzlePiece } from 'react-icons/fa6'
 import { GiCalendarHalfYear } from 'react-icons/gi'
-import { LuAudioLines, LuArrowDownUp } from 'react-icons/lu'
+import { LuAudioLines, LuArrowDownUp, LuPencil } from 'react-icons/lu'
 
 import { cleanDate } from '../utils/date';
-import Loading from '../components/Loading';
 import { BACKEND_URL } from '../store/UrlStore';
 import { eclipseNumber, eclipseText } from '../utils/eclipse-text';
+import { responseHandler, errorHandler } from '../utils/response-handler';
+
+import Loading from '../components/Loading';
 import SessionCard from '../components/SessionCard';
 import SessionFilter from '../components/SessionFilter';
-import { responseHandler, errorHandler } from '../utils/response-handler';
+import UpdateSession from '../components/UpdateSession';
+import DeleteSession from '../components/DeleteSession';
 
 function Sessions() {
 
@@ -44,6 +47,10 @@ function Sessions() {
         message: '',
         type: ''
     });
+
+
+    const [updateVisibility, setUpdateVisibility] = useState(false);
+    const [deleteVisibility, setDeleteVisibility] = useState(false);
 
 
     const filterNote = async (e) => {
@@ -137,8 +144,12 @@ function Sessions() {
 
     return (
         <>
-            {sessionVisibility && !filterVisibility && session && <SessionCard session={session} />}
-            {filterVisibility && <SessionFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setSessions} />}
+            {sessionVisibility && !filterVisibility && !updateVisibility && session && <SessionCard session={session} />}
+            {filterVisibility && !updateVisibility && <SessionFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setSessions} />}
+
+            {updateVisibility && <UpdateSession session={session} panel={setUpdateVisibility} />}
+            {deleteVisibility && <DeleteSession session={session} panel={setDeleteVisibility} />}
+
             <main className='flex flex-col gap-8 w-full min-h-screen h-full px-4 md:px-8 py-2'>
 
 
@@ -173,36 +184,43 @@ function Sessions() {
 
                 {!loading && <table className='hidden lg:block'>
                     <tbody className='flex flex-col gap-4'>
-                        <tr className='flex flex-row w-full justify-between items-center border-b-2 border-slate-700 pb-4'>
-                            <th className='w-1/7 text-slate-800 dark:text-slate-200 text-md'>Start Date</th>
-                            <th className='w-1/7 text-slate-800 dark:text-slate-200 text-md'>End Date</th>
-                            <th className='w-1/7 text-slate-800 dark:text-slate-200 text-md'>Start Time</th>
-                            <th className='w-1/7 text-slate-800 dark:text-slate-200 text-md'>End Time</th>
-                            <th className='w-1/7 text-slate-800 dark:text-slate-200 text-md'>Volume</th>
-                            <th className='w-1/7 text-slate-800 dark:text-slate-200 text-md'>Player</th>
-                            <th className='w-1/7 text-slate-800 dark:text-slate-200 text-md text-left'>Note</th>
+                        <tr className='flex flex-row w-full items-center border-b-2 border-slate-700 pb-4'>
+                            <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Start Date</th>
+                            <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>End Date</th>
+                            <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Start Time</th>
+                            <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>End Time</th>
+                            <th className='w-1/16 text-slate-800 dark:text-slate-200 text-md'>Volume</th>
+                            <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Player</th>
+                            <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md text-left'>Note</th>
                         </tr>
-
-                        {(!sessions || sessions.length === 0) &&
-                            <p className='text-sky-300 text-ms text-center font-poppins'>Session not found. Please add usage data.</p>}
 
                         {sessions.map(session => {
                             return (
                                 <>
-                                    <tr className='flex w-full justify-between py-1 border-b border-slate-700 hover:cursor-pointer' key={session._id} onMouseEnter={(e) => { setSessionVisibilility(true); setSession(session); }} onMouseLeave={(e) => { setSessionVisibilility(false); }} >
-                                        <td className='w-1/7 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startDate}</td>
-                                        <td className='w-1/7 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
-                                        <td className='w-1/7 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
-                                        <td className='w-1/7 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endTime}</td>
-                                        <td className='w-1/7 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume * 100}</td>
-                                        <td className='w-1/7 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
-                                        <td className='w-1/7 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 30) || "-"}</td>
+                                    <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={session._id} onMouseEnter={(e) => { setSessionVisibilility(true); setSession(session); }} onMouseLeave={(e) => { setSessionVisibilility(false); }} >
+                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startDate}</td>
+                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
+                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
+                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endTime}</td>
+                                        <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume * 100}</td>
+                                        <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
+                                        <td className='w-1/4 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 50) || "-"}</td>
+                                        <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibilility(false); }}>
+                                            <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
+                                        </td>
+                                        <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setSession(session); setSessionVisibilility(false); }}>
+                                            <FaTrashAlt size={16} className='text-rose-400' />
+                                        </td>
                                     </tr >
                                 </>
                             )
                         })}
                     </tbody>
                 </table>}
+
+
+                {(!sessions || sessions.length === 0) &&
+                    <span className='text-sky-300 text-ms text-center font-poppins'>Session not found. Please add usage data.</span>}
 
                 {!loading && <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
 
