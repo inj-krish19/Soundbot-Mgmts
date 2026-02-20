@@ -1,4 +1,4 @@
-import { INTERNAL_SERVER_ERROR_MESSAGE, SOMETHING_WENT_WRONG } from "../store/constants";
+import { INTERNAL_SERVER_ERROR_MESSAGE, SOMETHING_WENT_WRONG } from "@/store/constants";
 
 async function responseHandler(res, setInfo) {
 

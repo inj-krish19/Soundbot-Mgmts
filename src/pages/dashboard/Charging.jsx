@@ -4,18 +4,19 @@ import { FiInfo } from 'react-icons/fi'
 import { HiRefresh } from 'react-icons/hi';
 import { IoCalendar } from 'react-icons/io5'
 import { IoIosFunnel } from 'react-icons/io';
-import { LuArrowUpDown } from 'react-icons/lu';
-import { FaHeadphones, FaListUl } from 'react-icons/fa';
+import { LuArrowUpDown, LuPencil } from 'react-icons/lu';
+import { FaHeadphones, FaListUl, FaTrashAlt } from 'react-icons/fa';
 
-import { BACKEND_URL } from '../store/UrlStore';
-import { cleanDate } from '../utils/date';
-import { eclipseText, eclipseNumber } from '../utils/eclipse-text';
-import { responseHandler, errorHandler } from '../utils/response-handler';
+import { cleanDate } from '@/utils/date';
+import { BACKEND_URL } from '@/store/UrlStore';
+import { eclipseText, eclipseNumber } from '@/utils/eclipse-text';
+import { responseHandler, errorHandler } from '@/utils/response-handler';
 
-import Loading from '../components/Loading';
-import ChargingCard from '../components/ChargingCard';
-import ChargingFilter from '../components/ChargingFilter';
-
+import Loading from '@/components/ui/Loading';
+import ChargingCard from '@/components/charging/ChargingCard';
+import ChargingFilter from '@/components/charging/ChargingFilter';
+import UpdateCharging from '@/components/charging/UpdateCharging';
+import DeleteCharging from '@/components/charging/DeleteCharging';
 
 function Charging() {
 
@@ -48,6 +49,9 @@ function Charging() {
         type: ''
     });
 
+
+    const [updateVisibility, setUpdateVisibility] = useState(false);
+    const [deleteVisibility, setDeleteVisibility] = useState(false);
 
     const filterNote = async (e) => {
 
@@ -152,10 +156,13 @@ function Charging() {
 
     return (
         <>
-            <main className="relative flex flex-col gap-8 w-full min-h-screen h-full px-4 md:px-8 py-2">
+            {chargingVisibility && !filterVisibility && charging && <ChargingCard charging={charging} />}
+            {filterVisibility && <ChargingFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setChargings} />}
 
-                {chargingVisibility && !filterVisibility && charging && <ChargingCard charging={charging} />}
-                {filterVisibility && <ChargingFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setChargings} />}
+            {updateVisibility && <UpdateCharging charging={charging} panel={setUpdateVisibility} />}
+            {deleteVisibility && <DeleteCharging charging={charging} panel={setDeleteVisibility} />}
+
+            <main className="relative flex flex-col gap-8 w-full min-h-screen h-full px-4 md:px-8 py-2">
 
                 <div className="flex flex-row flex-wrap gap-4 p-4 justify-around ">
                     {Object.entries(summary).map(([index, summary]) => {
@@ -189,30 +196,34 @@ function Charging() {
 
                 {!loading && <table className='hidden lg:block'>
                     <tbody className='flex flex-col gap-4'>
-                        <tr className='flex flex-row w-full justify-between items-center border-b-2 border-slate-700 pb-4'>
+                        <tr className='flex flex-row w-full items-center border-b-2 border-slate-700 pb-4'>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200'>Start Date</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200'>End Date</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200'>First Session Date</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200'>Last Session Date</th>
-                            <th className='w-1/8 text-slate-800 dark:text-slate-200'>Start Time</th>
-                            <th className='w-1/8 text-slate-800 dark:text-slate-200'>End Time</th>
+                            <th className='w-1/16 text-slate-800 dark:text-slate-200'>Start Time</th>
+                            <th className='w-1/16 text-slate-800 dark:text-slate-200'>End Time</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200'>Player</th>
-                            <th className='w-1/8 text-slate-800 dark:text-slate-200 text-left'>Note</th>
+                            <th className='w-3/16  text-slate-800 dark:text-slate-200 text-left'>Note</th>
                         </tr>
                         {chargings.map(charging => {
                             return (
-                                <>
-                                    <tr className='flex flex-row w-full justify-between border-b-1 border-slate-700 pb-1' onMouseEnter={(e) => { setChargingVisibility(true); setCharging(charging); }} onMouseLeave={(e) => { setChargingVisibility(false); setCharging(null); }}  >
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingStartDate}</td>
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingEndDate}</td>
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.firstSessionDate}</td>
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.lastSessionDate}</td>
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingStartTime}</td>
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingEndTime}</td>
-                                        <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{charging.player.nickname}</td>
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-left'>{eclipseText(charging.note) || "-"}</td>
-                                    </tr >
-                                </>
+                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={charging._id} onMouseEnter={(e) => { setChargingVisibility(true); setCharging(charging); }} onMouseLeave={(e) => { setChargingVisibility(false); }}  >
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingStartDate}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingEndDate}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.firstSessionDate}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.lastSessionDate}</td>
+                                    <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingStartTime}</td>
+                                    <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingEndTime}</td>
+                                    <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{charging.player.nickname}</td>
+                                    <td className='w-3/16 text-slate-700 dark:text-slate-300 text-sm text-left'>{eclipseText(charging.note) || "-"}</td>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setCharging(charging); setChargingVisibility(false); }}>
+                                        <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
+                                    </td>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setCharging(charging); setChargingVisibility(false); }}>
+                                        <FaTrashAlt size={16} className='text-rose-400' />
+                                    </td>
+                                </tr >
                             )
                         })}
                     </tbody>

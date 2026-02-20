@@ -1,12 +1,13 @@
-import { useEffect } from 'react'
-import Hero from '../components/Hero';
-import Features from '../components/Features';
-import Preview from '../components/Preview';
-import AchievementsNCapability from '../components/AchievementsNCapability';
-import HowItWorks from '../components/HowItWorks';
 
 import { motion } from 'framer-motion'
 import { FaCompactDisc, FaHeadphones, FaMusic, FaWaveSquare } from 'react-icons/fa'
+
+import Hero from '@/components/home_ui/Hero';
+import Preview from '@/components/home_ui/Preview';
+import Features from '@/components/home_ui/Features';
+import HowItWorks from '@/components/home_ui/HowItWorks';
+import AchievementsNCapability from '@/components/home_ui/AchievementsNCapability';
+
 
 function Home() {
 

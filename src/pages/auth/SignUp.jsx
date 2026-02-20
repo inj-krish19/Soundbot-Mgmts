@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Notification from '../components/Notification';
-import { responseHandler, errorHandler } from '../utils/response-handler'
+import Notification from '@/components/ui/Notification';
+import { responseHandler, errorHandler } from '@/utils/response-handler'
 
 function SignUp() {
 
@@ -39,8 +39,6 @@ function SignUp() {
                         "content-type": "application/json"
                     }
                 }).then(r => r.json());
-
-                console.log("Response", response);
 
                 if (response.code === 200) {
                     setPFPs(response.data);
@@ -147,7 +145,6 @@ function SignUp() {
                                     <div className="flex flex-row gap-1 flex-wrap justify-center items-center">
                                         {PFPs.map((pfp, index) => {
                                             const isActive = profilePicture === pfp;
-                                            // console.log(pfp, index);
                                             return (
                                                 <button key={index} type="button" onClick={() => setProfilePicture(`${BACKEND_URL}${pfp}`)} className="rounded-full" >
                                                     <img src={`${BACKEND_URL}${pfp}`} onError={(e) => {

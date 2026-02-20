@@ -1,6 +1,6 @@
-import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
-import { IoMdMail } from 'react-icons/io'
 import { Link } from 'react-router'
+import { IoMdMail } from 'react-icons/io'
+import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 function About() {
 

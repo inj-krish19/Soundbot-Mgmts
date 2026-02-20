@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { GoArrowUpRight } from 'react-icons/go'
-import { SiSession } from 'react-icons/si'
-import { MdCalendarMonth, MdAudiotrack } from 'react-icons/md'
-import { BsCalendarWeek } from 'react-icons/bs'
-import { SiAudiomack } from 'react-icons/si'
-
 import { Link } from 'react-router'
-import CreatePlayer from '../components/CreatePlayer'
-import CreateSession from '../components/CreateSession'
-import { getSVGByPlayerType } from '../components/CreatePlayer'
-import CreateCharging from '../components/CreateCharging'
-import { errorHandler, responseHandler } from '../utils/response-handler'
-import { BACKEND_URL } from '../store/UrlStore'
-import { eclipseNumber } from '../utils/eclipse-text'
+import React, { useEffect, useState } from 'react'
+
+import { SiSession } from 'react-icons/si'
+import { SiAudiomack } from 'react-icons/si'
+import { GoArrowUpRight } from 'react-icons/go'
+import { BsCalendarWeek } from 'react-icons/bs'
+import { MdCalendarMonth, MdAudiotrack } from 'react-icons/md'
+
+import CreatePlayer from '@/components/player/CreatePlayer'
+import CreateSession from '@/components/session/CreateSession'
+import CreateCharging from '@/components/charging/CreateCharging'
+import { getSVGByPlayerType } from '@/components/player/CreatePlayer'
+
+import { BACKEND_URL } from '@/store/UrlStore'
+import { eclipseNumber } from '@/utils/eclipse-text'
+import { errorHandler, responseHandler } from '@/utils/response-handler'
 
 
 function Dashboard() {

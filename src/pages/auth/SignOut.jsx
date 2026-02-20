@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Notification from '../components/Notification';
-import { responseHandler, errorHandler } from '../utils/response-handler';
+import Notification from '@/components/ui/Notification';
+import { responseHandler, errorHandler } from '@/utils/response-handler';
 
 function SignOut() {
 

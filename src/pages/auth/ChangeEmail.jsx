@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
-import Notification from '../components/Notification';
-import { Link } from 'react-router';
-import PasswordForm from '../components/PasswordForm';
-import EmailForm from '../components/EmailForm';
-import { responseHandler, errorHandler } from '../utils/response-handler';
+import EmailForm from '@/components/auth/EmailForm';
+import { responseHandler, errorHandler } from '@/utils/response-handler';
 
 function ChangeEmail() {
 

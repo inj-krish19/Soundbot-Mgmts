@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
 
-import { FaListUl, FaTrashAlt } from 'react-icons/fa'
 import { HiRefresh } from 'react-icons/hi'
 import { IoIosFunnel } from 'react-icons/io'
 import { FaPuzzlePiece } from 'react-icons/fa6'
 import { GiCalendarHalfYear } from 'react-icons/gi'
+import { FaListUl, FaTrashAlt } from 'react-icons/fa'
 import { LuAudioLines, LuArrowDownUp, LuPencil } from 'react-icons/lu'
 
-import { cleanDate } from '../utils/date';
-import { BACKEND_URL } from '../store/UrlStore';
-import { eclipseNumber, eclipseText } from '../utils/eclipse-text';
-import { responseHandler, errorHandler } from '../utils/response-handler';
+import { cleanDate } from '@/utils/date';
+import { BACKEND_URL } from '@/store/UrlStore';
+import { eclipseNumber, eclipseText } from '@/utils/eclipse-text';
+import { responseHandler, errorHandler } from '@/utils/response-handler';
 
-import Loading from '../components/Loading';
-import SessionCard from '../components/SessionCard';
-import SessionFilter from '../components/SessionFilter';
-import UpdateSession from '../components/UpdateSession';
-import DeleteSession from '../components/DeleteSession';
+import Loading from '@/components/ui/Loading';
+import SessionCard from '@/components/session/SessionCard';
+import SessionFilter from '@/components/session/SessionFilter';
+import UpdateSession from '@/components/session/UpdateSession';
+import DeleteSession from '@/components/session/DeleteSession';
 
 function Sessions() {
 
@@ -68,8 +68,6 @@ function Sessions() {
         });
 
         let response = await res.json();
-        console.log(response);
-
         for (let resp of response.data) {
             resp['startDate'] = cleanDate(resp['startDate']);
             resp['endDate'] = cleanDate(resp['endDate']);

@@ -1,11 +1,12 @@
+import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion"
 import { Outlet, useLocation } from "react-router"
-import { motion } from "framer-motion";
-import BackToTop from "./components/BackToTop";
-import ThemeToggle from "./components/ThemeToggle";
-import NavbarMobile from "./components/NavbarMobile";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import BackToTop from "@/components/layout/BackToTop";
+import ThemeToggle from "@/components/layout/ThemeToggle";
+import NavbarMobile from "@/components/layout/NavbarMobile";
 
 const Layout = () => {
 

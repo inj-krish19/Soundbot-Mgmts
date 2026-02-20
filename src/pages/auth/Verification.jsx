@@ -1,9 +1,10 @@
+import { Link } from 'react-router';
 import React, { useState } from 'react'
 import { FaFacebook, FaGithub, FaGoogle, FaLinkedin } from 'react-icons/fa';
-import Notification from '../components/Notification';
-import { Link } from 'react-router';
-import EmailForm from '../components/EmailForm';
-import { responseHandler, errorHandler } from '../utils/response-handler';
+
+import EmailForm from '@/components/auth/EmailForm';
+import Notification from '@/components/ui/Notification';
+import { responseHandler, errorHandler } from '@/utils/response-handler';
 
 function Verification() {
 
@@ -94,7 +95,6 @@ function Verification() {
         });
 
         let response = await res.json();
-        console.log("Response", response);
         if (res.ok) {
             setInfo({
                 message: response.message,

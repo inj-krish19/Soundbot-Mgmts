@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
+import BackToTop from '@/components/layout/BackToTop';
+import ThemeToggle from '@/components/layout/ThemeToggle';
 import { FaCompactDisc, FaHeadphones, FaWaveSquare, FaMusic } from 'react-icons/fa'
-import BackToTop from '../components/BackToTop';
-import ThemeToggle from '../components/ThemeToggle';
 
 function Loading() {
 

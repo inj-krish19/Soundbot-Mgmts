@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import Notification from '../components/Notification';
-import { Link } from 'react-router';
-import PasswordForm from '../components/PasswordForm';
-import { responseHandler, errorHandler } from '../utils/response-handler';
+import PasswordForm from '@/components/auth/PasswordForm';
+import { responseHandler, errorHandler } from '@/utils/response-handler';
 
 function SignIn() {
 
