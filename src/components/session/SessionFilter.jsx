@@ -61,9 +61,7 @@ function SessionFilter({ panelState, loadingState, setData }) {
 
         setTimeout(() => {
             panelState(false);
-
             setTimeout(() => { loadingState(false); }, 1500);
-
         }, 500)
 
     }
@@ -150,13 +148,13 @@ function SessionFilter({ panelState, loadingState, setData }) {
 
                         <div className="flex flex-col gap-1">
                             <span className="text-emerald-400 text-sm font-semibold">Date Range</span>
-                            <div className="flex flex-row gap-2 justify-center items-center">
+                            <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
 
-                                <div className="flex flex-col gap-1 w-1/2">
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">Start Date</span>
                                     <input type="date" value={startDate} onChange={(e) => { setStartDate(new Date(e.target.value)?.toISOString()?.split('T')?.[0] || "") }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200 px-2 py-1 rounded-sm text-center text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
-                                <div className="flex flex-col gap-1 w-1/2">
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">End Date</span>
                                     <input type="date" value={endDate} onChange={(e) => { setEndDate(new Date(e.target.value).toISOString().split('T')[0]) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200  px-2 py-1 rounded-sm text-center text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
@@ -165,20 +163,20 @@ function SessionFilter({ panelState, loadingState, setData }) {
 
                         <div className="flex flex-col gap-1">
                             <span className="text-emerald-400 text-sm font-semibold">Time Range</span>
-                            <div className="flex flex-row gap-2 justify-center">
+                            <div className="flex flex-col sm:flex-row gap-2 justify-center">
 
-                                <div className="flex flex-col gap-1 w-1/2">
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">Start Time</span>
                                     <input type="time" value={startTime} onChange={(e) => { setStartTime(e.target.value) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200  px-2 py-1 rounded-sm text-center text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
-                                <div className="flex flex-col gap-1 w-1/2">
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">End Time</span>
                                     <input type="time" value={endTime} onChange={(e) => { setEndTime(e.target.value) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200  px-2 py-1 rounded-sm text-center text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex flex-row gap-2 justify-between items-center">
+                        <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
                             <span className="text-emerald-400 text-sm font-semibold">Volume</span>
 
                             <div className="flex flex-row gap-2">

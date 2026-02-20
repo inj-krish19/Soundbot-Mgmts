@@ -74,6 +74,10 @@ function CreateSession({ panel }) {
             responseHandler(res.clone(), setInfo);
             let response = await res.json();
 
+            setTimeout(() => {
+                panel(false);
+            }, 1000);
+
         } catch (err) {
             errorHandler(err, setInfo);
         }
@@ -129,13 +133,13 @@ function CreateSession({ panel }) {
                             <input type="date" name="endDate" id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark] w-fill" />
                         </div>
 
-                        <div className="flex flex-row gap-2 w-full">
-                            <div className="flex flex-col gap-1 w-1/2">
+                        <div className="flex flex-col sm:flex-row gap-2 w-full">
+                            <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                 <label htmlFor="startTime" className="text-slate-700 dark:text-slate-300 text-sm">Start Time</label>
                                 <input type="time" name="startTime" id="startTime" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-00 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                             </div>
 
-                            <div className="flex flex-col gap-1 w-1/2">
+                            <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                 <label htmlFor="endTime" className="text-slate-700 dark:text-slate-300 text-sm">End Time</label>
                                 <input type="time" name="endTime" id="endTime" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                             </div>

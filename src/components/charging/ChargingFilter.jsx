@@ -157,14 +157,14 @@ function ChargingFilter({ panelState, loadingState, setData }) {
 
                         <div className="flex flex-col gap-1">
                             <span className="text-sky-300 text-sm font-semibold">Session Date Range</span>
-                            <div className="flex flex-row gap-2 justify-center items-center">
+                            <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
 
-                                <div className="flex flex-col gap-1 w-1/2" >
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2" >
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">Start Date</span>
                                     <input type="date" value={firstSessionDate} onChange={(e) => { setFirstSessionDate(new Date(e.target.value).toISOString().split('T')[0]) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200 px-2 py-1 rounded-sm text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
 
-                                <div className="flex flex-col gap-1 w-1/2">
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">End Date</span>
                                     <input type="date" value={lastSessionDate} onChange={(e) => { setLastSessionDate(new Date(e.target.value).toISOString().split('T')[0]) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200 px-2 py-1 rounded-sm text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
@@ -174,14 +174,14 @@ function ChargingFilter({ panelState, loadingState, setData }) {
 
                         <div className="flex flex-col gap-1">
                             <span className="text-sky-300 font-semibold text-sm">Charging Date Range</span>
-                            <div className="flex flex-row gap-2 justify-center items-center">
+                            <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
 
-                                <div className="flex flex-col gap-1 w-1/2">
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">Start Date</span>
                                     <input type="date" value={chargingStartDate} onChange={(e) => { setChargingStartDate(new Date(e.target.value).toISOString().split('T')[0]) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200 px-2 py-1 rounded-sm text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
 
-                                <div className="flex flex-col gap-1 w-1/2">
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">End Date</span>
                                     <input type="date" value={chargingEndDate} onChange={(e) => { setChargingEndDate(new Date(e.target.value).toISOString().split('T')[0]) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200 px-2 py-1 rounded-sm text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
@@ -191,14 +191,14 @@ function ChargingFilter({ panelState, loadingState, setData }) {
 
                         <div className="flex flex-col gap-1">
                             <span className="text-sky-300 font-semibold text-sm">Charging Time Range</span>
-                            <div className="flex flex-row gap-2 justify-center items-center">
+                            <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
 
-                                <div className="flex flex-col gap-1 w-1/2">
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">Start Time</span>
                                     <input type="time" value={chargingStartTime} onChange={(e) => { setChargingStartTime(e.target.value) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200 px-2 py-1 rounded-sm text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>
 
-                                <div className="flex flex-col gap-1 w-1/2">
+                                <div className="flex flex-col gap-1 w-full sm:w-1/2">
                                     <span className="text-slate-800 dark:text-slate-200 text-xs">End Time</span>
                                     <input type="time" value={chargingEndTime} onChange={(e) => { setChargingEndTime(e.target.value) }} className="border border-slate-800 dark:border-slate-200 outline outline-slate-800 dark:outline-slate-200 px-2 py-1 rounded-sm text-slate-800 dark:text-slate-200 text-sm [color-scheme:light] dark:[color-scheme:dark]" />
                                 </div>

@@ -60,6 +60,10 @@ function CreatePlayer({ panel }) {
             responseHandler(res.clone(), setInfo);
             let response = await res.json();
 
+            setTimeout(() => {
+                panel(false);
+            }, 1000);
+
         } catch (err) {
             errorHandler(err, setInfo);
         }

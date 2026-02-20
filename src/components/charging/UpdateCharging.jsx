@@ -74,6 +74,10 @@ function UpdateCharging({ charging, panel }) {
             responseHandler(res.clone(), setInfo);
             let response = await res.json();
 
+            setTimeout(() => {
+                panel(false);
+            }, 1000);
+
         } catch (err) {
             errorHandler(err, setInfo);
         }
@@ -128,12 +132,12 @@ function UpdateCharging({ charging, panel }) {
                         <input type="date" name="chargingEndDate" id="chargingEndDate" value={chargingEndDate} onChange={(e) => { setChargingEndDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                     </div>
 
-                    <div className="flex flex-row gap-2 w-full">
-                        <div className="flex flex-col gap-1 w-1/2">
+                    <div className="flex flex-col sm:flex-row gap-2 w-full">
+                        <div className="flex flex-col gap-1 w-full sm:w-1/2">
                             <label htmlFor="chargingStartTime" className="text-slate-700 dark:text-slate-300 text-sm">Charging Start Time</label>
                             <input type="time" name="chargingStartTime" id="chargingStartTime" value={chargingStartTime} onChange={(e) => { setChargingStartTime(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                         </div>
-                        <div className="flex flex-col gap-1 w-1/2">
+                        <div className="flex flex-col gap-1 w-full sm:w-1/2">
                             <label htmlFor="chargingEndTime" className="text-slate-700 dark:text-slate-300 text-sm">Charging End Time</label>
                             <input type="time" name="chargingEndTime" id="chargingEndTime" value={chargingEndTime} onChange={(e) => { setChargingEndTime(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
                         </div>
