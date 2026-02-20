@@ -1,0 +1,168 @@
+import { ImCross } from "react-icons/im";
+import Notification from "@/components/ui/Notification";
+import { useEffect, useState } from "react";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
+
+import { BACKEND_URL } from "@/store/UrlStore";
+import { getSVGByPlayerType } from "@/components/player/CreatePlayer";
+import { responseHandler, errorHandler } from '@/utils/response-handler';
+
+function CreateCharging({ panel }) {
+
+    const [player, setPlayer] = useState(null);
+    const [players, setPlayers] = useState([]);
+
+    const [chargingStartDate, setChargingStartDate] = useState(new Date().toISOString().split('T')[0]);
+    const [chargingEndDate, setChargingEndDate] = useState(new Date().toISOString().split('T')[0]);
+
+    const [chargingStartTime, setChargingStartTime] = useState(new Date().toISOString().split('T')[1].substring(0, 5));
+    const [chargingEndTime, setChargingEndTime] = useState(new Date().toISOString().split('T')[1].substring(0, 5));
+
+    const [firstSessionDate, setFirstSessionDate] = useState(new Date().toISOString().split('T')[0]);
+    const [lastSessionDate, setLastSessionDate] = useState(new Date().toISOString().split('T')[0]);
+
+    const [note, setNote] = useState('');
+    const [info, setInfo] = useState({
+        message: 'If the player does not require charging, use it for tracking and maintaining active listening time.',
+        type: 'info'
+    });
+
+    useEffect(() => {
+
+        try {
+
+            const main = async () => {
+
+                let response = await fetch(`${BACKEND_URL}/player/`, {
+                    method: 'GET',
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    credentials: "include"
+                });
+                let res = await response.json();
+
+                setPlayers(res.data);
+                setPlayer(res.data?.[0] || null);
+
+            }
+            main();
+
+        } catch (err) {
+            errorHandler(err, setInfo);
+        }
+
+    }, []);
+
+
+    const submitCharging = async (e) => {
+
+        try {
+
+            e.preventDefault();
+
+            let res = await fetch(`${BACKEND_URL}/charging/`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    player: player._id, chargingStartDate, chargingEndDate, chargingStartTime, chargingEndTime, firstSessionDate, lastSessionDate, note
+                })
+            });
+
+            responseHandler(res.clone(), setInfo);
+            let response = await res.json();
+
+        } catch (err) {
+            errorHandler(err, setInfo);
+        }
+
+    }
+
+
+    return (
+        <>
+            <div className="fixed top-1/2 left-1/2 -translate-1/2  flex flex-col gap-8 w-3/4 md:w-1/3 h-auto bg-stone-300 dark:bg-stone-700 p-4 rounded-md z-100">
+
+                <span className="text-rose-400 font-bold font-poppins text-lg">Create Charging</span>
+
+                <ImCross className="absolute top-3 right-3 text-rose-400" onClick={() => { panel(false) }} />
+                <Notification info={info} />
+
+                <form className="flex flex-col flex-wrap justify-around gap-4 w-full" onSubmit={(e) => submitCharging(e)}>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="player" className="text-slate-700 dark:text-slate-300 text-sm">Player</label>
+                        <Listbox value={player} onChange={setPlayer} >
+
+                            {(!player || players.length === 0) && <span className="text-rose-500 text-md">Please add streaming player first</span>}
+
+                            {player && <ListboxButton className='px-4 py-2 border-2 border-slate-100 outline-slate-100 rounded-sm flex items-center gap-2'>
+                                {getSVGByPlayerType(player.type, 'text-purple-400')}
+                                <span className="text-fuchsia-400">{player.nickname}</span>
+                            </ListboxButton>}
+
+                            {players.length !== 0 && <ListboxOptions className='border-2 border-slate-100 rounded-sm' >
+                                {players.map(player => {
+                                    return (
+                                        <>
+                                            <ListboxOption key={player._id} value={player} className='px-4 py-2 flex items-center gap-2 hover:bg-pink-200 hover:cursor-pointer'>
+                                                {getSVGByPlayerType(player.type, 'text-purple-400')}
+                                                <span className="text-purple-500">{player.nickname}</span>
+                                            </ListboxOption>
+                                        </>
+                                    )
+                                })}
+                            </ListboxOptions>}
+                        </Listbox>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="chargingStartDate" className="text-slate-700 dark:text-slate-300 text-sm">Charging Start Date</label>
+                        <input type="date" name="chargingStartDate" id="chargingStartDate" value={chargingStartDate} onChange={(e) => { setChargingStartDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="chargingEndDate" className="text-slate-700 dark:text-slate-300 text-sm">Charging End Date</label>
+                        <input type="date" name="chargingEndDate" id="chargingEndDate" value={chargingEndDate} onChange={(e) => { setChargingEndDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                    </div>
+
+                    <div className="flex flex-row gap-2 w-full">
+                        <div className="flex flex-col gap-1 w-1/2">
+                            <label htmlFor="chargingStartTime" className="text-slate-700 dark:text-slate-300 text-sm">Charging Start Time</label>
+                            <input type="time" name="chargingStartTime" id="chargingStartTime" value={chargingStartTime} onChange={(e) => { setChargingStartTime(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                        </div>
+                        <div className="flex flex-col gap-1 w-1/2">
+                            <label htmlFor="chargingEndTime" className="text-slate-700 dark:text-slate-300 text-sm">Charging End Time</label>
+                            <input type="time" name="chargingEndTime" id="chargingEndTime" value={chargingEndTime} onChange={(e) => { setChargingEndTime(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="firstSessionDate" className="text-slate-700 dark:text-slate-300 text-sm">First Session Date</label>
+                        <input type="date" name="firstSessionDate" id="firstSessionDate" value={firstSessionDate} onChange={(e) => { setFirstSessionDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="lastSessionDate" className="text-slate-700 dark:text-slate-300 text-sm">Last Session Date</label>
+                        <input type="date" name="lastSessionDate" id="lastSessionDate" value={lastSessionDate} onChange={(e) => { setLastSessionDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="note" className="text-slate-700 dark:text-slate-300 text-sm">Note</label>
+                        <input type="text" name="note" id="note" placeholder="ex. Gone for Walk" value={note} onChange={(e) => { setNote(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200" />
+                    </div>
+
+                    <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins">Submit</button>
+
+                </form>
+
+            </div>
+        </>
+    );
+
+}
+
+export default CreateCharging;

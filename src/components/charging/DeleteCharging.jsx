@@ -1,0 +1,55 @@
+import { useState } from "react";
+import { BACKEND_URL } from "@/store/UrlStore";
+import Notification from "@/components/ui/Notification";
+
+function DeleteCharging({ charging, panel }) {
+
+    const [info, setInfo] = useState({
+        type: '',
+        message: ''
+    })
+
+    const removeCharging = async () => {
+
+        let res = await fetch(`${BACKEND_URL}/charging/${charging._id}`, {
+            method: 'DELETE',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        let response = await res.json();
+        setInfo({
+            type: 'success',
+            message: response.message,
+        });
+
+        setTimeout(() => {
+            panel(false);
+        }, 1000);
+
+    }
+
+    return (
+        <>
+            <div className="fixed top-1/2 left-1/2 -translate-1/2 flex flex-col w-3/4 md:w-1/3 h-auto gap-4 justify-around items-center px-4 md:px-8 py-4 h-auto bg-stone-300 dark:bg-stone-700 rounded-md z-50">
+
+                {info && <Notification info={info} />}
+
+                <div className="flex flex-col gap-2 items-center">
+                    <span className="text-rose-400 text-ms font-bold font-poppins" >Are you sure ? Delete Session</span>
+                    <span className="text-slate-700 dark:text-slate-300 text-sm text-center">Tapping below will confirm and delete the charging from tracking and AI insights.</span>
+                </div>
+
+                <div className="flex flex-row justify-center items-center w-4/5 gap-4">
+                    <button type="submit" className="bg-rose-400 font-bold font-poppins text-white px-2 py-1 rounded-sm w-1/2 hover:cursor-pointer" onClick={() => { removeCharging() }}>Delete</button>
+                    <button type="submit" className="bg-stone-800 dark:bg-stone-200 text-slate-300 dark:text-slate-700  font-bold font-poppins text-white px-2 py-1 rounded-sm w-1/2 hover:cursor-pointer" onClick={() => { panel(false) }}>Cancel</button>
+                </div>
+            </div>
+        </>
+    );
+
+}
+
+export default DeleteCharging;
