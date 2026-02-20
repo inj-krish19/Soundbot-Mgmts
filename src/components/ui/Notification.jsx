@@ -1,10 +1,9 @@
-import { useState } from 'react';
-
-import { BsFillInfoCircleFill, BsCheck2 } from 'react-icons/bs'
-import { IoWarning } from 'react-icons/io5';
-import { RxCross2, RxCheck } from 'react-icons/rx'
 import { ImCross } from 'react-icons/im'
-import { useEffect } from 'react';
+import { RxCross2 } from 'react-icons/rx'
+import { IoWarning } from 'react-icons/io5';
+import { useState, useEffect } from 'react';
+import { BsFillInfoCircleFill, BsCheck2 } from 'react-icons/bs'
+
 
 function Notification(props) {
 

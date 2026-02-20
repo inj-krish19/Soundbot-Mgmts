@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
 import Navbar from './Navbar';
-import { FaGripLines } from 'react-icons/fa';
 import { Link } from 'react-router';
-import NavbarMobile from './NavbarMobile';
+import React, { useState } from 'react'
 import { RxCross1 } from 'react-icons/rx';
+import NavbarMobile from './NavbarMobile';
+import { FaGripLines } from 'react-icons/fa';
 
 function Header() {
 

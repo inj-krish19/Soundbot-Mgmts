@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 import { ImCross } from "react-icons/im";
-import { cleanDate } from "../utils/date";
-import { BACKEND_URL } from '../store/UrlStore';
-import { getSVGByPlayerType } from "./CreatePlayer";
+import { cleanDate } from "@/utils/date";
+import { BACKEND_URL } from '@/store/UrlStore';
+import { getSVGByPlayerType } from "@/components/player/CreatePlayer";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 
 function SessionFilter({ panelState, loadingState, setData }) {
@@ -52,8 +52,6 @@ function SessionFilter({ panelState, loadingState, setData }) {
         });
 
         let response = await res.json();
-        console.log(response);
-
         for (let resp of response.data) {
             resp['startDate'] = cleanDate(resp['startDate']);
             resp['endDate'] = cleanDate(resp['endDate']);
@@ -67,7 +65,6 @@ function SessionFilter({ panelState, loadingState, setData }) {
             setTimeout(() => { loadingState(false); }, 1500);
 
         }, 500)
-        console.log(response);
 
     }
 

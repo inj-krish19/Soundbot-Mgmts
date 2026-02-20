@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { BACKEND_URL } from "../store/UrlStore";
-import Notification from "./Notification";
+import { BACKEND_URL } from "@/store/UrlStore";
+import Notification from "@/components/ui/Notification";
 
 function DeleteSession({ session, panel }) {
 

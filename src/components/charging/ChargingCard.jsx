@@ -4,7 +4,7 @@ function ChargingCard({ charging }) {
 
     return (
         <>
-            <div className="hidden lg:flex fixed top-1/2 left-1/2 -translate-1/2 flex-col gap-4 p-4 bg-stone-300 dark:bg-stone-700 w-3/4 md:w-1/3 h-auto rounded-md">
+            <div className="hidden lg:flex fixed top-1/2 left-1/2 -translate-1/2 flex-col gap-4 p-4 bg-stone-300 dark:bg-stone-700 w-3/4 md:w-1/3 h-auto rounded-md z-50">
 
                 <div className="flex flex-row gap-2">
                     <TbRecharging size={24} className='text-violet-400 dark:text-indigo-400' />

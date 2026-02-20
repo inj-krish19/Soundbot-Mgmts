@@ -1,13 +1,13 @@
+import { useState } from "react";
+import { ImCross } from "react-icons/im";
+import { GiEarbuds } from "react-icons/gi";
 import { BsEarbuds } from "react-icons/bs";
 import { FaHeadphones } from "react-icons/fa6";
-import { GiEarbuds } from "react-icons/gi";
-import { ImCross } from "react-icons/im";
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
-import { useState } from "react";
 
-import { responseHandler, errorHandler } from '../utils/response-handler';
-import Notification from './Notification';
-import { BACKEND_URL } from '../store/UrlStore';
+import { BACKEND_URL } from '@/store/UrlStore';
+import Notification from '@/components/ui/Notification';
+import { responseHandler, errorHandler } from '@/utils/response-handler';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
 const getSVGByPlayerType = (type, className) => {
 
@@ -70,7 +70,7 @@ function CreatePlayer({ panel }) {
 
     return (
         <>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-3/5 flex flex-col gap-8 w-3/4 md:w-1/3 h-auto bg-stone-300 dark:bg-stone-700 p-4 rounded-md z-100">
+            <div className="fixed top-1/2 left-1/2 -translate-1/2  flex flex-col gap-8 w-3/4 md:w-1/3 h-auto bg-stone-300 dark:bg-stone-700 p-4 rounded-md z-100">
 
                 <span className="text-sky-400 font-bold font-poppis text-lg">Create Player</span>
 

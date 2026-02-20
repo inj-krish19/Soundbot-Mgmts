@@ -1,10 +1,11 @@
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
-import { useEffect, useState } from "react";
 import { ImCross } from "react-icons/im";
-import { getSVGByPlayerType } from "./CreatePlayer";
-import { errorHandler } from "../utils/response-handler";
-import { BACKEND_URL } from "../store/UrlStore";
-import { cleanDate } from "../utils/date";
+import { useEffect, useState } from "react";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
+
+import { cleanDate } from "@/utils/date";
+import { BACKEND_URL } from "@/store/UrlStore";
+import { getSVGByPlayerType } from "@/components/player/CreatePlayer";
+import { errorHandler } from "@/utils/response-handler";
 
 function ChargingFilter({ panelState, loadingState, setData }) {
 
@@ -62,7 +63,6 @@ function ChargingFilter({ panelState, loadingState, setData }) {
                 panelState(false);
                 setTimeout(() => { loadingState(false) }, 1500);
             }, 500);
-            console.log(response);
 
         } catch (err) {
             errorHandler(err, setInfo);

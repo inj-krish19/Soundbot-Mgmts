@@ -1,9 +1,7 @@
-import React from 'react'
 import { Link } from 'react-router';
-import { GoPerson } from 'react-icons/go';
-import { IoCall } from 'react-icons/io5';
 import { FaHome } from 'react-icons/fa';
-import useAuth from '../store/AuthStore';
+import { IoCall } from 'react-icons/io5';
+import { GoPerson } from 'react-icons/go';
 
 function Footer() {
 
@@ -52,7 +50,7 @@ function Footer() {
                             <Link to='/privacy-policy' className='text-sm text-slate-700 dark:text-slate-300'>Privacy Policy</Link>
                             <Link to='/cookie-policy' className='text-sm text-slate-700 dark:text-slate-300'>Cookie Policy</Link>
                             <Link to='/disclaimer' className='text-sm text-slate-700 dark:text-slate-300'>Disclaimer</Link>
-                            <Link to='/update-and-chnages' className='text-sm text-slate-700 dark:text-slate-300'>Update and Changes</Link>
+                            <Link to='/update-and-changes' className='text-sm text-slate-700 dark:text-slate-300'>Update and Changes</Link>
                         </div>
                     </div>
 

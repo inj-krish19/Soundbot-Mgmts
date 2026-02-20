@@ -1,11 +1,12 @@
-import { Link, NavLink } from "react-router";
-import useAuth from "../store/AuthStore";
 import { FaHome } from "react-icons/fa";
+import { IoCall } from "react-icons/io5";
+import { GoPerson } from "react-icons/go";
 import { SiSession } from "react-icons/si";
+
+import { Link } from "react-router";
+import useAuth from "@/store/AuthStore";
 import { VscSignIn, VscSignOut } from "react-icons/vsc"
 import { TbLayoutDashboardFilled, TbRecharging } from 'react-icons/tb'
-import { GoPerson } from "react-icons/go";
-import { IoCall } from "react-icons/io5";
 
 function NavbarMobile() {
 

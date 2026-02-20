@@ -12,6 +12,20 @@ export default defineConfig([
       js.configs.recommended,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
+      {
+        plugins: {
+          import: importPlugin,
+          react: react,
+        },
+        settings: {
+          "import/resolver": {
+            alias: {
+              map: [["@", "./src"]],
+              extensions: [".js", ".jsx", ".ts", ".tsx"],
+            },
+          },
+        },
+      },
     ],
     languageOptions: {
       ecmaVersion: 2020,

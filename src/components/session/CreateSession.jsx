@@ -1,26 +1,25 @@
 import { ImCross } from "react-icons/im";
-import Notification from "./Notification";
 import { useEffect, useState } from "react";
-import { getSVGByPlayerType } from './CreatePlayer'
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions, ListboxSelectedOption } from "@headlessui/react";
-import { BACKEND_URL } from "../store/UrlStore";
-import { responseHandler, errorHandler } from '../utils/response-handler';
+import { getSVGByPlayerType } from '@/components/player/CreatePlayer'
+import Notification from "@/components/ui/Notification";
 
-function UpdateSession({ session, panel }) {
+import { BACKEND_URL } from "@/store/UrlStore";
+import { responseHandler, errorHandler } from '@/utils/response-handler';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
-    console.log("Upadte Session start up", session);
+function CreateSession({ panel }) {
 
     const [player, setPlayer] = useState(null);
     const [players, setPlayers] = useState([]);
 
-    const [startDate, setStartDate] = useState(session?.startDate);
-    const [endDate, setEndDate] = useState(session?.endDate);
+    const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
+    const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
 
-    const [startTime, setStartTime] = useState(session?.startTime);
-    const [endTime, setEndTime] = useState(session?.endTime);
+    const [startTime, setStartTime] = useState(new Date().toISOString().split('T')[1].substring(0, 5));
+    const [endTime, setEndTime] = useState(new Date().toISOString().split('T')[1].substring(0, 5));
 
-    const [volume, setVolume] = useState(session?.volume * 100 || "");
-    const [note, setNote] = useState(session?.note);
+    const [volume, setVolume] = useState(70);
+    const [note, setNote] = useState('');
 
     const [info, setInfo] = useState({
         message: '',
@@ -61,8 +60,8 @@ function UpdateSession({ session, panel }) {
 
             e.preventDefault();
 
-            let res = await fetch(`${BACKEND_URL}/session/${session._id}`, {
-                method: "PUT",
+            let res = await fetch(`${BACKEND_URL}/session/`, {
+                method: "POST",
                 headers: {
                     "content-type": "application/json"
                 },
@@ -84,9 +83,9 @@ function UpdateSession({ session, panel }) {
 
     return (
         <>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-3/5 flex flex-col gap-8 w-3/4 md:w-1/3 h-auto bg-stone-300 dark:bg-stone-700 rounded-md p-4 z-100">
+            <div className="fixed top-1/2 left-1/2 -translate-1/2  flex flex-col gap-8 w-3/4 md:w-1/3 h-auto bg-stone-300 dark:bg-stone-700 rounded-md p-4 z-100">
 
-                <span className="text-purple-400 text-lg font-bold">Update Session</span>
+                <span className="text-emerald-400 text-lg font-bold">Create Session</span>
 
                 <ImCross className="absolute top-3 right-3 text-rose-400" onClick={() => { panel(false); }} />
                 <Notification info={info} />
@@ -164,4 +163,4 @@ function UpdateSession({ session, panel }) {
 
 }
 
-export default UpdateSession;
+export default CreateSession;
