@@ -61,6 +61,10 @@ function Dashboard() {
     const [chargingPanel, setChargingPanel] = useState(false);
 
 
+    const [dailyUsageInfo, setDailyUsageInfo] = useState({});
+    const [sessionDurationInfo, setSessionDurationInfo] = useState({});
+
+
     const getPlayers = async () => {
 
         let res = await fetch(`${BACKEND_URL}/player/`, {
@@ -73,6 +77,30 @@ function Dashboard() {
 
         let response = await res.json();
         setPlayers(response.data);
+
+    }
+
+
+    const getChartsInfo = async () => {
+
+        try {
+
+            let res = await fetch(`${BACKEND_URL}/analytics/`, {
+                method: "GET",
+                headers: {
+                    "content-type": "application/json",
+                },
+                credentials: "include"
+            });
+
+            let response = await res.json();
+
+            setDailyUsageInfo(response?.data?.['daily-usage-trend'])
+            setSessionDurationInfo(response?.data?.['session-duration-distribution'])
+
+        } catch (err) {
+            errorHandler(err, setInfo);
+        }
 
     }
 
@@ -111,6 +139,7 @@ function Dashboard() {
 
 
         getPlayers();
+        getChartsInfo();
 
     }, [])
 
@@ -215,7 +244,6 @@ function Dashboard() {
 
 
                 </div>
-
 
             </main>
         </>
