@@ -4,7 +4,11 @@
 @theme {
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-inter: 'Inter';
+  --font-oswald: 'Oswald';
   --font-poppins: Poppins;
+  --font-tangerine: 'Tangerine';
+  --font-alfa: 'Alfa Slab One';
+  --font-old: 'Old Standard TT';
 
   --font-content: 'Inter', system-ui, sans-serif;
   --font-heading: 'Poppins', sans-serif;

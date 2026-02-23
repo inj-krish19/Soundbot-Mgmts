@@ -5,7 +5,7 @@ import { SiSession } from 'react-icons/si'
 import { SiAudiomack } from 'react-icons/si'
 import { GoArrowUpRight } from 'react-icons/go'
 import { BsCalendarWeek } from 'react-icons/bs'
-import { MdCalendarMonth, MdAudiotrack } from 'react-icons/md'
+import { MdCalendarMonth, MdAudiotrack, MdList } from 'react-icons/md'
 
 import CreatePlayer from '@/components/player/CreatePlayer'
 import CreateSession from '@/components/session/CreateSession'
@@ -15,6 +15,9 @@ import { getSVGByPlayerType } from '@/components/player/CreatePlayer'
 import { BACKEND_URL } from '@/store/UrlStore'
 import { eclipseNumber } from '@/utils/eclipse-text'
 import { errorHandler, responseHandler } from '@/utils/response-handler'
+
+import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer } from 'recharts'
+import { IoGrid } from 'react-icons/io5'
 
 
 function Dashboard() {
@@ -61,8 +64,18 @@ function Dashboard() {
     const [chargingPanel, setChargingPanel] = useState(false);
 
 
-    const [dailyUsageInfo, setDailyUsageInfo] = useState({});
-    const [sessionDurationInfo, setSessionDurationInfo] = useState({});
+    const [dailyUsageInfo, setDailyUsageInfo] = useState([]);
+    const [sessionDurationInfo, setSessionDurationInfo] = useState([]);
+
+
+    // Charts relates states
+
+    const [hoverGap, setHoverGap] = useState(12);
+    const [activeIndex, setActiveIndex] = useState(null);
+
+
+
+    const [view, setView] = useState('list');
 
 
     const getPlayers = async () => {
@@ -147,6 +160,9 @@ function Dashboard() {
     const player = "headphone";
 
 
+    useEffect(() => {
+        console.log(dailyUsageInfo, sessionDurationInfo)
+    }, [dailyUsageInfo, sessionDurationInfo]);
 
 
     return (
@@ -244,6 +260,76 @@ function Dashboard() {
 
 
                 </div>
+
+
+                <div className="flex flex-col gap-4 w-full h-auto justify-content px-4 py-4">
+
+                    <div className="flex flex-row gap-2 justify-between items-center bg-stone-300 dark:bg-stone-700 px-4 py-2 rounded-md">
+                        <span className='font-poppins text-emerald-400 font-bold text-xl'>Analytical Charts</span>
+                        <div className="flex flex-row gap-2 items-center">
+                            <MdList onClick={() => { setView("list"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-sky-300 p-1 ${view === "list" ? 'bg-sky-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
+                            <IoGrid onClick={() => { setView("grid"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-emerald-300 p-1 ${view === "grid" ? 'bg-emerald-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 justify-center items-center">
+
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-72 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+
+                            <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Session Duration Distribution</span>
+
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={sessionDurationInfo} barCategoryGap={hoverGap}  >
+                                    <XAxis dataKey="key" tick={{ fontSize: 12 }} >
+                                        <Label offset={-2} value="Session Duration Distribution" position="insideBottom" style={{ fontSize: 12 }} />
+                                    </XAxis>
+                                    <YAxis tick={{ fontSize: 12 }} >
+                                        <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
+                                    </YAxis>
+                                    <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                    <Bar dataKey="count" radius={[4, 4, 0, 0]} onMouseLeave={() => setActiveIndex(null)} >
+                                        {sessionDurationInfo.map((entry, index) => (
+                                            <Cell
+                                                key={`cell-${index}`}
+                                                fill={
+                                                    index === activeIndex
+                                                        ? "var(--color-sky-400)"
+                                                        : "var(--color-teal-400)"
+                                                }
+                                                onMouseEnter={() => { setActiveIndex(index); setHoverGap(4); }}
+                                                onMouseLeave={() => { setHoverGap(12) }}
+                                            />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+
+
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-72 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+
+                            <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Daily Usage Trend</span>
+
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart
+                                    data={dailyUsageInfo}
+                                >
+                                    <XAxis dataKey="day" tick={{ fontSize: 12 }}>
+                                        <Label value='Duration' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
+                                    </XAxis>
+                                    <YAxis tick={{ fontSize: 12 }}>
+                                        <Label value='Duration' angle={-90} offset={20} position='insideLeft' style={{ fontSize: 12 }} />
+                                    </YAxis>
+
+                                    <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                    <Line type="monotone" dataKey="duration" stroke="var(--color-emerald-500)" />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+
+                    </div>
+                </div>
+
 
             </main>
         </>
