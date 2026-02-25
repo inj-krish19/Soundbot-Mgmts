@@ -16,7 +16,7 @@ import { BACKEND_URL } from '@/store/UrlStore'
 import { eclipseNumber } from '@/utils/eclipse-text'
 import { errorHandler, responseHandler } from '@/utils/response-handler'
 
-import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer } from 'recharts'
+import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer, PieChart, Pie, Sector, CartesianGrid } from 'recharts'
 import { IoGrid } from 'react-icons/io5'
 
 
@@ -67,6 +67,14 @@ function Dashboard() {
     const [dailyUsageInfo, setDailyUsageInfo] = useState([]);
     const [sessionDurationInfo, setSessionDurationInfo] = useState([]);
 
+    const [playerUsageInfo, setPlayerUsageInfo] = useState([]);
+    const [timeOfDayInfo, setTimeOfDayInfo] = useState([]);
+
+    const [monthlyUsageInfo, setMonthlyUsageInfo] = useState([]);
+    const [sessionTotalUsageInfo, setSessionTotalUsageInfo] = useState([]);
+
+    const [averageSessionInfo, setAverageSessionInfo] = useState([]);
+    const [cumulativeUsageInfo, setCumulativeUsageInfo] = useState([]);
 
     // Charts relates states
 
@@ -110,6 +118,19 @@ function Dashboard() {
 
             setDailyUsageInfo(response?.data?.['daily-usage-trend'])
             setSessionDurationInfo(response?.data?.['session-duration-distribution'])
+
+
+            setPlayerUsageInfo(response?.data?.['player-usage-distribution'])
+            setTimeOfDayInfo(response?.data?.['time-of-day'])
+
+
+            setMonthlyUsageInfo(response?.data?.['monthly-usage-trend'])
+            setSessionTotalUsageInfo(response?.data?.['session-total-usage'])
+
+
+            setAverageSessionInfo(response?.data?.['average-session-duration'])
+            setCumulativeUsageInfo(response?.data?.['cumulative-usage'])
+
 
         } catch (err) {
             errorHandler(err, setInfo);
@@ -159,10 +180,11 @@ function Dashboard() {
     const nickname = 'nick';
     const player = "headphone";
 
+    const COLORS = ['var(--color-sky-300)', 'var(--color-teal-400)', 'var(--color-purple-400)', 'var(--color-rose-400)', 'var(--color-emerald-400)', 'var(--color-indigo-400)', 'var(--color-orange-400)',]
 
     useEffect(() => {
-        console.log(dailyUsageInfo, sessionDurationInfo)
-    }, [dailyUsageInfo, sessionDurationInfo]);
+        console.log(dailyUsageInfo, sessionDurationInfo, playerUsageInfo)
+    }, [dailyUsageInfo, sessionDurationInfo, playerUsageInfo]);
 
 
     return (
@@ -206,15 +228,13 @@ function Dashboard() {
                         <div className="flex flex-row flex-wrap gap-2 p-2 justify-around items-center">
                             {players.map(streamingPlayer => {
                                 return (
-                                    <>
-                                        <div className="flex flex-col gap-1 border border-emerald-400 outline outline-emerald-400 hover:outline-2 rounded-md px-3 py-1 size-48 items-center bg-stone-200 dark:bg-stone-800" key={streamingPlayer.nickname}>
-                                            <img src={`/player/${streamingPlayer.type}.png`} className='size-36 ' />
-                                            <div className="flex flex-col gap-1 items-center">
-                                                <span className='text-violet-400 text-md font-poppins font-bold'>{streamingPlayer.nickname}</span>
-                                                {/* <span className='text-emerald-400 text-xs uppercase font-bold '>{streamingPlayer.type}</span> */}
-                                            </div>
+                                    <div className="flex flex-col gap-1 border border-emerald-400 outline outline-emerald-400 hover:outline-2 rounded-md px-3 py-1 size-48 items-center bg-stone-200 dark:bg-stone-800" key={streamingPlayer._id}>
+                                        <img src={`/player/${streamingPlayer.type}.png`} className='size-36 ' />
+                                        <div className="flex flex-col gap-1 items-center">
+                                            <span className='text-violet-400 text-md font-poppins font-bold'>{streamingPlayer.nickname}</span>
+                                            {/* <span className='text-emerald-400 text-xs uppercase font-bold '>{streamingPlayer.type}</span> */}
                                         </div>
-                                    </>
+                                    </div>
                                 )
                             })}
                         </div>
@@ -278,7 +298,7 @@ function Dashboard() {
 
                             <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Session Duration Distribution</span>
 
-                            <ResponsiveContainer width="100%" height="100%">
+                            <ResponsiveContainer >
                                 <BarChart data={sessionDurationInfo} barCategoryGap={hoverGap}  >
                                     <XAxis dataKey="key" tick={{ fontSize: 12 }} >
                                         <Label offset={-2} value="Session Duration Distribution" position="insideBottom" style={{ fontSize: 12 }} />
@@ -287,15 +307,10 @@ function Dashboard() {
                                         <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
                                     </YAxis>
                                     <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
-                                    <Bar dataKey="count" radius={[4, 4, 0, 0]} onMouseLeave={() => setActiveIndex(null)} >
+                                    <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setActiveIndex(null)} >
                                         {sessionDurationInfo.map((entry, index) => (
-                                            <Cell
-                                                key={`cell-${index}`}
-                                                fill={
-                                                    index === activeIndex
-                                                        ? "var(--color-sky-400)"
-                                                        : "var(--color-teal-400)"
-                                                }
+                                            <Cell key={`cell-${index}`}
+                                                fill={index === activeIndex ? "var(--color-sky-400)" : "var(--color-teal-400)"}
                                                 onMouseEnter={() => { setActiveIndex(index); setHoverGap(4); }}
                                                 onMouseLeave={() => { setHoverGap(12) }}
                                             />
@@ -310,10 +325,8 @@ function Dashboard() {
 
                             <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Daily Usage Trend</span>
 
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart
-                                    data={dailyUsageInfo}
-                                >
+                            <ResponsiveContainer>
+                                <LineChart data={dailyUsageInfo} >
                                     <XAxis dataKey="day" tick={{ fontSize: 12 }}>
                                         <Label value='Duration' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
                                     </XAxis>
@@ -327,6 +340,58 @@ function Dashboard() {
                             </ResponsiveContainer>
                         </div>
 
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+
+                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Player Usage Distribution</span>
+
+                            <ResponsiveContainer >
+                                <PieChart>
+                                    <Pie activeShape={renderActiveShape} data={playerUsageInfo} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="percent" nameKey="nickname" >
+                                        {playerUsageInfo.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip formatter={(value) => `${value}%`} contentStyle={{ borderRadius: "12px", border: "none" }} />
+                                    <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: "14px" }} />
+                                </PieChart>
+                            </ResponsiveContainer>
+
+                        </div>
+
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+
+                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Time of Day</span>
+
+                            <ResponsiveContainer>
+
+                                <BarChart data={timeOfDayInfo} barCategoryGap={hoverGap} >
+
+                                    <XAxis dataKey="key" tick={{ fontSize: 12 }}>
+                                        <Label offset={-2} value="Time" position="insideBottom" style={{ fontSize: 12 }} />
+                                    </XAxis>
+                                    <YAxis dataKey="count" tick={{ fontSize: 12 }}>
+                                        <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
+                                    </YAxis>
+
+                                    <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setActiveIndex(null)}>
+                                        {timeOfDayInfo.map((entry, index) => (
+                                            < Cell key={`cell-${index}`}
+                                                fill={index === activeIndex ? 'var(--color-blue-500)' : 'var(--color-indigo-400)'}
+                                                onMouseEnter={() => { setActiveIndex(index); setHoverGap(4); }}
+                                                onMouseLeave={() => { setHoverGap(12) }}
+                                            />
+                                        ))}
+                                    </Bar>
+
+                                    <Tooltip cursor={{ fill: 'var(--color-purple-200' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+
+                                </BarChart>
+
+                            </ResponsiveContainer>
+
+                        </div>
+
+
                     </div>
                 </div>
 
@@ -336,5 +401,46 @@ function Dashboard() {
     );
 
 }
+
+
+const renderActiveShape = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    percent,
+}) => {
+    const RADIAN = Math.PI / 180;
+    const sin = Math.sin(-RADIAN * (midAngle ?? 1));
+    const cos = Math.cos(-RADIAN * (midAngle ?? 1));
+    const sx = (cx ?? 0) + ((outerRadius ?? 0) + 10) * cos;
+    const sy = (cy ?? 0) + ((outerRadius ?? 0) + 10) * sin;
+    const mx = (cx ?? 0) + ((outerRadius ?? 0) + 30) * cos;
+    const my = (cy ?? 0) + ((outerRadius ?? 0) + 30) * sin;
+    const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+    const ey = my;
+    const textAnchor = cos >= 0 ? 'start' : 'end';
+
+    return (
+        <g>
+            <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+                {payload.nickname}
+            </text>
+            <Sector cx={cx} cy={cy} innerRadius={innerRadius} outerRadius={outerRadius} startAngle={startAngle} endAngle={endAngle} fill={fill} />
+            <Sector cx={cx} cy={cy} startAngle={startAngle} endAngle={endAngle} innerRadius={(outerRadius ?? 0) + 6} outerRadius={(outerRadius ?? 0) + 10} fill={fill} />
+            <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
+            <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+            <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="var(--color-emerald-400)" fontSize={18} fontWeight={700} >{`${payload.nickname}`}</text>
+            <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="var(--color-fuchsia-400)" fontSize={12}>
+                {`(Contribution ${(percent ?? 1)}%)`}
+            </text>
+        </g>
+    );
+};
 
 export default Dashboard;
