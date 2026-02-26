@@ -458,6 +458,48 @@ function Dashboard() {
 
                         </div>
 
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+
+                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Average Session Duration</span>
+
+                            <ResponsiveContainer >
+                                <LineChart data={averageSessionInfo}>
+                                    <XAxis dataKey="week" tick={{ fontSize: 12 }}>
+                                        <Label value="Week" offset={-2} fontSize={12} position='insideBottom' />
+                                    </XAxis>
+                                    <YAxis dataKey='duration' tick={{ fontSize: 12 }}>
+                                        <Label value="Duration" angle={-90} offset={15} position='insideLeft' fontSize={12} />
+                                    </YAxis>
+
+                                    <Line type='monotone' dataKey="duration" stroke='var(--color-sky-400)' />
+                                    <Line type='monotone' dataKey="average" stroke='var(--color-pink-400)' />
+                                    <Tooltip cursor={{ fill: 'var(--color-purple-300)' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                </LineChart>
+                            </ResponsiveContainer>
+
+                        </div>
+
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+
+                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Cumulative Usage</span>
+
+                            <ResponsiveContainer>
+                                <AreaChart data={cumulativeUsageInfo} >
+                                    <XAxis dataKey="date" tick={{ fontSize: 12 }} >
+                                        <Label value="Date" offset={-2} fontSize={12} position='insideBottom' />
+                                    </XAxis>
+                                    <YAxis dataKey="duration" tick={{ fontSize: 12 }} >
+                                        <Label value="Duration" angle={-90} offset={20} fontSize={12} position='insideLeft' />
+                                    </YAxis>
+
+                                    <Line type="monotone" dataKey="duration" stroke='var(--color-purple-400)' />
+                                    <Area type="monotone" dataKey="duration" stroke='var(--color-purple-400)' />
+
+                                    <Tooltip cursor={{ fill: 'var(--color-purple-300)' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                </AreaChart>
+                            </ResponsiveContainer>
+
+                        </div>
 
                     </div>
                 </div>
