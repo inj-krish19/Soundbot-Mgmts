@@ -332,7 +332,7 @@ function Dashboard() {
 
                             <ResponsiveContainer>
                                 <LineChart data={dailyUsageInfo} >
-                                    <XAxis dataKey="day" tick={{ fontSize: 12 }}>
+                                    <XAxis dataKey="day" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }} >
                                         <Label value='Duration' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
                                     </XAxis>
                                     <YAxis tick={{ fontSize: 12 }}>
@@ -344,6 +344,36 @@ function Dashboard() {
                                 </LineChart>
                             </ResponsiveContainer>
                         </div>
+
+
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+
+                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Time of Day</span>
+
+                            <ResponsiveContainer>
+                                <BarChart data={timeOfDayInfo} barCategoryGap={timeBarGap} >
+                                    <XAxis dataKey="key" tick={{ fontSize: 12 }}>
+                                        <Label offset={-2} value="Time" position="insideBottom" style={{ fontSize: 12 }} />
+                                    </XAxis>
+                                    <YAxis dataKey="count" tick={{ fontSize: 12 }}>
+                                        <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
+                                    </YAxis>
+
+                                    <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setTimeIndex(null)}>
+                                        {timeOfDayInfo.map((entry, index) => (
+                                            <Cell key={`cell-${index}`}
+                                                fill={index === timeIndex ? 'var(--color-blue-500)' : 'var(--color-indigo-400)'}
+                                                onMouseEnter={() => { setTimeIndex(index); setTimeBarGap(4); }}
+                                                onMouseLeave={() => { setTimeBarGap(12) }}
+                                            />
+                                        ))}
+                                    </Bar>
+                                    <Tooltip cursor={{ fill: 'var(--color-purple-200' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                </BarChart>
+                            </ResponsiveContainer>
+
+                        </div>
+
 
                         <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
@@ -363,54 +393,30 @@ function Dashboard() {
 
                         </div>
 
+
+
                         <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
-                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Time of Day</span>
+                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Cumulative Usage</span>
 
                             <ResponsiveContainer>
-                                <BarChart data={timeOfDayInfo} barCategoryGap={timeBarGap} >
-                                    <XAxis dataKey="key" tick={{ fontSize: 12 }}>
-                                        <Label offset={-2} value="Time" position="insideBottom" style={{ fontSize: 12 }} />
+                                <AreaChart data={cumulativeUsageInfo} >
+                                    <XAxis dataKey="date" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }}  >
+                                        <Label value="Date" offset={-2} fontSize={12} position='insideBottom' />
                                     </XAxis>
-                                    <YAxis dataKey="count" tick={{ fontSize: 12 }}>
-                                        <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
+                                    <YAxis dataKey="duration" tick={{ fontSize: 12 }} >
+                                        <Label value="Duration" angle={-90} offset={20} fontSize={12} position='insideLeft' />
                                     </YAxis>
 
-                                    <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setTimeIndex(null)}>
-                                        {timeOfDayInfo.map((entry, index) => (
-                                            < Cell key={`cell-${index}`}
-                                                fill={index === timeIndex ? 'var(--color-blue-500)' : 'var(--color-indigo-400)'}
-                                                onMouseEnter={() => { setTimeIndex(index); setTimeBarGap(4); }}
-                                                onMouseLeave={() => { setTimeBarGap(12) }}
-                                            />
-                                        ))}
-                                    </Bar>
-                                    <Tooltip cursor={{ fill: 'var(--color-purple-200' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
-                                </BarChart>
+                                    <Line type="monotone" dataKey="duration" stroke='var(--color-purple-400)' />
+                                    <Area type="monotone" dataKey="duration" stroke='var(--color-purple-400)' fill='var(--color-cyan-300)' />
+
+                                    <Tooltip content={CumulativeUsageToolTip} cursor={{ fill: 'var(--color-purple-300)' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                </AreaChart>
                             </ResponsiveContainer>
 
                         </div>
 
-
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
-
-                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Monthly Usage Trend</span>
-
-                            <ResponsiveContainer >
-                                <LineChart data={monthlyUsageInfo}>
-                                    <XAxis dataKey="month" tick={{ fontSize: 12 }}>
-                                        <Label value="Month" offset={-2} fontSize={12} position='insideBottom' />
-                                    </XAxis>
-                                    <YAxis dataKey='duration' tick={{ fontSize: 12 }}>
-                                        <Label value="Duration" angle={-90} offset={15} position='insideLeft' fontSize={12} />
-                                    </YAxis>
-
-                                    <Line type='monotone' dataKey="duration" />
-                                    <Tooltip cursor={{ fill: 'var(--color-purple-300)' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
-                                </LineChart>
-                            </ResponsiveContainer>
-
-                        </div>
 
                         <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
@@ -458,13 +464,14 @@ function Dashboard() {
 
                         </div>
 
+
                         <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Average Session Duration</span>
 
                             <ResponsiveContainer >
                                 <LineChart data={averageSessionInfo}>
-                                    <XAxis dataKey="week" tick={{ fontSize: 12 }}>
+                                    <XAxis dataKey="week" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }}  >
                                         <Label value="Week" offset={-2} fontSize={12} position='insideBottom' />
                                     </XAxis>
                                     <YAxis dataKey='duration' tick={{ fontSize: 12 }}>
@@ -473,33 +480,34 @@ function Dashboard() {
 
                                     <Line type='monotone' dataKey="duration" stroke='var(--color-sky-400)' />
                                     <Line type='monotone' dataKey="average" stroke='var(--color-pink-400)' />
+                                    <Tooltip content={AverageSessionToolTip} cursor={{ fill: 'var(--color-purple-300)' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                </LineChart>
+                            </ResponsiveContainer>
+
+                        </div>
+
+
+
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+
+                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Monthly Usage Trend</span>
+
+                            <ResponsiveContainer >
+                                <LineChart data={monthlyUsageInfo}>
+                                    <XAxis dataKey="month" tick={{ fontSize: 12 }} >
+                                        <Label value="Month" offset={-2} fontSize={12} position='insideBottom' />
+                                    </XAxis>
+                                    <YAxis dataKey='duration' tick={{ fontSize: 12 }}>
+                                        <Label value="Duration" angle={-90} offset={15} position='insideLeft' fontSize={12} />
+                                    </YAxis>
+
+                                    <Line type='monotone' dataKey="duration" stroke='var(--color-orange-300)' />
                                     <Tooltip cursor={{ fill: 'var(--color-purple-300)' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
                                 </LineChart>
                             </ResponsiveContainer>
 
                         </div>
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
-
-                            <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Cumulative Usage</span>
-
-                            <ResponsiveContainer>
-                                <AreaChart data={cumulativeUsageInfo} >
-                                    <XAxis dataKey="date" tick={{ fontSize: 12 }} >
-                                        <Label value="Date" offset={-2} fontSize={12} position='insideBottom' />
-                                    </XAxis>
-                                    <YAxis dataKey="duration" tick={{ fontSize: 12 }} >
-                                        <Label value="Duration" angle={-90} offset={20} fontSize={12} position='insideLeft' />
-                                    </YAxis>
-
-                                    <Line type="monotone" dataKey="duration" stroke='var(--color-purple-400)' />
-                                    <Area type="monotone" dataKey="duration" stroke='var(--color-purple-400)' />
-
-                                    <Tooltip cursor={{ fill: 'var(--color-purple-300)' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
-                                </AreaChart>
-                            </ResponsiveContainer>
-
-                        </div>
 
                     </div>
                 </div>
@@ -507,6 +515,32 @@ function Dashboard() {
 
             </main>
         </>
+    );
+
+}
+
+
+const CumulativeUsageToolTip = ({ active, payload, label }) => {
+
+    return (
+        <div className='px-2 py-1 bg-white rounded-sm '>
+            <p className='text-sm text-violet-600'>Duration : {payload[0]?.payload?.['duration']}</p>
+            <p className='text-sm text-cyan-500'>{payload[0]?.payload?.['date']}</p>
+        </div>
+    );
+
+}
+
+
+const AverageSessionToolTip = ({ active, payload, label }) => {
+
+    return (
+        <div className='px-2 py-1 bg-white rounded-sm '>
+            <p className='text-sm text-blue-600'>Duration : {payload[0]?.payload?.['duration']}</p>
+            <p className='text-sm text-fuchsia-600'>Average : {payload[0]?.payload?.['average']}</p>
+            <p className='text-sm text-teal-400'>{payload[0]?.payload?.['min']}</p>
+            <p className='text-sm text-teal-400'>{payload[0]?.payload?.['max']}</p>
+        </div>
     );
 
 }
