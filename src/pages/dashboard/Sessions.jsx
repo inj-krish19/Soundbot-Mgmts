@@ -17,6 +17,7 @@ import SessionCard from '@/components/session/SessionCard';
 import SessionFilter from '@/components/session/SessionFilter';
 import UpdateSession from '@/components/session/UpdateSession';
 import DeleteSession from '@/components/session/DeleteSession';
+import Notification from '@/components/ui/Notification';
 
 function Sessions() {
 
@@ -148,8 +149,10 @@ function Sessions() {
             {updateVisibility && <UpdateSession session={session} panel={setUpdateVisibility} />}
             {deleteVisibility && <DeleteSession session={session} panel={setDeleteVisibility} />}
 
+
             <main className='flex flex-col gap-8 w-full min-h-screen h-full px-4 md:px-8 py-2'>
 
+                <Notification info={info} />
 
                 <div className="flex flex-row flex-wrap justify-around gap-4 p-4">
                     {Object.entries(summary).map(([index, summary]) => {
@@ -227,12 +230,12 @@ function Sessions() {
 
                     {sessions.map(session => {
                         return (
-                            <div className="w-full lg:w-2/5 flex flex-col sm:flex-row px-4 py-2 gap-8 border border-purple-400/20 rounded-md items-center justify-evenly">
+                            <div className="relative w-full lg:w-2/5 flex flex-col sm:flex-row px-4 py-2 gap-8 border border-purple-400/20 rounded-md items-center justify-evenly">
                                 <div className="flex flex-col gap-2 items-center">
                                     <img src={`/player/` + session.player.type + `.png`} className='size-36' />
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Player : <span className='font-bold font-poppins text-sky-600 dark:text-purple-400'>{session.player.nickname}</span></p>
                                 </div>
-                                <div className="flex flex-col gap-1">
+                                <div className="flex flex-col gap-1 sm:w-2/5">
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Start Date: <span className='font-bold font-poppins'>{session.startDate}</span></p>
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>End Date: <span className='font-bold font-poppins'>{session.endDate}</span></p>
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Start Time: <span className='font-bold font-poppins'>{session.startTime}</span></p>
@@ -240,6 +243,15 @@ function Sessions() {
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Volume: <span className='font-bold font-poppins'>{session.volume * 100}</span></p>
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Duration: <span className='font-bold font-poppins'>{session.duration}</span></p>
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Note: <span className='font-bold font-poppins'>{session.note || "-"}</span></p>
+                                </div>
+
+                                <div className="absolute flex flex-row gap-2 top-3 right-3">
+                                    <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm ' onClick={() => { setUpdateVisibility(true); setSession(session); setChargingVisibility(false); }}>
+                                        <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
+                                    </span>
+                                    <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm ' onClick={() => { setDeleteVisibility(true); setSession(session); setChargingVisibility(false); }}>
+                                        <FaTrashAlt size={16} className='text-rose-400' />
+                                    </span>
                                 </div>
                             </div>
                         )

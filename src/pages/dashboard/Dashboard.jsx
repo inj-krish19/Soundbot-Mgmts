@@ -1,4 +1,6 @@
 import { Link } from 'react-router'
+import { IoGrid } from 'react-icons/io5'
+import { LuPencil } from 'react-icons/lu'
 import React, { useEffect, useState } from 'react'
 
 import { SiSession } from 'react-icons/si'
@@ -11,19 +13,28 @@ import CreatePlayer from '@/components/player/CreatePlayer'
 import CreateSession from '@/components/session/CreateSession'
 import CreateCharging from '@/components/charging/CreateCharging'
 import { getSVGByPlayerType } from '@/components/player/CreatePlayer'
+import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer, PieChart, Pie, Sector, CartesianGrid, AreaChart, Area } from 'recharts'
 
+import useAuth from '@/store/AuthStore';
+import details from '@/store/DetailsStore'
 import { BACKEND_URL } from '@/store/UrlStore'
 import { eclipseNumber } from '@/utils/eclipse-text'
 import { errorHandler, responseHandler } from '@/utils/response-handler'
+import UpdatePlayer from '@/components/player/UpdatePlayer'
+import Notification from '@/components/ui/Notification'
 
-import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer, PieChart, Pie, Sector, CartesianGrid, AreaChart, Area } from 'recharts'
-import { IoGrid } from 'react-icons/io5'
 
 
 function Dashboard() {
 
 
+    const auth = useAuth((state) => state.auth);
+    const nickname = details((state) => state.nickname);
+    const setNickname = details((state) => state.setNickname);
 
+    if (!auth) {
+        window.location.href = '/';
+    }
 
 
 
@@ -87,7 +98,26 @@ function Dashboard() {
     const [totalUsageBarGap, setTotalUsageBarGap] = useState(4);
     const [totalUsageIndex, setTotalUsageIndex] = useState(null);
 
+    const [player, setPlayer] = useState(null);
+    const [updateVisibility, setUpdateVisibility] = useState(false);
     const [view, setView] = useState(localStorage.getItem("preference") || 'grid');
+
+
+
+    const getMe = async () => {
+
+        let res = await fetch(`${BACKEND_URL}/user/me`, {
+            method: 'POST',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        let response = await res.json();
+        setNickname(response?.['data']?.['nickname']);
+
+    }
 
 
     const getPlayers = async () => {
@@ -170,6 +200,7 @@ function Dashboard() {
                 setSummary(summary);
             }
             main();
+            getMe();
 
         } catch (err) {
             errorHandler(err, setInfo);
@@ -181,14 +212,9 @@ function Dashboard() {
 
     }, [])
 
-    const nickname = 'nick';
-    const player = "headphone";
 
     const COLORS = ['var(--color-sky-300)', 'var(--color-teal-400)', 'var(--color-purple-400)', 'var(--color-rose-400)', 'var(--color-emerald-400)', 'var(--color-indigo-400)', 'var(--color-orange-400)',]
 
-    useEffect(() => {
-        console.log(dailyUsageInfo, sessionDurationInfo, playerUsageInfo)
-    }, [dailyUsageInfo, sessionDurationInfo, playerUsageInfo]);
 
 
     return (
@@ -197,6 +223,9 @@ function Dashboard() {
                 {playerPanel && <CreatePlayer panel={setPlayerPanel} />}
                 {sessionPanel && <CreateSession panel={setSessionPanel} />}
                 {chargingPanel && <CreateCharging panel={setChargingPanel} />}
+
+                {updateVisibility && <UpdatePlayer player={player} panel={setUpdateVisibility} />}
+                <Notification info={info} />
 
                 <div className="flex flex-col gap-8">
 
@@ -232,11 +261,17 @@ function Dashboard() {
                         <div className="flex flex-row flex-wrap gap-2 p-2 justify-around items-center">
                             {players.map(streamingPlayer => {
                                 return (
-                                    <div className="flex flex-col gap-1 border border-emerald-400 outline outline-emerald-400 hover:outline-2 rounded-md px-3 py-1 size-48 items-center bg-stone-200 dark:bg-stone-800" key={streamingPlayer._id}>
+                                    <div className="relative flex flex-col gap-1 border border-emerald-400 outline outline-emerald-400 hover:outline-2 rounded-md px-3 py-1 size-48 items-center bg-stone-200 dark:bg-stone-800" key={streamingPlayer._id}>
                                         <img src={`/player/${streamingPlayer.type}.png`} className='size-36 ' />
                                         <div className="flex flex-col gap-1 items-center">
                                             <span className='text-violet-400 text-md font-poppins font-bold'>{streamingPlayer.nickname}</span>
                                             {/* <span className='text-emerald-400 text-xs uppercase font-bold '>{streamingPlayer.type}</span> */}
+                                        </div>
+
+                                        <div className="absolute flex flex-col gap-2 top-2 right-2">
+                                            <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { setUpdateVisibility(true); setPlayer(streamingPlayer) }}>
+                                                <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
+                                            </span>
                                         </div>
                                     </div>
                                 )

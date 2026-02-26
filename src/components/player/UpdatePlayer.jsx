@@ -1,29 +1,14 @@
 import { useState } from "react";
 import { ImCross } from "react-icons/im";
-import { GiEarbuds } from "react-icons/gi";
-import { BsEarbuds } from "react-icons/bs";
-import { FaHeadphones } from "react-icons/fa6";
+import { getSVGByPlayerType } from "./CreatePlayer";
 
 import { BACKEND_URL } from '@/store/UrlStore';
 import Notification from '@/components/ui/Notification';
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
-const getSVGByPlayerType = (type, className) => {
 
-    type = type.toLowerCase()
-    let component;
-    if (type === "earphone") {
-        component = <GiEarbuds size={24} className={!className ? 'text-slate-800 dark:text-slate-200' : className} />
-    } else if (type === "earbud") {
-        component = <BsEarbuds size={24} className={!className ? 'text-slate-800 dark:text-slate-200' : className} />
-    } else {
-        component = <FaHeadphones size={24} className={!className ? 'text-slate-800 dark:text-slate-200' : className} />
-    }
-    return component;
-}
-
-function CreatePlayer({ panel }) {
+function UpdatePlayer({ player, panel }) {
 
     const players = ['earbud', 'earphone', 'headphone'];
     const [info, setInfo] = useState({
@@ -31,14 +16,14 @@ function CreatePlayer({ panel }) {
         type: ''
     });
 
-    const [name, setName] = useState('');
-    const [nickname, setNickname] = useState('');
+    const [name, setName] = useState(player?.name);
+    const [nickname, setNickname] = useState(player?.nickname);
 
-    const [company, setCompany] = useState('');
-    const [type, setType] = useState(players[0]);
+    const [company, setCompany] = useState(player?.company);
+    const [type, setType] = useState(player?.type);
 
-    const [wireless, setWireless] = useState(true);
-    const [RGB, setRGB] = useState(false);
+    const [wireless, setWireless] = useState(Boolean(player?.wireless));
+    const [RGB, setRGB] = useState(Boolean(player?.rgb));
 
 
     const submitPlayer = async (e) => {
@@ -46,8 +31,8 @@ function CreatePlayer({ panel }) {
         try {
 
             e.preventDefault();
-            let res = await fetch(`${BACKEND_URL}/player/`, {
-                method: 'POST',
+            let res = await fetch(`${BACKEND_URL}/player/${player._id}`, {
+                method: 'PUT',
                 headers: {
                     "content-type": "application/json"
                 },
@@ -76,7 +61,7 @@ function CreatePlayer({ panel }) {
         <>
             <div className="fixed top-1/2 left-1/2 -translate-1/2  flex flex-col gap-8 w-3/4 md:w-1/3 h-auto bg-stone-300 dark:bg-stone-700 p-4 rounded-md z-100">
 
-                <span className="text-sky-400 font-bold font-poppis text-lg">Create Player</span>
+                <span className="text-sky-400 font-bold font-poppis text-lg">Update Player</span>
 
                 <ImCross className="absolute top-3 right-3 text-rose-400" onClick={() => panel(false)} />
                 <Notification info={info} />
@@ -146,4 +131,4 @@ function CreatePlayer({ panel }) {
 }
 
 export { getSVGByPlayerType };
-export default CreatePlayer;
+export default UpdatePlayer;
