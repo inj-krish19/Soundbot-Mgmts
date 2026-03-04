@@ -10,9 +10,11 @@ function Error({ title, message, advice_note }) {
         }, 300);
     }
 
-    setTimeout(() => {
-        window.location.href = '/'
-    }, 4000);
+    if (import.meta.env.PROD) {
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 4000);
+    }
 
     return (
         <>

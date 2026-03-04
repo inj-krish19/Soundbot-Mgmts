@@ -22,6 +22,8 @@ import { eclipseNumber } from '@/utils/eclipse-text'
 import { errorHandler, responseHandler } from '@/utils/response-handler'
 import UpdatePlayer from '@/components/player/UpdatePlayer'
 import Notification from '@/components/ui/Notification'
+import { FaTrashAlt } from 'react-icons/fa'
+import DeletePlayer from '@/components/player/DeletePlayer'
 
 
 
@@ -99,8 +101,10 @@ function Dashboard() {
     const [totalUsageIndex, setTotalUsageIndex] = useState(null);
 
     const [player, setPlayer] = useState(null);
-    const [updateVisibility, setUpdateVisibility] = useState(false);
     const [view, setView] = useState(localStorage.getItem("preference") || 'grid');
+
+    const [updateVisibility, setUpdateVisibility] = useState(false);
+    const [deleteVisibility, setDeleteVisibility] = useState(false);
 
 
 
@@ -225,6 +229,7 @@ function Dashboard() {
                 {chargingPanel && <CreateCharging panel={setChargingPanel} />}
 
                 {updateVisibility && <UpdatePlayer player={player} panel={setUpdateVisibility} />}
+                {deleteVisibility && <DeletePlayer player={player} panel={setDeleteVisibility} />}
                 <Notification info={info} />
 
                 <div className="flex flex-col gap-8">
@@ -272,6 +277,9 @@ function Dashboard() {
                                             <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { setUpdateVisibility(true); setPlayer(streamingPlayer) }}>
                                                 <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
                                             </span>
+                                            <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { setDeleteVisibility(true); setPlayer(streamingPlayer) }}>
+                                                <FaTrashAlt size={16} className='text-rose-400' />
+                                            </span>
                                         </div>
                                     </div>
                                 )
@@ -288,7 +296,7 @@ function Dashboard() {
                                     <>
                                         <Link to={action.link} className='text-slate-700 dark:text-slate-300 text-sm flex flex-row gap-2 hover:text-slate-800 hover:dark:text-slate-200 items-center' key={action.title} >
                                             {action.title}
-                                            <GoArrowUpRight className='text-slate-800 dark:text-slate-200' />
+                                            <GoArrowUpRight className='text-slate-800 dark:text-slate' />
                                         </Link>
                                     </>
                                 );

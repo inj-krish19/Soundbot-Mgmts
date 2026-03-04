@@ -1,8 +1,21 @@
-import { INTERNAL_SERVER_ERROR_MESSAGE, SOMETHING_WENT_WRONG } from "@/store/constants";
+import { INTERNAL_SERVER_ERROR_MESSAGE, SOMETHING_WENT_WRONG, UNAUTHORIZED_ACCESS } from "@/store/constants";
+import { FRONTEND_URL } from "@/store/UrlStore";
 
 async function responseHandler(res, setInfo) {
 
     let response = await res.json();
+
+    if (UNAUTHORIZED_ACCESS.indexOf(response?.message) !== -1) {
+
+        setTimeout(() => {
+            window.location.href = FRONTEND_URL + '/verification';
+        }, 2000);
+
+        setInfo({
+            message: response.message,
+            type: 'warning'
+        });
+    }
 
     if (res.status === 200 || res.status === 201) {
         setInfo({
