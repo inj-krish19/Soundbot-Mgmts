@@ -20,7 +20,7 @@ function NavbarMobile() {
         { title: 'Dashboard', route: 'dashboard', component: <TbLayoutDashboardFilled /> },
         { title: 'Sessions', route: 'sessions', component: <SiSession /> },
         { title: 'Charging', route: 'charging', component: <TbRecharging /> },
-        { title: 'SignOut', route: 'signout', component: <VscSignOut /> },
+        { title: 'Sign Out', route: 'signout', component: <VscSignOut /> },
     ] : [
         { title: 'About', route: 'about', component: <GoPerson /> },
         { title: 'Contact', route: 'contact', component: <IoCall /> },

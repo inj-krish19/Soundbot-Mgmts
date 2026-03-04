@@ -19,12 +19,7 @@ function DeleteCharging({ charging, panel }) {
             credentials: "include"
         });
 
-        let response = await res.json();
-        setInfo({
-            type: 'success',
-            message: response.message,
-        });
-
+        responseHandler(res, setInfo);
         setTimeout(() => {
             panel(false);
         }, 1000);
@@ -33,13 +28,13 @@ function DeleteCharging({ charging, panel }) {
 
     return (
         <>
-            <div className="fixed top-1/2 left-1/2 -translate-1/2 flex flex-col w-3/4 md:w-1/3 h-auto gap-4 justify-around items-center px-4 md:px-8 py-4 h-auto bg-stone-300 dark:bg-stone-700 rounded-md z-50">
+            <div className="fixed top-1/2 left-1/2 -translate-1/2 flex flex-col w-3/4 md:w-1/3 h-auto gap-4 justify-around items-center px-4 md:px-8 py-4 bg-stone-300 dark:bg-stone-700 rounded-md z-50">
 
                 {info && <Notification info={info} />}
 
                 <div className="flex flex-col gap-2 items-center">
-                    <span className="text-rose-400 text-ms font-bold font-poppins" >Are you sure ? Delete Session</span>
-                    <span className="text-slate-700 dark:text-slate-300 text-sm text-center">Tapping below will confirm and delete the charging from tracking and AI insights.</span>
+                    <span className="text-rose-400 text-md font-bold font-poppins" >Are you sure ? Delete Session</span>
+                    <span className="text-slate-700 dark:text-slate-300 text-sm text-center">Tapping below will confirm and delete the charging and included sessions from tracking and AI insights.</span>
                 </div>
 
                 <div className="flex flex-row justify-center items-center w-4/5 gap-4">
