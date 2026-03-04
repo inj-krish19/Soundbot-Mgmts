@@ -60,7 +60,7 @@ function App() {
         });
 
         let res = await response.json();
-        setAuth(res['authenticated']);
+        setAuth(Boolean(res['authenticated']));
 
       } catch (err) {
       } finally {
