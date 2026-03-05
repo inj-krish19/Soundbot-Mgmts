@@ -12,7 +12,8 @@ function Error({ title, message, advice_note }) {
 
     if (import.meta.env.PROD) {
         setTimeout(() => {
-            window.location.href = '/'
+            // window.location.href = '/'
+            console.log("Some error occurred");
         }, 4000);
     }
 

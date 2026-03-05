@@ -8,7 +8,8 @@ async function responseHandler(res, setInfo) {
     if (UNAUTHORIZED_ACCESS.indexOf(response?.message) !== -1) {
 
         setTimeout(() => {
-            window.location.href = FRONTEND_URL + '/verification';
+            // window.location.href = FRONTEND_URL + '/verification';
+            console.log("Auth failed somewhere", response?.message);
         }, 2000);
 
         setInfo({
