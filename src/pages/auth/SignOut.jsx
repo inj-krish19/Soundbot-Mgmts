@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import useAuth from '@/store/AuthStore';
 import Notification from '@/components/ui/Notification';
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 
 function SignOut() {
 
+    const setAuth = useAuth((state) => state.setAuth);
 
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
     const [info, setInfo] = useState({
@@ -24,6 +26,7 @@ function SignOut() {
                 credentials: 'include'
             });
 
+            setAuth(false);
             responseHandler(res.clone(), setInfo);
             if (res.ok) {
                 setTimeout(() => {

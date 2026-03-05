@@ -14,10 +14,14 @@ const About = lazy(() => import('@/pages/main/About'));
 const Contact = lazy(() => import('@/pages/main/Contact'));
 
 
+const Setting = lazy(() => import('@/pages/dashboard/Setting'));
 const Charging = lazy(() => import('@/pages/dashboard/Charging'));
 const Sessions = lazy(() => import('@/pages/dashboard/Sessions'));
 const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'));
 
+
+const Predict = lazy(() => import('@/pages/info/Predict'));
+const Recommend = lazy(() => import('@/pages/info/Recommend'));
 
 
 const SignUp = lazy(() => import('@/pages/auth/SignUp'));
@@ -36,6 +40,14 @@ const Warning = lazy(() => import('@/pages/system/Warning'));
 const Success = lazy(() => import('@/pages/system/Success'));
 
 
+const Disclaimer = lazy(() => import('@/pages/legal/Disclaimer'));
+const Suggestions = lazy(() => import('@/pages/legal/Suggestions'));
+const UpdateNChanges = lazy(() => import('@/pages/legal/UpdateNChanges'));
+const TermsConditions = lazy(() => import('@/pages/legal/TermsConditions'));
+
+const RefundPolicy = lazy(() => import('@/pages/legal/RefundPolicy'));
+const CookiePolicy = lazy(() => import('@/pages/legal/CookiePolicy'));
+const PrivacyPolicy = lazy(() => import('@/pages/legal/PrivacyPolicy'));
 
 
 
@@ -91,9 +103,14 @@ function App() {
                 <Route path='/contact' element={<Contact />} />
 
 
+                <Route path='/setting' element={<Setting />} />
                 <Route path='/dashboard' element={<Dashboard />} />
                 <Route path='/charging' element={<Charging />} />
                 <Route path='/sessions' element={<Sessions />} />
+
+
+                <Route path='/predict' element={<Predict />} />
+                <Route path='/recommend' element={<Recommend />} />
 
 
                 <Route path='/signout' element={<SignOut />} />
@@ -112,6 +129,15 @@ function App() {
                 <Route path='/loading' element={<Loading />} />
                 <Route path='/success' element={<Success />} />
 
+
+                <Route path='/disclaimer' element={<Disclaimer />} />
+                <Route path='/suggestions' element={<Suggestions />} />
+                <Route path='/refund-policy' element={<RefundPolicy />} />
+                <Route path='/cookie-policy' element={<CookiePolicy />} />
+
+                <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+                <Route path='/terms-conditions' element={<TermsConditions />} />
+                <Route path='/update-and-changes' element={<UpdateNChanges />} />
 
               </Route>
 
