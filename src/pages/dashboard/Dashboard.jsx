@@ -171,6 +171,21 @@ function Dashboard() {
 
 
         } catch (err) {
+            setDailyUsageInfo([])
+            setSessionDurationInfo([])
+
+
+            setPlayerUsageInfo([])
+            setTimeOfDayInfo([])
+
+
+            setMonthlyUsageInfo([])
+            setSessionTotalUsageInfo([])
+
+
+            setAverageSessionInfo([])
+            setCumulativeUsageInfo([])
+
             errorHandler(err, setInfo);
         }
 
@@ -341,7 +356,7 @@ function Dashboard() {
 
                     <div className="grid grid-cols-2 gap-4 justify-center items-center">
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+                        {sessionDurationInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
                             <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Session Duration Distribution</span>
 
@@ -366,10 +381,10 @@ function Dashboard() {
                                     <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
                                 </BarChart>
                             </ResponsiveContainer>
-                        </div>
+                        </div>}
 
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+                        {dailyUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
                             <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Daily Usage Trend</span>
 
@@ -386,10 +401,10 @@ function Dashboard() {
                                     <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
                                 </LineChart>
                             </ResponsiveContainer>
-                        </div>
+                        </div>}
 
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {timeOfDayInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Time of Day</span>
 
@@ -415,10 +430,10 @@ function Dashboard() {
                                 </BarChart>
                             </ResponsiveContainer>
 
-                        </div>
+                        </div>}
 
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {playerUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Player Usage Distribution</span>
 
@@ -434,11 +449,11 @@ function Dashboard() {
                                 </PieChart>
                             </ResponsiveContainer>
 
-                        </div>
+                        </div>}
 
 
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {cumulativeUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Cumulative Usage</span>
 
@@ -458,10 +473,10 @@ function Dashboard() {
                                 </AreaChart>
                             </ResponsiveContainer>
 
-                        </div>
+                        </div>}
 
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {sessionTotalUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Session vs Total Usage</span>
 
@@ -505,10 +520,10 @@ function Dashboard() {
                                 </BarChart>
                             </ResponsiveContainer>
 
-                        </div>
+                        </div>}
 
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {averageSessionInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Average Session Duration</span>
 
@@ -527,11 +542,11 @@ function Dashboard() {
                                 </LineChart>
                             </ResponsiveContainer>
 
-                        </div>
+                        </div>}
 
 
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {monthlyUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Monthly Usage Trend</span>
 
@@ -549,7 +564,7 @@ function Dashboard() {
                                 </LineChart>
                             </ResponsiveContainer>
 
-                        </div>
+                        </div>}
 
 
                     </div>

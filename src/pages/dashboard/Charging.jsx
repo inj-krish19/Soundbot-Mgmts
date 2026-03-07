@@ -197,6 +197,10 @@ function Charging() {
 
                 {loading && <Loading />}
 
+                {(!chargings || chargings.length === 0) &&
+                    <span className='text-sky-300 text-ms text-center font-poppins'>Charging not found. Please add usage data.</span>}
+
+
                 {!loading && <table className='hidden lg:block'>
                     <tbody className='flex flex-col gap-4'>
                         <tr className='flex flex-row w-full items-center border-b-2 border-slate-700 pb-4'>
@@ -231,6 +235,8 @@ function Charging() {
                         })}
                     </tbody>
                 </table>}
+
+
 
                 {!loading && <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
                     {chargings.map(charging => {

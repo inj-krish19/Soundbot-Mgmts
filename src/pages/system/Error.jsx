@@ -3,9 +3,6 @@ import { ImCross } from "react-icons/im";
 
 function Error({ title, message, advice_note }) {
 
-    console.log(import.meta.env.MODE);
-    console.log(import.meta.env.PROD);
-
     let query = window.location.search;
     if (query === "?warning") {
         setTimeout(() => {
@@ -15,8 +12,7 @@ function Error({ title, message, advice_note }) {
 
     if (import.meta.env.PROD) {
         setTimeout(() => {
-            // window.location.href = '/'
-            console.log("Some error occurred");
+            window.location.href = '/'
         }, 4000);
     }
 
