@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { FiInfo } from 'react-icons/fi'
 import { HiRefresh } from 'react-icons/hi';
@@ -18,6 +18,9 @@ import ChargingFilter from '@/components/charging/ChargingFilter';
 import UpdateCharging from '@/components/charging/UpdateCharging';
 import DeleteCharging from '@/components/charging/DeleteCharging';
 import Notification from '@/components/ui/Notification';
+import CreateCharging from '@/components/charging/CreateCharging';
+import { FaPlus } from 'react-icons/fa6';
+import { GoArrowUpRight } from 'react-icons/go';
 
 function Charging() {
 
@@ -51,6 +54,10 @@ function Charging() {
     });
 
 
+    const loaderRef = useRef(null);
+    const [page, setPage] = useState(-1);
+
+    const [createVisibility, setCreateVisibility] = useState(false);
     const [updateVisibility, setUpdateVisibility] = useState(false);
     const [deleteVisibility, setDeleteVisibility] = useState(false);
 
@@ -92,14 +99,23 @@ function Charging() {
 
     const main = async () => {
 
-        setLoading(true);
         let res = await fetch(`${BACKEND_URL}/charging/paging/latest`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 "content-type": "application/json"
             },
+            body: JSON.stringify({
+                page
+            }),
             credentials: 'include'
         });
+
+        if (res.status === 403) {
+            // window.scrollTo({ top: 0, behavior: 'smooth' });
+            loaderRef.current = false;
+            return;
+        }
+
 
         responseHandler(res.clone(), setInfo);
         let response = await res.json();
@@ -111,10 +127,15 @@ function Charging() {
             resp['lastSessionDate'] = cleanDate(resp['lastSessionDate']);
         }
 
-        setChargings(response.data);
-        setTimeout(() => { setLoading(false) }, 2000);
+        setChargings([...chargings, ...response.data]);
 
     }
+
+
+    useEffect(() => {
+        (async () => { main(); })();
+        console.log("Page", page)
+    }, [page]);
 
 
     useEffect(() => {
@@ -122,6 +143,19 @@ function Charging() {
         try {
 
             setLoading(true);
+            if (!loaderRef.current) return;
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0].isIntersecting) {
+                        setPage(prev => prev + 1);
+                    }
+                },
+                { threshold: 1 }
+            );
+
+            if (loaderRef.current) observer.observe(loaderRef.current);
+
             const getSummary = async () => {
 
                 let res = await fetch(`${BACKEND_URL}/dashboard/charging`, {
@@ -144,10 +178,11 @@ function Charging() {
                 setSummary(summary);
 
             }
-            getSummary();
 
-            main();
+            getSummary();
             setTimeout(() => { setLoading(false) }, 2000);
+
+            return () => observer.disconnect();
 
         } catch (err) {
             errorHandler(err, setInfo);
@@ -160,6 +195,7 @@ function Charging() {
             {chargingVisibility && !filterVisibility && charging && <ChargingCard charging={charging} />}
             {filterVisibility && <ChargingFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setChargings} />}
 
+            {createVisibility && <CreateCharging charging={charging} panel={setCreateVisibility} />}
             {updateVisibility && <UpdateCharging charging={charging} panel={setUpdateVisibility} />}
             {deleteVisibility && <DeleteCharging charging={charging} panel={setDeleteVisibility} />}
 
@@ -192,13 +228,9 @@ function Charging() {
                     <HiRefresh size={24} className='text-emerald-300 transition ease-in hover:-rotate-90 hover:scale-110 hover:cursor-pointer active:-rotate-270' onClick={() => { main(); }} />
                     <IoIosFunnel size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setFilterVisibility(true); }} />
                     <LuArrowUpDown size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setChargings(chargings.toReversed()) }} />
+                    <FaPlus size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setCreateVisibility(true) }} />
 
                 </div>
-
-                {loading && <Loading />}
-
-                {(!chargings || chargings.length === 0) &&
-                    <span className='text-sky-300 text-ms text-center font-poppins'>Charging not found. Please add usage data.</span>}
 
 
                 {!loading && <table className='hidden lg:block'>
@@ -224,6 +256,9 @@ function Charging() {
                                     <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingEndTime}</td>
                                     <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{charging.player.nickname}</td>
                                     <td className='w-3/16 text-slate-700 dark:text-slate-300 text-sm text-left'>{eclipseText(charging.note, 40) || "-"}</td>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { }}>
+                                        <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
+                                    </td>
                                     <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setCharging(charging); setChargingVisibility(false); }}>
                                         <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
                                     </td>
@@ -235,7 +270,6 @@ function Charging() {
                         })}
                     </tbody>
                 </table>}
-
 
 
                 {!loading && <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
@@ -269,6 +303,19 @@ function Charging() {
                         )
                     })}
                 </div>}
+
+
+                {!loading && (!chargings || chargings.length === 0) &&
+                    <span className='text-sky-300 text-ms text-center font-poppins'>Charging not found. Please add usage data.</span>}
+
+
+                {loading && <Loading />}
+
+                <div ref={loaderRef} className='h-16'>
+                    {!loading && <Loading />}
+                </div>
+
+
 
             </main>
         </>

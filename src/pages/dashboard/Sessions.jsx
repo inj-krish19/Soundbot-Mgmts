@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { HiRefresh } from 'react-icons/hi'
 import { IoIosFunnel } from 'react-icons/io'
-import { FaPuzzlePiece } from 'react-icons/fa6'
+import { FaPlus, FaPuzzlePiece } from 'react-icons/fa6'
 import { GiCalendarHalfYear } from 'react-icons/gi'
 import { FaListUl, FaTrashAlt } from 'react-icons/fa'
 import { LuAudioLines, LuArrowDownUp, LuPencil } from 'react-icons/lu'
@@ -18,6 +18,8 @@ import SessionFilter from '@/components/session/SessionFilter';
 import UpdateSession from '@/components/session/UpdateSession';
 import DeleteSession from '@/components/session/DeleteSession';
 import Notification from '@/components/ui/Notification';
+import CreateSession from '@/components/session/CreateSession';
+import { GoArrowUpRight } from 'react-icons/go';
 
 function Sessions() {
 
@@ -50,6 +52,10 @@ function Sessions() {
     });
 
 
+    const loaderRef = useRef(null);
+    const [page, setPage] = useState(-1);
+
+    const [createVisibility, setCreateVisibility] = useState(false);
     const [updateVisibility, setUpdateVisibility] = useState(false);
     const [deleteVisibility, setDeleteVisibility] = useState(false);
 
@@ -82,14 +88,22 @@ function Sessions() {
 
     const main = async () => {
 
-        setLoading(true);
         let res = await fetch(`${BACKEND_URL}/session/paging/latest`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 "content-type": "application/json"
             },
+            body: JSON.stringify({
+                page
+            }),
             credentials: 'include',
         });
+
+        if (res.status === 403) {
+            // window.scrollTo({ top: 0, behavior: 'smooth' });
+            loaderRef.current = false;
+            return;
+        }
 
         responseHandler(res.clone(), setInfo)
         let response = await res.json();
@@ -99,10 +113,15 @@ function Sessions() {
             resp['endDate'] = cleanDate(resp['endDate']);
         }
 
-        setSessions(response.data);
-        setTimeout(() => { setLoading(false) }, 2000);
+        setSessions([...sessions, ...response.data]);
 
     }
+
+
+    useEffect(() => {
+        (async () => { main(); })();
+        console.log("Page", page);
+    }, [page]);
 
 
     useEffect(() => {
@@ -110,6 +129,19 @@ function Sessions() {
         try {
 
             setLoading(true);
+            if (!loaderRef.current) return;
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0].isIntersecting) {
+                        setPage(prev => prev + 1);
+                    }
+                },
+                { threshold: 1 }
+            );
+
+            if (loaderRef.current) observer.observe(loaderRef.current);
+
             const getSummary = async () => {
                 let res = await fetch(`${BACKEND_URL}/dashboard/sessions`, {
                     method: 'GET',
@@ -132,8 +164,8 @@ function Sessions() {
             }
             getSummary();
 
-            main();
             setTimeout(() => { setLoading(false) }, 2000);
+            return () => observer.disconnect();
 
         } catch (err) {
             errorHandler(err, setInfo);
@@ -146,6 +178,7 @@ function Sessions() {
             {sessionVisibility && !filterVisibility && !updateVisibility && session && <SessionCard session={session} />}
             {filterVisibility && !updateVisibility && <SessionFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setSessions} />}
 
+            {createVisibility && <CreateSession session={session} panel={setCreateVisibility} />}
             {updateVisibility && <UpdateSession session={session} panel={setUpdateVisibility} />}
             {deleteVisibility && <DeleteSession session={session} panel={setDeleteVisibility} />}
 
@@ -178,13 +211,9 @@ function Sessions() {
                     <HiRefresh size={24} className='text-sky-300 transition ease-in hover:-rotate-90 hover:scale-110 hover:cursor-pointer active:-rotate-270' onClick={() => { main(); }} />
                     <IoIosFunnel size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setFilterVisibility(true); }} />
                     <LuArrowDownUp size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setSessions(sessions.toReversed()) }} />
+                    <FaPlus size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setCreateVisibility(true); }} />
 
                 </div>
-
-                {loading && <Loading />}
-
-                {(!sessions || sessions.length === 0) &&
-                    <span className='text-sky-300 text-ms text-center font-poppins'>Session not found. Please add usage data.</span>}
 
 
                 {!loading && <table className='hidden lg:block'>
@@ -194,7 +223,7 @@ function Sessions() {
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>End Date</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Start Time</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>End Time</th>
-                            <th className='w-1/16 text-slate-800 dark:text-slate-200 text-md'>Volume</th>
+                            <th className='w-1/32 text-slate-800 dark:text-slate-200 text-md'>Volume</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Player</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md text-left'>Note</th>
                         </tr>
@@ -207,9 +236,13 @@ function Sessions() {
                                         <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
                                         <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
                                         <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endTime}</td>
-                                        <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume * 100}</td>
+                                        <td className='w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume * 100}</td>
                                         <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
                                         <td className='w-1/4 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 50) || "-"}</td>
+
+                                        <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { }}>
+                                            <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
+                                        </td>
                                         <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibilility(false); }}>
                                             <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
                                         </td>
@@ -222,7 +255,6 @@ function Sessions() {
                         })}
                     </tbody>
                 </table>}
-
 
 
                 {!loading && <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
@@ -256,6 +288,20 @@ function Sessions() {
                         )
                     })}
                 </div>}
+
+
+
+                {!loading && (!sessions || sessions.length === 0) &&
+                    <span className='text-sky-300 text-ms text-center font-poppins'>Session not found. Please add usage data.</span>}
+
+
+                {loading && <Loading />}
+
+                <div ref={loaderRef} className='h-16'>
+                    {!loading && <Loading />}
+                </div>
+
+
 
             </main >
         </>
