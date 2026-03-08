@@ -35,6 +35,9 @@ const ChangePassword = lazy(() => import('@/pages/auth/ChangePassword'));
 
 
 import Loading from '@/pages/system/Loading'
+import NotFound from '@/pages/system/NotFound';
+
+
 const Error = lazy(() => import('@/pages/system/Error'));
 const Warning = lazy(() => import('@/pages/system/Warning'));
 const Success = lazy(() => import('@/pages/system/Success'));
@@ -97,7 +100,9 @@ function App() {
 
               <Route element={<Layout />}>
 
+                <Route path='*' element={<NotFound />} />
                 <Route path='/' element={<Home />} />
+
                 <Route path='/home' element={<Home />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/contact' element={<Contact />} />
