@@ -1,16 +1,13 @@
-import useAuth from "@/store/AuthStore";
 import { INTERNAL_SERVER_ERROR_MESSAGE, SOMETHING_WENT_WRONG, UNAUTHORIZED_ACCESS } from "@/store/constants";
 import { FRONTEND_URL } from "@/store/UrlStore";
 
 async function responseHandler(res, setInfo) {
 
     let response = await res.json();
-    const setAuth = useAuth((state) => state.setAuth);
 
     if (UNAUTHORIZED_ACCESS.indexOf(response?.message) !== -1) {
 
         setTimeout(() => {
-            setAuth(false);
             window.location.href = FRONTEND_URL + '/verification';
             console.log("Auth failed somewhere", response?.message);
         }, 2000);
