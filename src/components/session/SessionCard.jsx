@@ -17,7 +17,7 @@ function SessionCard({ session }) {
                     <p className="text-slate-700 dark:text-slate-300 text-sm">End Date:  <span className="font-bold font-poppins">{session.endDate}</span> </p>
                     <p className="text-slate-700 dark:text-slate-300 text-sm">Start Time:  <span className="font-bold font-poppins">{session.startTime}</span> </p>
                     <p className="text-slate-700 dark:text-slate-300 text-sm">End Time:  <span className="font-bold font-poppins">{session.endTime}</span> </p>
-                    <p className="text-slate-700 dark:text-slate-300 text-sm">Volume:  <span className="font-bold font-poppins">{session.volume * 100}</span> </p>
+                    <p className="text-slate-700 dark:text-slate-300 text-sm">Volume:  <span className="font-bold font-poppins">{session.volume}</span> </p>
                     <p className="text-slate-700 dark:text-slate-300 text-sm">Duration:  <span className="font-bold font-poppins">{session.duration} minutes</span> </p>
                     <p className="text-slate-700 dark:text-slate-300 text-sm">Player:  <span className="text-sky-600 dark:text-purple-400 font-bold font-poppins">{session.player.nickname}</span> </p>
                     <p className="text-slate-700 dark:text-slate-300 text-sm">Note:  <span className="font-bold font-poppins">{session.note || "-"}</span> </p>

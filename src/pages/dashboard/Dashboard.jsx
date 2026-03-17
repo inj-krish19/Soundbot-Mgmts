@@ -232,7 +232,7 @@ function Dashboard() {
     }, [])
 
 
-    const COLORS = ['var(--color-sky-300)', 'var(--color-teal-400)', 'var(--color-purple-400)', 'var(--color-rose-400)', 'var(--color-emerald-400)', 'var(--color-indigo-400)', 'var(--color-orange-400)',]
+    const COLORS = ['var(--color-sky-300)', 'var(--color-teal-400)', 'var(--color-purple-400)', 'var(--color-rose-400)', 'var(--color-emerald-400)', 'var(--color-lime-300)', 'var(--color-indigo-400)', 'var(--color-orange-400)',]
 
 
 
@@ -311,7 +311,7 @@ function Dashboard() {
                                     <>
                                         <Link to={action.link} className='text-slate-700 dark:text-slate-300 text-sm flex flex-row gap-2 hover:text-slate-800 hover:dark:text-slate-200 items-center' key={action.title} >
                                             {action.title}
-                                            <GoArrowUpRight className='text-slate-800 dark:text-slate' />
+                                            <GoArrowUpRight className='text-slate-800 dark:text-slate-200' />
                                         </Link>
                                     </>
                                 );
@@ -516,7 +516,7 @@ function Dashboard() {
 
 
                                     <Legend verticalAlign="top" height={36} />
-                                    <Tooltip cursor={{ fill: 'var(--color-purple-200' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                    <Tooltip content={SessionTotalUsageToolTip} cursor={{ fill: 'var(--color-purple-200' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
                                 </BarChart>
                             </ResponsiveContainer>
 
@@ -559,7 +559,7 @@ function Dashboard() {
                                         <Label value="Duration" angle={-90} offset={15} position='insideLeft' fontSize={12} />
                                     </YAxis>
 
-                                    <Line type='monotone' dataKey="duration" stroke='var(--color-orange-300)' />
+                                    <Line type='monotone' dataKey="duration" stroke='var(--color-teal-700)' />
                                     <Tooltip cursor={{ fill: 'var(--color-purple-300)' }} contentStyle={{ borderRadius: "8px", border: "none" }} />
                                 </LineChart>
                             </ResponsiveContainer>
@@ -584,6 +584,21 @@ const CumulativeUsageToolTip = ({ active, payload, label }) => {
         <div className='px-2 py-1 bg-white rounded-sm '>
             <p className='text-sm text-violet-600'>Duration : {payload[0]?.payload?.['duration']}</p>
             <p className='text-sm text-cyan-500'>{payload[0]?.payload?.['date']}</p>
+        </div>
+    );
+
+}
+
+
+const SessionTotalUsageToolTip = ({ active, payload, label }) => {
+
+    return (
+        <div className='px-2 py-1 bg-white rounded-sm '>
+            <p className='text-sm text-emerald-400 text-ms'>Week {payload[0]?.payload?.['week']}</p>
+            <p className='text-sm text-indigo-600'>{payload[0]?.payload?.['min']}</p>
+            <p className='text-sm text-indigo-600'>{payload[0]?.payload?.['max']}</p>
+            <p className='text-sm text-purple-400'>Count : {payload[0]?.payload?.['count']}</p>
+            <p className='text-sm text-purple-400'>Duration : {payload[0]?.payload?.['duration']}</p>
         </div>
     );
 

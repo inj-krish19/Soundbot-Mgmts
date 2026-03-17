@@ -76,6 +76,7 @@ function Sessions() {
 
         let response = await res.json();
         for (let resp of response.data) {
+            resp['volume'] = Math.round(resp['volume'] * 100);
             resp['startDate'] = cleanDate(resp['startDate']);
             resp['endDate'] = cleanDate(resp['endDate']);
         }
@@ -109,6 +110,7 @@ function Sessions() {
         let response = await res.json();
 
         for (let resp of response.data) {
+            resp['volume'] = Math.round(resp['volume'] * 100);
             resp['startDate'] = cleanDate(resp['startDate']);
             resp['endDate'] = cleanDate(resp['endDate']);
         }
@@ -236,7 +238,7 @@ function Sessions() {
                                         <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
                                         <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
                                         <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endTime}</td>
-                                        <td className='w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume * 100}</td>
+                                        <td className='w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume}</td>
                                         <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
                                         <td className='w-1/4 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 50) || "-"}</td>
 
@@ -271,7 +273,7 @@ function Sessions() {
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>End Date: <span className='font-bold font-poppins'>{session.endDate}</span></p>
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Start Time: <span className='font-bold font-poppins'>{session.startTime}</span></p>
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>End Time: <span className='font-bold font-poppins'>{session.endTime}</span></p>
-                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>Volume: <span className='font-bold font-poppins'>{session.volume * 100}</span></p>
+                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>Volume: <span className='font-bold font-poppins'>{session.volume}</span></p>
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Duration: <span className='font-bold font-poppins'>{session.duration}</span></p>
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Note: <span className='font-bold font-poppins'>{session.note || "-"}</span></p>
                                 </div>
