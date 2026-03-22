@@ -57,6 +57,9 @@ function Charging() {
     const loaderRef = useRef(null);
     const [page, setPage] = useState(-1);
 
+    // ascending = true
+    const [sorted, setSorted] = useState(true);
+
     const [createVisibility, setCreateVisibility] = useState(false);
     const [updateVisibility, setUpdateVisibility] = useState(false);
     const [deleteVisibility, setDeleteVisibility] = useState(false);
@@ -127,7 +130,7 @@ function Charging() {
             resp['lastSessionDate'] = cleanDate(resp['lastSessionDate']);
         }
 
-        setChargings([...chargings, ...response.data]);
+        setChargings(sorted ? [...chargings, ...response.data] : [...response.data.toReversed(), ...chargings]);
 
     }
 
@@ -206,7 +209,7 @@ function Charging() {
                 <div className="flex flex-row flex-wrap gap-4 p-4 justify-around ">
                     {Object.entries(summary).map(([index, summary]) => {
                         return (
-                            <div className="flex flex-row gap-2 p-2 justify-around items-center w-60 p-2 border border-slate-200 dark:border-purple-400/20 rounded-sm">
+                            <div className="flex flex-row gap-2 p-2 justify-around items-center w-60 p-2 border border-slate-200 dark:border-purple-400/20 rounded-sm" key={index}>
                                 {summary.component}
                                 <div className="flex flex-col">
                                     <p className='text-cyan-600 text-sm'>{summary.title}</p>
@@ -225,9 +228,9 @@ function Charging() {
                         <button type="submit" className='px-2 py-1 bg-purple-500 text-white font-bold font-poppins rounded-sm hover:cursor-pointer'>Submit</button>
                     </form>
 
-                    <HiRefresh size={24} className='text-emerald-300 transition ease-in hover:-rotate-90 hover:scale-110 hover:cursor-pointer active:-rotate-270' onClick={() => { main(); }} />
+                    <HiRefresh size={24} className='text-emerald-300 transition ease-in hover:-rotate-90 hover:scale-110 hover:cursor-pointer active:-rotate-270' onClick={() => { setLoading(true); main(); setTimeout(() => { setLoading(false); }, 2000) }} />
                     <IoIosFunnel size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setFilterVisibility(true); }} />
-                    <LuArrowUpDown size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setChargings(chargings.toReversed()) }} />
+                    <LuArrowUpDown size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setSorted(!sorted); setChargings(chargings.toReversed()) }} />
                     <FaPlus size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setCreateVisibility(true) }} />
 
                 </div>
@@ -247,7 +250,7 @@ function Charging() {
                         </tr>
                         {chargings.map(charging => {
                             return (
-                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={charging._id} onMouseEnter={(e) => { setChargingVisibility(true); setCharging(charging); }} onMouseLeave={(e) => { setChargingVisibility(false); }}  >
+                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={charging._id} onMouseEnter={(e) => { setChargingVisibility(true); setCharging(charging); }} onMouseLeave={(e) => { setChargingVisibility(false); setCharging(null); }}  >
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.firstSessionDate}</td>
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.lastSessionDate}</td>
                                     <td className='w-3/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingStartDate}</td>
@@ -275,7 +278,7 @@ function Charging() {
                 {!loading && <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
                     {chargings.map(charging => {
                         return (
-                            <div className="relative w-full lg:w-2/5 flex flex-col sm:flex-row px-4 py-2 gap-8 border border-purple-400/20 rounded-md items-center justify-evenly">
+                            <div className="relative w-full lg:w-2/5 flex flex-col sm:flex-row px-4 py-2 gap-8 border border-purple-400/20 rounded-md items-center justify-evenly" key={charging._id}>
                                 <div className="flex flex-col gap-2 items-center">
                                     <img src={`/player/${charging.player.type}.png`} className='size-36 ' />
                                     <p className='text-slaet-700 dark:text-slate-300 text-sm'>Player: <span className='font-bold font-poppins text-sky-600 dark:text-purple-400'>{charging.player.nickname}</span> </p>

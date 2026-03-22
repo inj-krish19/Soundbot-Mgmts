@@ -37,7 +37,7 @@ function Contact() {
 
                     <div className="flex flex-col gap-2">
                         {links.map(link => {
-                            return (<Link to={link.link} className='flex flex-row text-slate-800 dark:text-slate-200 hover:text-emerald-400 font-bold justify-center items-center'>
+                            return (<Link key={link.link} to={link.link} className='flex flex-row text-slate-800 dark:text-slate-200 hover:text-emerald-400 font-bold justify-center items-center'>
                                 {link.component} - {link.link}
                             </Link>);
                         })}

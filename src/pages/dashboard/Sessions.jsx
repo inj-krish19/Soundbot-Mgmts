@@ -55,6 +55,9 @@ function Sessions() {
     const loaderRef = useRef(null);
     const [page, setPage] = useState(-1);
 
+    // ascending - true
+    const [sorted, setSorted] = useState(true);
+
     const [createVisibility, setCreateVisibility] = useState(false);
     const [updateVisibility, setUpdateVisibility] = useState(false);
     const [deleteVisibility, setDeleteVisibility] = useState(false);
@@ -115,7 +118,7 @@ function Sessions() {
             resp['endDate'] = cleanDate(resp['endDate']);
         }
 
-        setSessions([...sessions, ...response.data]);
+        setSessions(sorted ? [...sessions, ...response.data] : [...response.data.toReversed(), ...sessions]);
 
     }
 
@@ -212,7 +215,7 @@ function Sessions() {
 
                     <HiRefresh size={24} className='text-sky-300 transition ease-in hover:-rotate-90 hover:scale-110 hover:cursor-pointer active:-rotate-270' onClick={() => { main(); }} />
                     <IoIosFunnel size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setFilterVisibility(true); }} />
-                    <LuArrowDownUp size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setSessions(sessions.toReversed()) }} />
+                    <LuArrowDownUp size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setSorted(!sorted); setSessions(sessions.toReversed()) }} />
                     <FaPlus size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setCreateVisibility(true); }} />
 
                 </div>
@@ -232,27 +235,25 @@ function Sessions() {
 
                         {sessions.map(session => {
                             return (
-                                <>
-                                    <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={session._id} onMouseEnter={(e) => { setSessionVisibilility(true); setSession(session); }} onMouseLeave={(e) => { setSessionVisibilility(false); }} >
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startDate}</td>
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
-                                        <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endTime}</td>
-                                        <td className='w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume}</td>
-                                        <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
-                                        <td className='w-1/4 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 50) || "-"}</td>
+                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={session._id} onMouseEnter={(e) => { setSessionVisibilility(true); setSession(session); }} onMouseLeave={(e) => { setSessionVisibilility(false); setSession(null); }} >
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startDate}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endTime}</td>
+                                    <td className='w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume}</td>
+                                    <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
+                                    <td className='w-1/4 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 50) || "-"}</td>
 
-                                        <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { }}>
-                                            <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
-                                        </td>
-                                        <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibilility(false); }}>
-                                            <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
-                                        </td>
-                                        <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setSession(session); setSessionVisibilility(false); }}>
-                                            <FaTrashAlt size={16} className='text-rose-400' />
-                                        </td>
-                                    </tr >
-                                </>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { }}>
+                                        <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
+                                    </td>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibilility(false); }}>
+                                        <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
+                                    </td>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setSession(session); setSessionVisibilility(false); }}>
+                                        <FaTrashAlt size={16} className='text-rose-400' />
+                                    </td>
+                                </tr >
                             )
                         })}
                     </tbody>
@@ -263,7 +264,7 @@ function Sessions() {
 
                     {sessions.map(session => {
                         return (
-                            <div className="relative w-full lg:w-2/5 flex flex-col sm:flex-row px-4 py-2 gap-8 border border-purple-400/20 rounded-md items-center justify-evenly">
+                            <div className="relative w-full lg:w-2/5 flex flex-col sm:flex-row px-4 py-2 gap-8 border border-purple-400/20 rounded-md items-center justify-evenly" key={session._id}>
                                 <div className="flex flex-col gap-2 items-center">
                                     <img src={`/player/` + session.player.type + `.png`} className='size-36' />
                                     <p className='text-slate-700 dark:text-slate-300 text-sm'>Player : <span className='font-bold font-poppins text-sky-600 dark:text-purple-400'>{session.player.nickname}</span></p>
