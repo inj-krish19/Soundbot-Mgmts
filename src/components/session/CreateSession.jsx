@@ -111,11 +111,11 @@ function CreateSession({ panel }) {
 
 
                                 {players.length !== 0 && <ListboxOptions className='border-2 border-slate-100 rounded-sm'>
-                                    {players.map(player => {
+                                    {players.map(streamingPlayer => {
                                         return (
-                                            <ListboxOption key={player.id} value={player} className='px-4 py-2 flex items-center gap-2 hover:bg-pink-200 hover:cursor-pointer'>
-                                                {getSVGByPlayerType(player.type, 'text-purple-400')}
-                                                <span className="text-purple-500 ">{player.nickname}</span>
+                                            <ListboxOption key={streamingPlayer._id} value={streamingPlayer} className='px-4 py-2 flex items-center gap-2 hover:bg-pink-200 hover:cursor-pointer'>
+                                                {getSVGByPlayerType(streamingPlayer.type, 'text-purple-400')}
+                                                <span className="text-purple-500 ">{streamingPlayer.nickname}</span>
                                             </ListboxOption>
                                         )
                                     })}
