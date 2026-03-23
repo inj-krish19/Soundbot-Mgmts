@@ -2,24 +2,26 @@ import { useEffect, useRef, useState } from 'react';
 
 import { HiRefresh } from 'react-icons/hi'
 import { IoIosFunnel } from 'react-icons/io'
-import { FaPlus, FaPuzzlePiece } from 'react-icons/fa6'
+import { GoArrowUpRight } from 'react-icons/go';
 import { GiCalendarHalfYear } from 'react-icons/gi'
 import { FaListUl, FaTrashAlt } from 'react-icons/fa'
+import { FaPlus, FaPuzzlePiece } from 'react-icons/fa6'
 import { LuAudioLines, LuArrowDownUp, LuPencil } from 'react-icons/lu'
 
-import { cleanDate } from '@/utils/date';
 import { BACKEND_URL } from '@/store/UrlStore';
+import { cleanDate } from '@/utils/date';
 import { eclipseNumber, eclipseText } from '@/utils/eclipse-text';
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 
 import Loading from '@/components/ui/Loading';
+import Notification from '@/components/ui/Notification';
 import SessionCard from '@/components/session/SessionCard';
+import SessionMiniCard from '@/components/session/SessionMiniCard';
+
 import SessionFilter from '@/components/session/SessionFilter';
 import UpdateSession from '@/components/session/UpdateSession';
 import DeleteSession from '@/components/session/DeleteSession';
-import Notification from '@/components/ui/Notification';
 import CreateSession from '@/components/session/CreateSession';
-import { GoArrowUpRight } from 'react-icons/go';
 
 function Sessions() {
 
@@ -43,7 +45,7 @@ function Sessions() {
     const [sessions, setSessions] = useState([]);
 
     const [filterVisibility, setFilterVisibility] = useState(false);
-    const [sessionVisibility, setSessionVisibilility] = useState(false);
+    const [sessionVisibility, setSessionVisibility] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [info, setInfo] = useState({
@@ -235,7 +237,7 @@ function Sessions() {
 
                         {sessions.map(session => {
                             return (
-                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={session._id} onMouseEnter={(e) => { setSessionVisibilility(true); setSession(session); }} onMouseLeave={(e) => { setSessionVisibilility(false); setSession(null); }} >
+                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={session._id} onMouseEnter={(e) => { setSessionVisibility(true); setSession(session); }} onMouseLeave={(e) => { setSessionVisibility(false); setSession(null); }} >
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startDate}</td>
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
@@ -244,13 +246,13 @@ function Sessions() {
                                     <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
                                     <td className='w-1/4 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 50) || "-"}</td>
 
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { }}>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { window.location.href = `/session/${session._id}` }}>
                                         <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
                                     </td>
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibilility(false); }}>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibility(false); }}>
                                         <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
                                     </td>
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setSession(session); setSessionVisibilility(false); }}>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setSession(session); setSessionVisibility(false); }}>
                                         <FaTrashAlt size={16} className='text-rose-400' />
                                     </td>
                                 </tr >
@@ -263,32 +265,7 @@ function Sessions() {
                 {!loading && <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
 
                     {sessions.map(session => {
-                        return (
-                            <div className="relative w-full lg:w-2/5 flex flex-col sm:flex-row px-4 py-2 gap-8 border border-purple-400/20 rounded-md items-center justify-evenly" key={session._id}>
-                                <div className="flex flex-col gap-2 items-center">
-                                    <img src={`/player/` + session.player.type + `.png`} className='size-36' />
-                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>Player : <span className='font-bold font-poppins text-sky-600 dark:text-purple-400'>{session.player.nickname}</span></p>
-                                </div>
-                                <div className="flex flex-col gap-1 sm:w-2/5">
-                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>Start Date: <span className='font-bold font-poppins'>{session.startDate}</span></p>
-                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>End Date: <span className='font-bold font-poppins'>{session.endDate}</span></p>
-                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>Start Time: <span className='font-bold font-poppins'>{session.startTime}</span></p>
-                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>End Time: <span className='font-bold font-poppins'>{session.endTime}</span></p>
-                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>Volume: <span className='font-bold font-poppins'>{session.volume}</span></p>
-                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>Duration: <span className='font-bold font-poppins'>{session.duration}</span></p>
-                                    <p className='text-slate-700 dark:text-slate-300 text-sm'>Note: <span className='font-bold font-poppins'>{session.note || "-"}</span></p>
-                                </div>
-
-                                <div className="absolute flex flex-row gap-2 top-3 right-3">
-                                    <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm ' onClick={() => { setUpdateVisibility(true); setSession(session); setChargingVisibility(false); }}>
-                                        <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
-                                    </span>
-                                    <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm ' onClick={() => { setDeleteVisibility(true); setSession(session); setChargingVisibility(false); }}>
-                                        <FaTrashAlt size={16} className='text-rose-400' />
-                                    </span>
-                                </div>
-                            </div>
-                        )
+                        return <SessionMiniCard session={session} privilegeMenu={true} setSession={setSession} setUpdateVisibility={setUpdateVisibility} setDeleteVisibility={setDeleteVisibility} key={session._id} />
                     })}
                 </div>}
 
