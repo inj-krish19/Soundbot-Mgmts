@@ -289,6 +289,9 @@ function Dashboard() {
                                         </div>
 
                                         <div className="absolute flex flex-col gap-2 top-2 right-2">
+                                            <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { window.location.href = `player/${streamingPlayer._id}` }}>
+                                                <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
+                                            </span>
                                             <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { setUpdateVisibility(true); setPlayer(streamingPlayer) }}>
                                                 <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
                                             </span>

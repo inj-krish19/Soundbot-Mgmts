@@ -53,6 +53,7 @@ function SessionFilter({ panelState, loadingState, setData }) {
 
         let response = await res.json();
         for (let resp of response.data) {
+            resp['duration'] = Math.round(resp['duration'] * 100);
             resp['startDate'] = cleanDate(resp['startDate']);
             resp['endDate'] = cleanDate(resp['endDate']);
         }
