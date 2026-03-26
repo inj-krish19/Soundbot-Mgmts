@@ -1,8 +1,8 @@
-import Navbar from './Navbar';
+import Navbar from '@/components/layout/Navbar';
 import { Link } from 'react-router';
 import React, { useState } from 'react'
 import { RxCross1 } from 'react-icons/rx';
-import NavbarMobile from './NavbarMobile';
+import NavbarMobile from '@/components/layout/NavbarMobile';
 import { FaGripLines } from 'react-icons/fa';
 
 function Header() {

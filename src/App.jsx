@@ -1,6 +1,6 @@
 import Layout from '@/Layout'
 import useAuth from '@/store/AuthStore';
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from '@/ErrorBoundary';
 
 
 import { Suspense, lazy } from 'react';
@@ -20,6 +20,7 @@ const Sessions = lazy(() => import('@/pages/dashboard/Sessions'));
 const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'));
 
 
+const PlayerDetails = lazy(() => import('@/pages/dashboard/PlayerDetails'));
 const SessionDetails = lazy(() => import('@/pages/dashboard/SessionDetails'));
 const ChargingDetails = lazy(() => import('@/pages/dashboard/ChargingDetails'));
 
@@ -118,6 +119,7 @@ function App() {
                 <Route path='/sessions' element={<Sessions />} />
 
 
+                <Route path='/player/:id' element={<PlayerDetails />} />
                 <Route path='/session/:id' element={<SessionDetails />} />
                 <Route path='/charging/:id' element={<ChargingDetails />} />
 

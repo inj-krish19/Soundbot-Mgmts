@@ -6,22 +6,10 @@ import { FaHeadphones } from "react-icons/fa6";
 
 import { BACKEND_URL } from '@/store/UrlStore';
 import Notification from '@/components/ui/Notification';
+import { getSVGByPlayerType } from "@/utils/getSVG";
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
-const getSVGByPlayerType = (type, className) => {
-
-    type = type.toLowerCase()
-    let component;
-    if (type === "earphone") {
-        component = <GiEarbuds size={24} className={!className ? 'text-slate-800 dark:text-slate-200' : className} />
-    } else if (type === "earbud") {
-        component = <BsEarbuds size={24} className={!className ? 'text-slate-800 dark:text-slate-200' : className} />
-    } else {
-        component = <FaHeadphones size={24} className={!className ? 'text-slate-800 dark:text-slate-200' : className} />
-    }
-    return component;
-}
 
 function CreatePlayer({ panel }) {
 

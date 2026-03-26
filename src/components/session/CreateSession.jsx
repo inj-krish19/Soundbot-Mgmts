@@ -1,6 +1,6 @@
 import { ImCross } from "react-icons/im";
 import { useEffect, useState } from "react";
-import { getSVGByPlayerType } from '@/components/player/CreatePlayer'
+import { getSVGByPlayerType } from '@/utils/getSVG'
 import Notification from "@/components/ui/Notification";
 
 import { BACKEND_URL } from "@/store/UrlStore";

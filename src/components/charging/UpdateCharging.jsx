@@ -4,7 +4,7 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headless
 
 import { BACKEND_URL } from "@/store/UrlStore";
 import Notification from "@/components/ui/Notification";
-import { getSVGByPlayerType } from "@/components/player/CreatePlayer";
+import { getSVGByPlayerType } from "@/utils/getSVG";
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 
 function UpdateCharging({ charging, panel }) {
