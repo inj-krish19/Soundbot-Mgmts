@@ -60,6 +60,7 @@ function Charging() {
 
     // ascending = true
     const [sorted, setSorted] = useState(true);
+    const [isFiltering, setIsFiltering] = useState(false);
 
     const [createVisibility, setCreateVisibility] = useState(false);
     const [updateVisibility, setUpdateVisibility] = useState(false);
@@ -103,6 +104,8 @@ function Charging() {
 
     const main = async () => {
 
+        if (isFiltering) return;
+
         let res = await fetch(`${BACKEND_URL}/charging/paging/latest`, {
             method: 'POST',
             headers: {
@@ -144,6 +147,8 @@ function Charging() {
 
     useEffect(() => {
 
+        if (isFiltering) return;
+
         try {
 
             setLoading(true);
@@ -173,13 +178,18 @@ function Charging() {
                 responseHandler(res.clone(), setInfo);
                 let response = await res.json();
 
+                const updatedSummary = { ...summary };
+
                 for (let key in response.data) {
-                    summary[key]['data'] = response.data[key]['data'];
-                    summary[key]['type'] = response.data[key]['type'];
-                    summary[key]['units'] = response.data[key]['units'];
+                    updatedSummary[key] = {
+                        ...updatedSummary[key],
+                        data: response.data[key].data,
+                        type: response.data[key].type,
+                        units: response.data[key].units
+                    }
                 }
 
-                setSummary(summary);
+                setSummary(updatedSummary);
 
             }
 
@@ -197,7 +207,7 @@ function Charging() {
     return (
         <>
             {chargingVisibility && !filterVisibility && charging && <ChargingCard charging={charging} />}
-            {filterVisibility && <ChargingFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setChargings} />}
+            {filterVisibility && <ChargingFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setChargings} setPage={setPage} setFiltering={setIsFiltering} />}
 
             {createVisibility && <CreateCharging charging={charging} panel={setCreateVisibility} />}
             {updateVisibility && <UpdateCharging charging={charging} panel={setUpdateVisibility} />}
@@ -283,7 +293,7 @@ function Charging() {
 
                 {!loading && <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
                     {chargings.map(charging => {
-                        return <ChargingMiniCard charging={charging} key={charging._id} />
+                        return <ChargingMiniCard charging={charging} key={charging._id} previlegeMenu={true} setCharging={setCharging} setUpdateVisibility={setUpdateVisibility} setDeleteVisibility={setDeleteVisibility} />
                     })}
                 </div>}
 
@@ -294,9 +304,9 @@ function Charging() {
 
                 {loading && <Loading />}
 
-                <div ref={loaderRef} className='h-16'>
+                {!isFiltering && <div ref={loaderRef} className='h-16'>
                     {!loading && <Loading />}
-                </div>
+                </div>}
 
 
 

@@ -4,10 +4,10 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headless
 
 import { cleanDate } from "@/utils/date";
 import { BACKEND_URL } from "@/store/UrlStore";
-import { getSVGByPlayerType } from "@/components/player/CreatePlayer";
+import { getSVGByPlayerType } from "@/utils/getSVG";
 import { errorHandler } from "@/utils/response-handler";
 
-function ChargingFilter({ panelState, loadingState, setData }) {
+function ChargingFilter({ panelState, loadingState, setData, setPage, setFiltering }) {
 
     const [info, setInfo] = useState({
         message: '',
@@ -30,8 +30,16 @@ function ChargingFilter({ panelState, loadingState, setData }) {
     const [chargingStartTime, setChargingStartTime] = useState('');
     const [chargingEndTime, setChargingEndTime] = useState('');
 
+    // charging duration value and operator handler
+    const [chargingDuration, setChargingDuration] = useState(null);
+    const [chargingDurationActive, setChargingDurationActive] = useState("");
+
 
     const submitFilter = async (e) => {
+
+        setFiltering(true);
+        loadingState(true);
+        e.preventDefault();
 
         try {
 
@@ -43,7 +51,8 @@ function ChargingFilter({ panelState, loadingState, setData }) {
                 body: JSON.stringify({
                     player: player._id || null, sessionDateRange: [firstSessionDate, lastSessionDate],
                     chargingDateRange: [chargingStartDate, chargingEndDate],
-                    chargingTimeRange: [chargingStartTime, chargingEndTime]
+                    chargingTimeRange: [chargingStartTime, chargingEndTime],
+                    chargingDuration: [chargingDurationActive, chargingDuration]
                 }),
                 credentials: "include"
             });
@@ -57,7 +66,9 @@ function ChargingFilter({ panelState, loadingState, setData }) {
                 resp['chargingStartDate'] = cleanDate(resp['chargingStartDate']);
             }
 
-            setData(response.data);
+            setPage(-1);
+            console.log(response.data)
+            setData([...response.data]);
 
             setTimeout(() => {
                 panelState(false);
@@ -72,6 +83,9 @@ function ChargingFilter({ panelState, loadingState, setData }) {
 
 
     const resetFilter = async (e) => {
+
+        setChargingDuration("");
+        setChargingDurationActive("");
 
         e.preventDefault();
         setPlayer({ type: "none", nickname: "All Players Selected" });
@@ -204,6 +218,18 @@ function ChargingFilter({ panelState, loadingState, setData }) {
                                 </div>
 
                             </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
+                            <span className="text-sky-300 text-sm font-semibold">Charging Duration</span>
+
+                            <div className="flex flex-row gap-2">
+                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${chargingDurationActive === "lte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setChargingDurationActive("lte")}>{"<="}</span>
+                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${chargingDurationActive === "eq" ? "border-2 outline font-bold" : "border"} `} onClick={() => setChargingDurationActive("eq")}>=</span>
+                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${chargingDurationActive === "gte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setChargingDurationActive("gte")}>{">="}</span>
+                            </div>
+
+                            <input type="number" inputMode="numeric" className="text-emerald-400 text-sm font-bold font-poppins w-auto border border-slate-800 dark:border-slate-200 px-2 py-1 outline outline-slate-800 dark:outline-slate-200 rounded-sm" min={0} max={1000} value={chargingDuration || ""} onChange={(e) => setChargingDuration(new Number(e.target.value))} placeholder="Duration" />
                         </div>
 
                         <div className="flex flex-row gap-2">
