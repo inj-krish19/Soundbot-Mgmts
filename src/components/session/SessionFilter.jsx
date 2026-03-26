@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { ImCross } from "react-icons/im";
 import { cleanDate } from "@/utils/date";
 import { BACKEND_URL } from '@/store/UrlStore';
-import { getSVGByPlayerType } from "@/components/player/CreatePlayer";
+import { getSVGByPlayerType } from "@/utils/getSVG";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 
-function SessionFilter({ panelState, loadingState, setData }) {
+function SessionFilter({ panelState, loadingState, setData, setPage, setFiltering }) {
 
     const [info, setInfo] = useState({
         message: '',
@@ -27,15 +27,17 @@ function SessionFilter({ panelState, loadingState, setData }) {
     const [endTime, setEndTime] = useState(null);
 
 
-    // volume operator handler
-    const [active, setActive] = useState("");
-
-    // volume value handler
+    // volume value and operator handler
     const [volume, setVolume] = useState(null);
+    const [volumeActive, setVolumeActive] = useState("");
 
+    // duration value and operator handler
+    const [duration, setDuration] = useState(null);
+    const [durationActive, setDurationActive] = useState("");
 
     const submitFilter = async (e) => {
 
+        setFiltering(true);
         loadingState(true);
         e.preventDefault();
 
@@ -46,19 +48,21 @@ function SessionFilter({ panelState, loadingState, setData }) {
             },
             body: JSON.stringify({
                 player: player._id || null, "dateRange": [startDate, endDate],
-                "timeRange": [startTime, endTime], "volume": [active, volume / 100]
+                "timeRange": [startTime, endTime], "volume": [volumeActive, volume / 100],
+                "duration": [durationActive, duration]
             }),
             credentials: "include"
         });
 
         let response = await res.json();
         for (let resp of response.data) {
-            resp['duration'] = Math.round(resp['duration'] * 100);
+            resp['volume'] = Math.round(resp['volume'] * 100);
             resp['startDate'] = cleanDate(resp['startDate']);
             resp['endDate'] = cleanDate(resp['endDate']);
         }
 
-        setData(response.data)
+        setPage(-1);
+        setData([...response.data])
 
         setTimeout(() => {
             panelState(false);
@@ -70,11 +74,14 @@ function SessionFilter({ panelState, loadingState, setData }) {
 
     const resetFilter = (e) => {
 
-        setActive("");
-        e.preventDefault();
+        setVolumeActive("");
+        setDurationActive("");
 
+        e.preventDefault();
         setPlayer({ type: 'none', nickname: 'All Players Selected' });
+
         setVolume("");
+        setDuration("");
 
         setEndDate("");
         setStartDate("");
@@ -181,12 +188,24 @@ function SessionFilter({ panelState, loadingState, setData }) {
                             <span className="text-emerald-400 text-sm font-semibold">Volume</span>
 
                             <div className="flex flex-row gap-2">
-                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${active === "lte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setActive("lte")}>{"<="}</span>
-                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${active === "eq" ? "border-2 outline font-bold" : "border"} `} onClick={() => setActive("eq")}>=</span>
-                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${active === "gte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setActive("gte")}>{">="}</span>
+                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${volumeActive === "lte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setVolumeActive("lte")}>{"<="}</span>
+                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${volumeActive === "eq" ? "border-2 outline font-bold" : "border"} `} onClick={() => setVolumeActive("eq")}>=</span>
+                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${volumeActive === "gte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setVolumeActive("gte")}>{">="}</span>
                             </div>
 
-                            <input type="number" inputMode="numeric" className="text-emerald-400 text-sm font-bold font-poppins w-auto border border-slate-800 dark:border-slate-200 px-2 py-1 outline outline-slate-800 dark:outline-slate-200 rounded-sm" min={0} max={100} value={volume} onChange={(e) => setVolume(new Number(e.target.value))} placeholder="Volume" />
+                            <input type="number" inputMode="numeric" className="text-emerald-400 text-sm font-bold font-poppins w-auto border border-slate-800 dark:border-slate-200 px-2 py-1 outline outline-slate-800 dark:outline-slate-200 rounded-sm" min={0} max={100} value={volume || ""} onChange={(e) => setVolume(new Number(e.target.value))} placeholder="Volume" />
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
+                            <span className="text-emerald-400 text-sm font-semibold">Duration</span>
+
+                            <div className="flex flex-row gap-2">
+                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${durationActive === "lte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setDurationActive("lte")}>{"<="}</span>
+                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${durationActive === "eq" ? "border-2 outline font-bold" : "border"} `} onClick={() => setDurationActive("eq")}>=</span>
+                                <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${durationActive === "gte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setDurationActive("gte")}>{">="}</span>
+                            </div>
+
+                            <input type="number" inputMode="numeric" className="text-emerald-400 text-sm font-bold font-poppins w-auto border border-slate-800 dark:border-slate-200 px-2 py-1 outline outline-slate-800 dark:outline-slate-200 rounded-sm" min={0} max={1000} value={duration || ""} onChange={(e) => setDuration(new Number(e.target.value))} placeholder="Duration" />
                         </div>
 
                         <div className="flex flex-row gap-2">

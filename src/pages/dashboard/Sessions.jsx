@@ -22,6 +22,7 @@ import SessionFilter from '@/components/session/SessionFilter';
 import UpdateSession from '@/components/session/UpdateSession';
 import DeleteSession from '@/components/session/DeleteSession';
 import CreateSession from '@/components/session/CreateSession';
+import { getSVGByDeviceType } from '@/utils/getSVG';
 
 function Sessions() {
 
@@ -59,6 +60,7 @@ function Sessions() {
 
     // ascending - true
     const [sorted, setSorted] = useState(true);
+    const [isFiltering, setIsFiltering] = useState(false);
 
     const [createVisibility, setCreateVisibility] = useState(false);
     const [updateVisibility, setUpdateVisibility] = useState(false);
@@ -94,6 +96,8 @@ function Sessions() {
 
     const main = async () => {
 
+        if (isFiltering) return;
+
         let res = await fetch(`${BACKEND_URL}/session/paging/latest`, {
             method: 'POST',
             headers: {
@@ -120,7 +124,14 @@ function Sessions() {
             resp['endDate'] = cleanDate(resp['endDate']);
         }
 
-        setSessions(sorted ? [...sessions, ...response.data] : [...response.data.toReversed(), ...sessions]);
+
+        setSessions(
+            prev => sorted
+                ? [...prev, ...response.data]
+                : [...response.data.toReversed(), ...prev]
+        );
+
+        console.log(response.data);
 
     }
 
@@ -133,14 +144,18 @@ function Sessions() {
 
     useEffect(() => {
 
+        console.log("Filtering", isFiltering);
+        if (isFiltering) return;
+
         try {
 
+            console.log("Here it goes");
             setLoading(true);
             if (!loaderRef.current) return;
 
             const observer = new IntersectionObserver(
                 (entries) => {
-                    if (entries[0].isIntersecting) {
+                    if (entries[0].isIntersecting && !isFiltering) {
                         setPage(prev => prev + 1);
                     }
                 },
@@ -161,13 +176,17 @@ function Sessions() {
                 responseHandler(res.clone(), setInfo);
                 let response = await res.json();
 
+                const updatedSummary = { ...summary };
                 for (let key in response.data) {
-                    summary[key]['data'] = response.data[key]['data'];
-                    summary[key]['type'] = response.data[key]['type'];
-                    summary[key]['units'] = response.data[key]['units'];
+                    updatedSummary[key] = {
+                        ...updatedSummary[key],
+                        data: response.data[key].data,
+                        type: response.data[key].type,
+                        units: response.data[key].units
+                    };
                 }
 
-                setSummary(summary);
+                setSummary(updatedSummary);
             }
             getSummary();
 
@@ -178,12 +197,12 @@ function Sessions() {
             errorHandler(err, setInfo);
         }
 
-    }, [])
+    }, [isFiltering])
 
     return (
         <>
             {sessionVisibility && !filterVisibility && !updateVisibility && session && <SessionCard session={session} />}
-            {filterVisibility && !updateVisibility && <SessionFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setSessions} />}
+            {filterVisibility && !updateVisibility && <SessionFilter panelState={setFilterVisibility} loadingState={setLoading} setData={setSessions} setPage={setPage} setFiltering={setIsFiltering} />}
 
             {createVisibility && <CreateSession session={session} panel={setCreateVisibility} />}
             {updateVisibility && <UpdateSession session={session} panel={setUpdateVisibility} />}
@@ -217,8 +236,9 @@ function Sessions() {
 
                     <HiRefresh size={24} className='text-sky-300 transition ease-in hover:-rotate-90 hover:scale-110 hover:cursor-pointer active:-rotate-270' onClick={() => {
                         setLoading(true);
+                        setIsFiltering(false);
                         setPage(0);
-                        main();
+                        setSessions([]);
                         setTimeout(() => { setLoading(false); }, 2000)
                     }} />
                     <IoIosFunnel size={24} className='text-slate-800 dark:text-slate-200 hover:cursor-pointer' onClick={() => { setFilterVisibility(true); }} />
@@ -230,12 +250,13 @@ function Sessions() {
 
                 {!loading && <table className='hidden lg:block'>
                     <tbody className='flex flex-col gap-4'>
-                        <tr className='flex flex-row w-full items-center border-b-2 border-slate-700 pb-4'>
+                        <tr className='flex flex-row w-full items-center border-b-2 border-slate-700 pb-4 '>
+                            <th className='w-1/32 text-slate-800 dark:text-slate-200 text-md'></th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Start Date</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>End Date</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Start Time</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>End Time</th>
-                            <th className='w-1/32 text-slate-800 dark:text-slate-200 text-md'>Volume</th>
+                            <th className='w-3/32 text-slate-800 dark:text-slate-200 text-md'>Volume</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Player</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md text-left'>Note</th>
                         </tr>
@@ -243,6 +264,9 @@ function Sessions() {
                         {sessions.map(session => {
                             return (
                                 <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={session._id} onMouseEnter={(e) => { setSessionVisibility(true); setSession(session); }} onMouseLeave={(e) => { setSessionVisibility(false); setSession(null); }} >
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibility(false); }}>
+                                        {getSVGByDeviceType(session.device.type, 'text-indigo-400')}
+                                    </td>
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startDate}</td>
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
@@ -282,9 +306,9 @@ function Sessions() {
 
                 {loading && <Loading />}
 
-                <div ref={loaderRef} className='h-16'>
+                {!isFiltering && <div ref={loaderRef} className='h-16'>
                     {!loading && <Loading />}
-                </div>
+                </div>}
 
 
 
