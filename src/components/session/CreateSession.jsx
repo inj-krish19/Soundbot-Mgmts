@@ -1,6 +1,6 @@
 import { ImCross } from "react-icons/im";
 import { useEffect, useState } from "react";
-import { getSVGByPlayerType } from '@/utils/getSVG'
+import { getSVGByDeviceType, getSVGByPlayerType } from '@/utils/getSVG'
 import Notification from "@/components/ui/Notification";
 
 import { BACKEND_URL } from "@/store/UrlStore";
@@ -8,6 +8,9 @@ import { responseHandler, errorHandler } from '@/utils/response-handler';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
 function CreateSession({ panel }) {
+
+    const [device, setDevice] = useState(null);
+    const [devices, setDevices] = useState([]);
 
     const [player, setPlayer] = useState(null);
     const [players, setPlayers] = useState([]);
@@ -27,23 +30,45 @@ function CreateSession({ panel }) {
     });
 
 
+    const getPlayers = async () => {
+        let response = await fetch(`${BACKEND_URL}/player/`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: 'include'
+        });
+
+        let res = await response.json();
+
+        setPlayers(res.data);
+        setPlayer(res.data?.[0] || null);
+    }
+
+    const getDevices = async () => {
+        let response = await fetch(`${BACKEND_URL}/device/`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: 'include'
+        });
+
+        let res = await response.json();
+
+        setDevices(res.data);
+        setDevice(res.data?.[0] || null);
+    }
+
+
     useEffect(() => {
 
         try {
 
             (async () => {
-                let response = await fetch(`${BACKEND_URL}/player/`, {
-                    method: 'GET',
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    credentials: 'include'
-                });
 
-                let res = await response.json();
-
-                setPlayers(res.data);
-                setPlayer(res.data?.[0] || null)
+                getPlayers();
+                getDevices();
 
             })();
 
@@ -67,7 +92,7 @@ function CreateSession({ panel }) {
                 },
                 credentials: "include",
                 body: JSON.stringify({
-                    player: player._id, startDate, endDate, startTime, endTime, volume: volume / 100, note
+                    player: player._id, device: device._id, startDate, endDate, startTime, endTime, volume: volume / 100, note
                 })
             });
 
@@ -116,6 +141,30 @@ function CreateSession({ panel }) {
                                             <ListboxOption key={streamingPlayer._id} value={streamingPlayer} className='px-4 py-2 flex items-center gap-2 hover:bg-pink-200 hover:cursor-pointer'>
                                                 {getSVGByPlayerType(streamingPlayer.type, 'text-purple-400')}
                                                 <span className="text-purple-500 ">{streamingPlayer.nickname}</span>
+                                            </ListboxOption>
+                                        )
+                                    })}
+                                </ListboxOptions>}
+                            </Listbox>
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="device" className="text-slate-700 dark:text-slate-300 text-sm">Device</label>
+                            <Listbox value={device} onChange={setDevice}>
+
+                                {(!device || devices.length === 0) && <span className="text-rose-500 text-md">Please add device first</span>}
+
+                                {device && <ListboxButton className="px-4 py-2 border-2 border-slate-100 outline-slate-100 rounded-sm flex items-center gap-2 ">
+                                    {getSVGByDeviceType(device.type, 'text-indigo-400')}
+                                    <span className="text-indigo-400">{device.nickname}</span>
+                                </ListboxButton>}
+
+                                {devices.length !== 0 && <ListboxOptions className='border-2 border-slate-100 rounded-sm'>
+                                    {devices.map(digitalDevice => {
+                                        return (
+                                            <ListboxOption key={digitalDevice._id} value={digitalDevice} className='px-4 py-2 flex items-center gap-2 hover:bg-sky-200 hover:cursor-pointer'>
+                                                {getSVGByDeviceType(digitalDevice.type, 'text-indigo-400')}
+                                                <span className="text-indigo-500 ">{digitalDevice.nickname}</span>
                                             </ListboxOption>
                                         )
                                     })}

@@ -12,7 +12,7 @@ import { MdCalendarMonth, MdAudiotrack, MdList } from 'react-icons/md'
 import CreatePlayer from '@/components/player/CreatePlayer'
 import CreateSession from '@/components/session/CreateSession'
 import CreateCharging from '@/components/charging/CreateCharging'
-import { getSVGByPlayerType } from '@/utils/getSVG'
+import { getSVGByDeviceType, getSVGByPlayerType } from '@/utils/getSVG'
 import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer, PieChart, Pie, Sector, CartesianGrid, AreaChart, Area } from 'recharts'
 
 import useAuth from '@/store/AuthStore';
@@ -60,7 +60,6 @@ function Dashboard() {
             title: "Buddy Player", component: getSVGByPlayerType('headphone', 'text-teal-400 dark:text-slate-200')
         }
     });
-    const [players, setPlayers] = useState([]);
 
     const quickActions = [
         { title: 'Prediction', link: '/prediction' },
@@ -70,7 +69,11 @@ function Dashboard() {
     const [info, setInfo] = useState({
         message: '',
         type: ''
-    })
+    });
+
+    const [players, setPlayers] = useState([]);
+    const [devices, setDevices] = useState([]);
+
 
     const [playerPanel, setPlayerPanel] = useState(false);
     const [sessionPanel, setSessionPanel] = useState(false);
@@ -140,6 +143,22 @@ function Dashboard() {
     }
 
 
+    const getDevices = async () => {
+
+        let res = await fetch(`${BACKEND_URL}/device/`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        let response = await res.json();
+        setDevices(response?.data);
+
+    }
+
+
     const getChartsInfo = async () => {
 
         try {
@@ -154,20 +173,20 @@ function Dashboard() {
 
             let response = await res.json();
 
-            setDailyUsageInfo(response?.data?.['daily-usage-trend'])
-            setSessionDurationInfo(response?.data?.['session-duration-distribution'])
+            setDailyUsageInfo(response?.data?.['daily-usage-trend'] || [])
+            setSessionDurationInfo(response?.data?.['session-duration-distribution'] || [])
 
 
-            setPlayerUsageInfo(response?.data?.['player-usage-distribution'])
-            setTimeOfDayInfo(response?.data?.['time-of-day'])
+            setPlayerUsageInfo(response?.data?.['player-usage-distribution'] || [])
+            setTimeOfDayInfo(response?.data?.['time-of-day'] || [])
 
 
-            setMonthlyUsageInfo(response?.data?.['monthly-usage-trend'])
-            setSessionTotalUsageInfo(response?.data?.['session-total-usage'])
+            setMonthlyUsageInfo(response?.data?.['monthly-usage-trend'] || [])
+            setSessionTotalUsageInfo(response?.data?.['session-total-usage'] || [])
 
 
-            setAverageSessionInfo(response?.data?.['average-session-duration'])
-            setCumulativeUsageInfo(response?.data?.['cumulative-usage'])
+            setAverageSessionInfo(response?.data?.['average-session-duration'] || [])
+            setCumulativeUsageInfo(response?.data?.['cumulative-usage'] || [])
 
 
         } catch (err) {
@@ -232,6 +251,7 @@ function Dashboard() {
 
 
         getPlayers();
+        getDevices();
         getChartsInfo();
 
     }, [])
@@ -277,10 +297,10 @@ function Dashboard() {
 
                 </div>
 
-                <div className="flex flex-col-reverse md:flex-row gap-4 px-4 py-2">
+                <div className="flex flex-col-reverse justify-between lg:flex-row gap-4 px-4 py-2 w-full">
 
 
-                    <div className="flex flex-col w-full md:w-1/2 gap-2 p-4 justify-around ">
+                    <div className="flex flex-col w-full  gap-2 p-4 justify-around ">
                         <span className='text-indigo-700 font-bold uppercase'>Streaming Players</span>
 
                         <div className="flex flex-row flex-wrap gap-2 p-2 justify-around items-center">
@@ -308,9 +328,31 @@ function Dashboard() {
                                 )
                             })}
                         </div>
+
+
+
+                        <div className="flex flex-col w-full  gap-2 p-4 justify-around ">
+                            <span className='text-teal-400 font-bold uppercase'>Usage Devices</span>
+
+                            <div className="flex flex-row flex-wrap gap-2 p-2 justify-around items-center">
+                                {devices.map(digitalDevice => {
+                                    return (
+                                        <div className="relative flex flex-row gap-4 border border-violet-400 outline outline-violet-400 hover:outline-2 rounded-md px-3 py-1 w-60 h-12 items-center bg-stone-200 dark:bg-stone-800" key={digitalDevice._id}>
+                                            {getSVGByDeviceType(digitalDevice.type, 'size-6 text-indigo-400')}
+                                            <div className="flex flex-col gap-1 items-center">
+                                                <span className='text-violet-400 text-md font-poppins font-bold'>{digitalDevice.nickname}</span>
+                                                {/* <span className='text-emerald-400 text-xs uppercase font-bold '>{digitalDevice.type}</span> */}
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div className="flex flex-col px-4 py-2 gap-8">
+
+                    <div className="flex flex-col px-4 py-2 gap-8 ">
                         <span className='uppercase font-bold text-slate-800 dark:text-slate-200'>Quick Actions</span>
 
                         <div className="flex flex-col">
@@ -326,13 +368,18 @@ function Dashboard() {
                             })}
                         </div>
 
-                        <div className="flex flex-row flex-wrap gap-4 ">
+                        <div className="flex flex-row flex-wrap flex-wrap gap-4 ">
 
                             <button className='bg-sky-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
                                 setPlayerPanel(true);
                                 setSessionPanel(false);
                                 setChargingPanel(false);
                             }} >Create Player</button>
+                            <button className='bg-indigo-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
+                                setPlayerPanel(true);
+                                setSessionPanel(false);
+                                setChargingPanel(false);
+                            }} >Create Device</button>
                             <button className='bg-emerald-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
                                 setPlayerPanel(false);
                                 setSessionPanel(true);

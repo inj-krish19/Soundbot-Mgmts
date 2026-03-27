@@ -256,14 +256,15 @@ function Sessions() {
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>End Date</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Start Time</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>End Time</th>
-                            <th className='w-3/32 text-slate-800 dark:text-slate-200 text-md'>Volume</th>
+                            <th className='w-1/16 text-slate-800 dark:text-slate-200 text-md'>Volume</th>
                             <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md'>Player</th>
-                            <th className='w-1/8 text-slate-800 dark:text-slate-200 text-md text-left'>Note</th>
+                            <th className='w-9/32 text-slate-800 dark:text-slate-200 text-md text-left'>Note</th>
                         </tr>
 
                         {sessions.map(session => {
                             return (
                                 <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={session._id} onMouseEnter={(e) => { setSessionVisibility(true); setSession(session); }} onMouseLeave={(e) => { setSessionVisibility(false); setSession(null); }} >
+
                                     <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibility(false); }}>
                                         {getSVGByDeviceType(session.device.type, 'text-indigo-400')}
                                     </td>
@@ -271,9 +272,9 @@ function Sessions() {
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endTime}</td>
-                                    <td className='w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume}</td>
+                                    <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume}</td>
                                     <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
-                                    <td className='w-1/4 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 50) || "-"}</td>
+                                    <td className='w-3/16 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 50) || "-"}</td>
 
                                     <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { window.location.href = `/session/${session._id}` }}>
                                         <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
