@@ -12,7 +12,7 @@ import { MdCalendarMonth, MdAudiotrack, MdList } from 'react-icons/md'
 import CreatePlayer from '@/components/player/CreatePlayer'
 import CreateSession from '@/components/session/CreateSession'
 import CreateCharging from '@/components/charging/CreateCharging'
-import { getSVGByPlayerType } from '@/components/player/CreatePlayer'
+import { getSVGByPlayerType } from '@/utils/getSVG'
 import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer, PieChart, Pie, Sector, CartesianGrid, AreaChart, Area } from 'recharts'
 
 import useAuth from '@/store/AuthStore';
@@ -210,13 +210,18 @@ function Dashboard() {
                 responseHandler(res.clone(), setInfo);
                 let response = await res.json();
 
+                const updatedSummary = { ...summary };
+
                 for (let key in response.data) {
-                    summary[key]['data'] = response.data[key]['data'];
-                    summary[key]['type'] = response.data[key]['type'];
-                    summary[key]['units'] = response.data[key]['units'];
+                    updatedSummary[key] = {
+                        ...updatedSummary[key],
+                        data: response.data[key].data,
+                        type: response.data[key].type,
+                        units: response.data[key].units
+                    }
                 }
 
-                setSummary(summary);
+                setSummary(updatedSummary);
             }
             main();
             getMe();
@@ -359,7 +364,7 @@ function Dashboard() {
 
                     <div className="grid grid-cols-2 gap-4 justify-center items-center">
 
-                        {sessionDurationInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+                        {sessionDurationInfo.length !== 0 && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
                             <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Session Duration Distribution</span>
 
@@ -387,7 +392,7 @@ function Dashboard() {
                         </div>}
 
 
-                        {dailyUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+                        {dailyUsageInfo.length !== 0 && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
                             <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Daily Usage Trend</span>
 
@@ -407,7 +412,7 @@ function Dashboard() {
                         </div>}
 
 
-                        {timeOfDayInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {timeOfDayInfo.length !== 0 && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Time of Day</span>
 
@@ -436,7 +441,7 @@ function Dashboard() {
                         </div>}
 
 
-                        {playerUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {playerUsageInfo.length !== 0 && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Player Usage Distribution</span>
 
@@ -456,7 +461,7 @@ function Dashboard() {
 
 
 
-                        {cumulativeUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {cumulativeUsageInfo.length !== 0 && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Cumulative Usage</span>
 
@@ -479,7 +484,7 @@ function Dashboard() {
                         </div>}
 
 
-                        {sessionTotalUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {sessionTotalUsageInfo.length !== 0 && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 w-full h-100 shadow-md items-center ${view === 'list' ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Session vs Total Usage</span>
 
@@ -526,7 +531,7 @@ function Dashboard() {
                         </div>}
 
 
-                        {averageSessionInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {averageSessionInfo.length !== 0 && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Average Session Duration</span>
 
@@ -549,7 +554,7 @@ function Dashboard() {
 
 
 
-                        {monthlyUsageInfo && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+                        {monthlyUsageInfo.length !== 0 && <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Monthly Usage Trend</span>
 
