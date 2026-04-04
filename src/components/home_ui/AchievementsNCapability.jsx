@@ -1,7 +1,5 @@
 function AchievementsNCapability() {
 
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
-
     return (
         <section className="max-w-7xl mx-auto px-4 md:px-8 py-16">
 
@@ -59,10 +57,12 @@ function AchievementsNCapability() {
 
                     <span className="text-sky-400 dark:text-emerald-400 text-lg font-poppins">Soundbot have some in app cute characters like,</span>
                     <div className="flex flex-row flex-wrap justify-around items-center gap-6">
-                        <img src={`${BACKEND_URL}/PFPs/bleep.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
-                        <img src={`${BACKEND_URL}/PFPs/wav.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
-                        <img src={`${BACKEND_URL}/PFPs/ohm.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
-                        <img src={`${BACKEND_URL}/PFPs/vinnies_spin.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
+                        <img src={`/PFPs/bleep.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
+                        <img src={`/PFPs/wav.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
+                        <img src={`/PFPs/ohm.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
+                        <img src={`/PFPs/vinnies_spin.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
+                        <img src={`/PFPs/maestro.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
+                        <img src={`/PFPs/bits_matrix.png`} className="size-28 rounded-full border border-sky-400/30 dark:border-emerald-400/30" />
                     </div>
 
                 </div>

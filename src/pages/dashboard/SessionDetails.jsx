@@ -143,8 +143,8 @@ function SessionDetails() {
                                 <div className="flex flex-row py-2 px-4 gap-4 justify-around items-center border border-slate-200 dark:border-purple-400/20 rounded-md w-60" key={index}>
                                     {summary.component}
                                     <div className="flex flex-col">
-                                        <p className='text-cyan-600 text-sm' >{summary.title}</p>
-                                        <p className='text-sky-600 dark:text-purple-300 text-sm capitalize'><span className='font-bold font-poppins text-md'>{summary.type === "number" ? eclipseNumber(summary.data) : summary.data}</span>{summary.units}</p>
+                                        <span className='text-cyan-600 text-sm' >{summary.title}</span>
+                                        <span className='text-sky-600 dark:text-purple-300 text-sm capitalize'><span className='font-bold font-poppins text-md'>{summary.type === "number" ? eclipseNumber(summary.data) : summary.data}</span>{summary.units}</span>
                                     </div>
                                 </div>
                             )

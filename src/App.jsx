@@ -25,6 +25,7 @@ const SessionDetails = lazy(() => import('@/pages/dashboard/SessionDetails'));
 const ChargingDetails = lazy(() => import('@/pages/dashboard/ChargingDetails'));
 
 
+const Profile = lazy(() => import('@/pages/info/Profile'));
 const Predict = lazy(() => import('@/pages/info/Predict'));
 const Recommend = lazy(() => import('@/pages/info/Recommend'));
 
@@ -124,6 +125,7 @@ function App() {
                 <Route path='/charging/:id' element={<ChargingDetails />} />
 
 
+                <Route path='/profile' element={<Profile />} />
                 <Route path='/predict' element={<Predict />} />
                 <Route path='/recommend' element={<Recommend />} />
 

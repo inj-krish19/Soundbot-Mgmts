@@ -9,6 +9,15 @@ import NotFound from "@/pages/system/NotFound";
 import Notification from "@/components/ui/Notification";
 import ChargingMiniCard from "@/components/charging/ChargingMiniCard";
 import SessionMiniCard from "@/components/session/SessionMiniCard";
+import { IoMdTime } from "react-icons/io";
+import { TiEquals } from "react-icons/ti";
+import { IoCalendarClear, IoPieChart, IoTrendingUp } from "react-icons/io5";
+import { eclipseNumber } from "@/utils/eclipse-text";
+import { PiArrowsHorizontal, PiArrowsHorizontalBold } from "react-icons/pi";
+import { MdAccessTime } from "react-icons/md";
+import { FaListOl } from "react-icons/fa6";
+import { RiNumbersFill } from "react-icons/ri";
+import { HiMiniArrowTrendingDown } from "react-icons/hi2";
 
 function ChargingDetails() {
 
@@ -18,7 +27,27 @@ function ChargingDetails() {
     const [info, setInfo] = useState({
         message: '',
         type: ''
-    })
+    });
+    const [summary, setSummary] = useState({
+        "total_days": {
+            title: "Playback Interval", component: <PiArrowsHorizontalBold size={24} className='text-teal-400 dark:text-slate-200' />,
+        },
+        "playback_time": {
+            title: "Playback Time", component: <MdAccessTime size={24} className='text-teal-400 dark:text-slate-200' />,
+        },
+        "total_sessions": {
+            title: "Total Sessions", component: <FaListOl size={24} className='text-teal-400 dark:text-slate-200' />,
+        },
+        "biggest_session": {
+            title: "Biggest Session", component: <RiNumbersFill size={24} className='text-teal-400 dark:text-slate-200' />,
+        },
+        "longest_charging_streak": {
+            title: "Longest Streak", component: <IoTrendingUp size={24} className='text-teal-400 dark:text-slate-200' />,
+        },
+        "average_session_degrade_rate": {
+            title: "Degrade Rate", component: <HiMiniArrowTrendingDown size={24} className='text-teal-400 dark:text-slate-200' />,
+        }
+    });
 
     const [sessions, setSessions] = useState([]);
     const [charging, setCharging] = useState(null);
@@ -51,6 +80,7 @@ function ChargingDetails() {
 
     }
 
+
     const fetchSessions = async () => {
 
         let res = await fetch(`${BACKEND_URL}/charging/${id}/sessions`, {
@@ -67,19 +97,47 @@ function ChargingDetails() {
         for (let resp of response.data) {
             resp['startDate'] = cleanDate(resp['startDate']);
             resp['endDate'] = cleanDate(resp['endDate']);
+            resp['volume'] = Math.round(resp['volume'] * 100);
         }
         console.log(response.data);
         setSessions(response.data);
 
     }
 
+
+    const getSummary = async () => {
+
+        let res = await fetch(`${BACKEND_URL}/dashboard/charging/${id}`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        responseHandler(res.clone(), setInfo);
+        let response = await res.json();
+
+        const updatedSummary = { ...summary };
+        for (let key in response.data) {
+            updatedSummary[key] = {
+                ...updatedSummary[key],
+                data: response.data[key].data,
+                type: response.data[key].type,
+                units: response.data[key].units
+            }
+        }
+
+        setSummary(updatedSummary);
+
+    }
+
     useEffect(() => {
         try {
+            getSummary();
             fetchCharging();
             fetchSessions();
-        } catch (err) {
-
-        }
+        } catch (err) { }
     }, [])
 
     if (forbidden) return <NotFound />
@@ -88,8 +146,24 @@ function ChargingDetails() {
         <main className='relative flex flex-col gap-8 min-h-screen w-full h-full px-4 md:px-8 py-4'>
             <Notification info={info} />
 
-            <div className="flex flex-row w-full flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
-                {!charging ? <Loading /> : <ChargingMiniCard charging={charging} />}
+            <div className="flex flex-col-reverse md:flex-col gap-6">
+                <div className="flex flex-row w-full flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
+                    {!charging ? <Loading /> : <ChargingMiniCard charging={charging} />}
+                </div>
+
+                <div className="flex flex-row flex-wrap gap-4 justify-center">
+                    {Object.entries(summary).map(([index, summary]) => {
+                        return (
+                            <div className="flex flex-row py-2 px-4 gap-4 justify-around items-center border border-slate-200 dark:border-purple-400/20 rounded-md w-60" key={index} >
+                                {summary.component}
+                                <div className="flex flex-col">
+                                    <span className='text-cyan-600 text-sm' >{summary.title}</span>
+                                    <span className='text-sky-600 dark:text-purple-300 text-sm capitalize'><span className='font-bold font-poppins text-md'>{summary.type === "number" ? eclipseNumber(summary.data) : summary.data}</span>{summary.units}</span>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
 
             <div className="flex flex-col w-full flex-wrap gap-8 px-4 md:px-8 py-4 justify-around items-center mt-4">
