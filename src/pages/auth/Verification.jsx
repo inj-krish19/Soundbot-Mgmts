@@ -188,7 +188,7 @@ function Verification() {
 
                             <span className='text-sm text-rose-400 text-right'><Link onClick={(e) => { setResetPassword(true); }}>Forget Password? Reset Password</Link></span>
 
-                            <button type="submit" className='bg-violet-700 text-white p-2 rounded-md'>Submit</button>
+                            <button type="submit" className='bg-violet-700 text-white p-2 rounded-md hover:cursor-pointer hover:bg-violet-800 hover:scale-101 transition'>Submit</button>
 
                         </form>
                     </div>
@@ -201,22 +201,22 @@ function Verification() {
 
 
                     <div className="flex flex-col gap-4">
-                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-purple-500 text-white p-2 rounded-md'
+                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-purple-500 text-white p-2 rounded-md hover:bg-purple-400 hover:cursor-pointer hover:scale-101 transition'
                             onClick={() => { handleOAuthGoogle() }} >
                             <FaGoogle />
                             <span>Sign In with Google </span>
                         </button>
-                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-purple-500 text-white p-2 rounded-md'
+                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-purple-500 text-white p-2 rounded-md hover:bg-purple-400 hover:cursor-pointer hover:scale-101 transition'
                             onClick={() => { handleOAuthLinkedIn() }} >
                             <FaLinkedin />
                             <span>Sign In with LinkedIn </span>
                         </button>
-                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-purple-500 text-white p-2 rounded-md'
+                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-purple-500 text-white p-2 rounded-md hover:bg-purple-400 hover:cursor-pointer hover:scale-101 transition'
                             onClick={() => { handleOAuthGithub() }} >
                             <FaGithub />
                             <span>Sign In with Github </span>
                         </button>
-                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-purple-500 text-white p-2 rounded-md'
+                        <button type="submit" className='flex flex-row justify-center items-center gap-4 bg-purple-500 text-white p-2 rounded-md hover:bg-purple-400 hover:cursor-pointer hover:scale-101 transition'
                             onClick={() => { handleOAuthFacebook() }} >
                             <FaFacebook />
                             <span>Sign In with Facebook </span>

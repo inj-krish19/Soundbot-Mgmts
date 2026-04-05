@@ -161,7 +161,7 @@ function SignUp() {
 
                             </div>
 
-                            <button type="submit" className='bg-violet-700 text-white p-2 rounded-md'>Submit</button>
+                            <button type="submit" className='bg-violet-700 hover:bg-violet-600 hover:scale-101 hover:cursor-pointer transition text-white p-2 rounded-md'>Submit</button>
 
                         </form>
                     </div>
