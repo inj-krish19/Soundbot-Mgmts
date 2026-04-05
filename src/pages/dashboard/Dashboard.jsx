@@ -126,8 +126,8 @@ function Dashboard() {
     const [player, setPlayer] = useState(null);
     const [view, setView] = useState(localStorage.getItem("preference") || 'grid');
 
-    const [updateVisibility, setUpdateVisibility] = useState(false);
-    const [deleteVisibility, setDeleteVisibility] = useState(false);
+    // const [updateVisibility, setUpdateVisibility] = useState(false);
+    // const [deleteVisibility, setDeleteVisibility] = useState(false);
 
 
 
@@ -296,8 +296,8 @@ function Dashboard() {
                 {sessionPanel && <CreateSession panel={setSessionPanel} />}
                 {chargingPanel && <CreateCharging panel={setChargingPanel} />}
 
-                {updateVisibility && <UpdatePlayer player={player} panel={setUpdateVisibility} />}
-                {deleteVisibility && <DeletePlayer player={player} panel={setDeleteVisibility} />}
+                {/* {updateVisibility && <UpdatePlayer player={player} panel={setUpdateVisibility} />}
+                {deleteVisibility && <DeletePlayer player={player} panel={setDeleteVisibility} />} */}
                 <Notification info={info} />
 
                 <div className="flex flex-col gap-8">
@@ -345,12 +345,12 @@ function Dashboard() {
                                             <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { window.location.href = `player/${streamingPlayer._id}` }}>
                                                 <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
                                             </span>
-                                            <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { setUpdateVisibility(true); setPlayer(streamingPlayer) }}>
+                                            {/* <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { setUpdateVisibility(true); setPlayer(streamingPlayer) }}>
                                                 <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
                                             </span>
                                             <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { setDeleteVisibility(true); setPlayer(streamingPlayer) }}>
                                                 <FaTrashAlt size={16} className='text-rose-400' />
-                                            </span>
+                                            </span> */}
                                         </div>
                                     </div>
                                 )

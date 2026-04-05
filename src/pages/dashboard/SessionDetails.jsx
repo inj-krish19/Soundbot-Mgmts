@@ -7,13 +7,16 @@ import { responseHandler } from "@/utils/response-handler";
 import Loading from "@/components/ui/Loading";
 import NotFound from "@/pages/system/NotFound";
 import Notification from "@/components/ui/Notification";
+import UpdateSession from "@/components/session/UpdateSession";
+import DeleteSession from "@/components/session/DeleteSession";
 import SessionMiniCard from "@/components/session/SessionMiniCard";
 
-import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { IoMdTime } from "react-icons/io";
-import { eclipseNumber } from "@/utils/eclipse-text";
 import { TiEquals } from "react-icons/ti";
+import { eclipseNumber } from "@/utils/eclipse-text";
 import { IoCalendarClear, IoPieChart } from "react-icons/io5";
+import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
+
 
 function SessionDetails() {
 
@@ -41,6 +44,10 @@ function SessionDetails() {
 
     const [session, setSession] = useState(null);
     const [forbidden, setForbidden] = useState(false);
+
+    const [updateVisibility, setUpdateVisibility] = useState(false);
+    const [deleteVisibility, setDeleteVisibility] = useState(false);
+
 
     const main = async () => {
 
@@ -130,11 +137,14 @@ function SessionDetails() {
             <main className='relative flex flex-col gap-8 min-h-screen w-full h-full px-4 md:px-8 py-4'>
                 <Notification info={info} />
 
+                {updateVisibility && <UpdateSession session={session} panel={setUpdateVisibility} />}
+                {deleteVisibility && <DeleteSession session={session} panel={setDeleteVisibility} />}
+
                 <div className="flex flex-col-reverse md:flex-col gap-6">
 
 
                     <div className="flex flex-row w-full flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
-                        {!session ? <Loading /> : <SessionMiniCard session={session} privilegeMenu={false} />}
+                        {!session ? <Loading /> : <SessionMiniCard session={session} privilegeMenu={true} setSession={setSession} setUpdateVisibility={setUpdateVisibility} setDeleteVisibility={setDeleteVisibility} key={session._id} />}
                     </div>
 
                     <div className="flex flex-wrap flex-row gap-4 justify-center">
