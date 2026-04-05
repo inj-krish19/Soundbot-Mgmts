@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ImCross } from "react-icons/im";
 import { cleanDate } from "@/utils/date";
 import { BACKEND_URL } from '@/store/UrlStore';
-import { getSVGByPlayerType } from "@/utils/getSVG";
+import { getSVGByDeviceType, getSVGByPlayerType } from "@/utils/getSVG";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 
 function SessionFilter({ panelState, loadingState, setData, setPage, setFiltering }) {
@@ -16,6 +16,11 @@ function SessionFilter({ panelState, loadingState, setData, setPage, setFilterin
     // player state handle
     const [player, setPlayer] = useState({ type: 'none', nickname: 'All Players Selected' });
     const [players, setPlayers] = useState([]);
+
+
+    // device state handle
+    const [device, setDevice] = useState({ type: 'none', nickname: 'All Device Selected' });
+    const [devices, setDevices] = useState([]);
 
 
     // start and end date handler
@@ -47,9 +52,9 @@ function SessionFilter({ panelState, loadingState, setData, setPage, setFilterin
                 "content-type": "application/json"
             },
             body: JSON.stringify({
-                player: player._id || null, "dateRange": [startDate, endDate],
-                "timeRange": [startTime, endTime], "volume": [volumeActive, volume / 100],
-                "duration": [durationActive, duration]
+                player: player._id || null, device: device._id || null,
+                "dateRange": [startDate, endDate], "timeRange": [startTime, endTime],
+                "volume": [volumeActive, volume / 100], "duration": [durationActive, duration]
             }),
             credentials: "include"
         });
@@ -90,23 +95,42 @@ function SessionFilter({ panelState, loadingState, setData, setPage, setFilterin
         setStartTime("");
     }
 
+
+    const getPlayers = async () => {
+
+        let res = await fetch(`${BACKEND_URL}/player/`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        let response = await res.json();
+        setPlayers(response.data);
+
+    }
+
+
+    const getDevices = async () => {
+
+        let res = await fetch(`${BACKEND_URL}/device/`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        let response = await res.json();
+        setDevices(response.data);
+
+    }
+
     useEffect(() => {
 
-        const getPlayers = async () => {
-
-            let res = await fetch(`${BACKEND_URL}/player/`, {
-                method: 'GET',
-                headers: {
-                    "content-type": "application/json"
-                },
-                credentials: "include"
-            });
-
-            let response = await res.json();
-            setPlayers(response.data);
-
-        }
         getPlayers();
+        getDevices();
 
     }, []);
 
@@ -151,6 +175,38 @@ function SessionFilter({ panelState, loadingState, setData, setPage, setFilterin
                                         })}
                                     </ListboxOptions>}
                                 </Listbox>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-4">
+                            <div className="flex flex-col gap-1 ">
+                                <span className="text-emerald-400 text-sm font-semibold">Device</span>
+                                <div className="flex flex-col gap-1">
+
+                                    <Listbox value={device} onChange={setDevice}>
+
+                                        {devices.length === 0 && <span className="text-rose-400 text-sm">Please add streaming player first</span>}
+
+                                        {devices.length !== 0 && <ListboxButton className='px-2 py-1 border-2 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm flex items-center gap-2'>
+                                            {device?.type !== 'none' && getSVGByDeviceType(device.type, 'size-4 text-indigo-400')}
+                                            <span className="text-indigo-400 text-sm">{device.nickname}</span>
+                                        </ListboxButton>}
+
+                                        {devices.length !== 0 && <ListboxOptions className='outline-2 outline-slate-800 dark:outline-slate-200 rounded-sm'>
+                                            <ListboxOption value={{ type: 'none', nickname: 'All Devices Selected' }} className='px-2 py-1 flex items-center gap-2 hover:bg-sky-200 hover:cursor-pointer'>
+                                                <span className="text-indigo-400 text-sm">All Devices Selected</span>
+                                            </ListboxOption>
+                                            {devices.map(digitalDevice => {
+                                                return (
+                                                    <ListboxOption key={digitalDevice._id} value={digitalDevice} className='px-2 py-1 flex items-center gap-2 hover:bg-sky-200 hover:cursor-pointer'>
+                                                        {getSVGByDeviceType(digitalDevice.type, 'size-4 text-indigo-400')}
+                                                        <span className="text-indigo-500 text-sm">{digitalDevice.nickname}</span>
+                                                    </ListboxOption>
+                                                )
+                                            })}
+                                        </ListboxOptions>}
+                                    </Listbox>
+                                </div>
                             </div>
                         </div>
 

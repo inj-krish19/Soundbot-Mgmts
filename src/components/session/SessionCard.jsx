@@ -20,6 +20,7 @@ function SessionCard({ session }) {
                     <p className="text-slate-700 dark:text-slate-300 text-sm">Volume:  <span className="font-bold font-poppins">{session.volume}</span> </p>
                     <p className="text-slate-700 dark:text-slate-300 text-sm">Duration:  <span className="font-bold font-poppins">{session.duration} minutes</span> </p>
                     <p className="text-slate-700 dark:text-slate-300 text-sm">Player:  <span className="text-sky-600 dark:text-purple-400 font-bold font-poppins">{session.player.nickname}</span> </p>
+                    <p className="text-slate-700 dark:text-slate-300 text-sm">Device:  <span className="text-emerald-600 dark:text-teal-400 font-bold font-poppins">{session.device.nickname}</span> </p>
                     <p className="text-slate-700 dark:text-slate-300 text-sm">Note:  <span className="font-bold font-poppins">{session.note || "-"}</span> </p>
                 </div>
             </div>
