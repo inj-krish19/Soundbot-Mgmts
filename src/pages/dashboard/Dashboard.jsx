@@ -32,6 +32,8 @@ import Loading from '@/components/ui/Loading'
 import Notification from '@/components/ui/Notification'
 import UpdatePlayer from '@/components/player/UpdatePlayer'
 import DeletePlayer from '@/components/player/DeletePlayer'
+import PlayerCard from '@/components/player/PlayerCard'
+import DeviceCard from '@/components/device/DeviceCard'
 
 
 const ChartLoading = () => {
@@ -117,7 +119,7 @@ function Dashboard() {
 
 
 
-    // Charts relates states
+    // Bar Charts relates styling effect states
 
     const [sessionBarGap, setSessionBarGap] = useState(4);
     const [sessionIndex, setSessionIndex] = useState(null);
@@ -128,8 +130,14 @@ function Dashboard() {
     const [totalUsageBarGap, setTotalUsageBarGap] = useState(4);
     const [totalUsageIndex, setTotalUsageIndex] = useState(null);
 
-    const [player, setPlayer] = useState(null);
     const [view, setView] = useState(localStorage.getItem("preference") || 'grid');
+
+
+    const [player, setPlayer] = useState(null);
+    const [device, setDevice] = useState(null);
+
+    const [playerVisibility, setPlayerVisibility] = useState(false);
+    const [deviceVisibility, setDeviceVisibility] = useState(false);
 
     // const [updateVisibility, setUpdateVisibility] = useState(false);
     // const [deleteVisibility, setDeleteVisibility] = useState(false);
@@ -303,8 +311,12 @@ function Dashboard() {
                 {sessionPanel && <CreateSession panel={setSessionPanel} />}
                 {chargingPanel && <CreateCharging panel={setChargingPanel} />}
 
-                {/* {updateVisibility && <UpdatePlayer player={player} panel={setUpdateVisibility} />}
-                {deleteVisibility && <DeletePlayer player={player} panel={setDeleteVisibility} />} */}
+
+                {playerVisibility && <PlayerCard player={player} setPlayer={setPlayer} />}
+                {deviceVisibility && <DeviceCard device={device} setDevice={setDevice} />}
+
+                {/* {updateVisibility && <UpdatePlayer player={player} panel={setUpdateVisibility} />} */}
+                {/* {deleteVisibility && <DeletePlayer player={player} panel={setDeleteVisibility} />} */}
                 <Notification info={info} />
 
                 <div className="flex flex-col gap-8">
@@ -341,7 +353,9 @@ function Dashboard() {
                         <div className="flex flex-row flex-wrap gap-2 p-2 justify-around items-center">
                             {players.map(streamingPlayer => {
                                 return (
-                                    <div className="relative flex flex-col gap-1 border border-emerald-400 outline outline-emerald-400 hover:outline-2 rounded-md px-3 py-1 size-48 items-center bg-stone-200 dark:bg-stone-800" key={streamingPlayer._id}>
+                                    <div className="relative flex flex-col gap-1 border border-emerald-400 outline outline-emerald-400 hover:outline-2 rounded-md px-3 py-1 size-48 items-center bg-stone-200 dark:bg-stone-800" key={streamingPlayer._id} onMouseEnter={(e) => { setPlayerVisibility(true); setPlayer(streamingPlayer) }}
+                                        onMouseLeave={(e) => { setPlayerVisibility(false); setPlayer(null); }}
+                                    >
                                         <img src={`/player/${streamingPlayer.type}.png`} className='size-36 ' />
                                         <div className="flex flex-col gap-1 items-center">
                                             <span className='text-violet-400 text-md font-poppins font-bold'>{streamingPlayer.nickname}</span>
@@ -349,7 +363,7 @@ function Dashboard() {
                                         </div>
 
                                         <div className="absolute flex flex-col gap-2 top-2 right-2">
-                                            <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { window.location.href = `player/${streamingPlayer._id}` }}>
+                                            <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { window.location.href = `/player/${streamingPlayer._id}` }}>
                                                 <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
                                             </span>
                                             {/* <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { setUpdateVisibility(true); setPlayer(streamingPlayer) }}>
@@ -372,7 +386,9 @@ function Dashboard() {
                             <div className="flex flex-row flex-wrap gap-2 p-2 justify-around items-center">
                                 {devices.map(digitalDevice => {
                                     return (
-                                        <div className="relative flex flex-row gap-4 border border-violet-400 outline outline-violet-400 hover:outline-2 rounded-md px-3 py-1 w-60 h-12 items-center bg-stone-200 dark:bg-stone-800" key={digitalDevice._id}>
+                                        <div className="relative flex flex-row gap-4 border border-violet-400 outline outline-violet-400 hover:outline-2 rounded-md px-3 py-1 w-60 h-12 items-center bg-stone-200 dark:bg-stone-800" key={digitalDevice._id} onMouseEnter={(e) => { setDeviceVisibility(true); setDevice(digitalDevice) }}
+                                            onMouseLeave={(e) => { setDeviceVisibility(false); setDevice(null); }}
+                                        >
                                             {getSVGByDeviceType(digitalDevice.type, 'size-6 text-indigo-400')}
                                             <div className="flex flex-col gap-1 items-center">
                                                 <span className='text-violet-400 text-md font-poppins font-bold'>{digitalDevice.nickname}</span>
@@ -380,7 +396,7 @@ function Dashboard() {
                                             </div>
 
                                             <div className="absolute flex flex-col gap-2 top-2 right-2">
-                                                <span className='flex justify-center items-center p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { window.location.href = `device/${digitalDevice._id}` }}>
+                                                <span className='flex justify-center items-center p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { window.location.href = `/device/${digitalDevice._id}` }}>
                                                     <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
                                                 </span>
                                             </div>
