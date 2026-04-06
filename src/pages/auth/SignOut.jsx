@@ -50,7 +50,7 @@ function SignOut() {
                         <div className="flex flex-col gap-1">
                             <span className='text-sm text-gray-800 dark:text-gray-200 text-center '>You will be signed out of your account after clicking this.</span>
                         </div>
-                        <button className='bg-red-400 text-white p-2 rounded-md' onClick={() => { handleSignOut() }}>Sign Out</button>
+                        <button className='bg-red-400 text-white p-2 rounded-md hover:cursor-pointer hover:scale-101 hover:bg-red-500' onClick={() => { handleSignOut() }}>Sign Out</button>
                     </div>
                 </div>
             </main>

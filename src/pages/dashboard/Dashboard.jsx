@@ -24,12 +24,13 @@ import { errorHandler, responseHandler } from '@/utils/response-handler'
 
 
 import CreatePlayer from '@/components/player/CreatePlayer'
+import CreateDevice from '@/components/device/CreateDevice'
 import CreateSession from '@/components/session/CreateSession'
 import CreateCharging from '@/components/charging/CreateCharging'
 
 import Loading from '@/components/ui/Loading'
-import UpdatePlayer from '@/components/player/UpdatePlayer'
 import Notification from '@/components/ui/Notification'
+import UpdatePlayer from '@/components/player/UpdatePlayer'
 import DeletePlayer from '@/components/player/DeletePlayer'
 
 
@@ -91,9 +92,13 @@ function Dashboard() {
 
 
     const [playerPanel, setPlayerPanel] = useState(false);
+    const [devicePanel, setDevicePanel] = useState(false);
+
     const [sessionPanel, setSessionPanel] = useState(false);
     const [chargingPanel, setChargingPanel] = useState(false);
 
+
+    // Charts Related Information Storage
 
     const [dailyUsageInfo, setDailyUsageInfo] = useState([]);
     const [sessionDurationInfo, setSessionDurationInfo] = useState([]);
@@ -293,6 +298,8 @@ function Dashboard() {
         <>
             <main className='relative flex flex-col gap-8 min-h-screen w-full h-full px-4 md:px-8 py-4'>
                 {playerPanel && <CreatePlayer panel={setPlayerPanel} />}
+                {devicePanel && <CreateDevice panel={setDevicePanel} />}
+
                 {sessionPanel && <CreateSession panel={setSessionPanel} />}
                 {chargingPanel && <CreateCharging panel={setChargingPanel} />}
 
@@ -371,6 +378,13 @@ function Dashboard() {
                                                 <span className='text-violet-400 text-md font-poppins font-bold'>{digitalDevice.nickname}</span>
                                                 {/* <span className='text-emerald-400 text-xs uppercase font-bold '>{digitalDevice.type}</span> */}
                                             </div>
+
+                                            <div className="absolute flex flex-col gap-2 top-2 right-2">
+                                                <span className='flex justify-center items-center p-1 rounded-xs text-sm text-center hover:cursor-pointer' onClick={() => { window.location.href = `device/${digitalDevice._id}` }}>
+                                                    <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
+                                                </span>
+                                            </div>
+
                                         </div>
                                     )
                                 })}
@@ -400,21 +414,25 @@ function Dashboard() {
 
                             <button className='bg-sky-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
                                 setPlayerPanel(true);
+                                setDevicePanel(false);
                                 setSessionPanel(false);
                                 setChargingPanel(false);
                             }} >Create Player</button>
                             <button className='bg-indigo-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
-                                setPlayerPanel(true);
+                                setDevicePanel(true);
+                                setPlayerPanel(false);
                                 setSessionPanel(false);
                                 setChargingPanel(false);
                             }} >Create Device</button>
                             <button className='bg-emerald-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
                                 setPlayerPanel(false);
+                                setDevicePanel(false);
                                 setSessionPanel(true);
                                 setChargingPanel(false);
                             }} >Create Session</button>
                             <button className='bg-rose-400 text-slate-200 font-bold px-2 py-1 rounded-sm hover:cursor-pointer' onClick={() => {
                                 setPlayerPanel(false);
+                                setDevicePanel(false);
                                 setSessionPanel(false);
                                 setChargingPanel(true);
                             }} >Create Charging</button>
