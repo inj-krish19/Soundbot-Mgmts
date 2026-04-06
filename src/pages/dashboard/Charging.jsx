@@ -275,7 +275,7 @@ function Charging() {
                                     <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingEndTime}</td>
                                     <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{charging.player.nickname}</td>
                                     <td className='w-7/32 text-slate-700 dark:text-slate-300 text-sm text-left'>{eclipseText(charging.note, 35) || "-"}</td>
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { window.location.href = `charging/${charging._id}` }}>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { window.location.href = `/charging/${charging._id}` }}>
                                         <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
                                     </td>
                                     <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setCharging(charging); setChargingVisibility(false); }}>

@@ -25,10 +25,10 @@ function ChargingMiniCard({ charging, previlegeMenu, setCharging, setUpdateVisib
                 <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center text-left' onClick={() => { window.location.href = `/charging/${charging._id}`; }}>
                     <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
                 </span>
-                <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setCharging(charging); setChargingVisibility(false); }}>
+                <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setCharging(charging); }}>
                     <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
                 </span>
-                <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setCharging(charging); setChargingVisibility(false); }}>
+                <span className='flex justify-center items-center text-slate-700 dark:text-slate-300 bg-stone-300 dark:bg-stone-700 p-1 rounded-xs text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setCharging(charging); }}>
                     <FaTrashAlt size={16} className='text-rose-400' />
                 </span>
             </div>}
