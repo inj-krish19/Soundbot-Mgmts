@@ -38,8 +38,8 @@ function DeleteCharging({ charging, panel }) {
                 </div>
 
                 <div className="flex flex-row justify-center items-center w-4/5 gap-4">
-                    <button type="submit" className="bg-rose-400 font-bold font-poppins text-white px-2 py-1 rounded-sm w-1/2 hover:cursor-pointer" onClick={() => { removeCharging() }}>Delete</button>
-                    <button type="submit" className="bg-stone-800 dark:bg-stone-200 text-slate-300 dark:text-slate-700  font-bold font-poppins text-white px-2 py-1 rounded-sm w-1/2 hover:cursor-pointer" onClick={() => { panel(false) }}>Cancel</button>
+                    <button type="submit" className="bg-rose-400 font-bold font-poppins text-white px-2 py-1 rounded-sm w-1/2 hover:cursor-pointer hover:bg-rose-500 hover:scale-101 transition" onClick={() => { removeCharging() }}>Delete</button>
+                    <button type="submit" className="bg-stone-800 dark:bg-stone-200 text-slate-300 dark:text-slate-700 font-bold font-poppins px-2 py-1 rounded-sm w-1/2 hover:bg-stone-900 hover:dark:bg-stone-100  hover:scale-101 hover:cursor-pointer" onClick={() => { panel(false) }}>Cancel</button>
                 </div>
             </div>
         </>

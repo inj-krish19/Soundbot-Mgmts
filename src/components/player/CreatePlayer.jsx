@@ -64,7 +64,7 @@ function CreatePlayer({ panel }) {
         <>
             <div className="fixed top-1/2 left-1/2 -translate-1/2  flex flex-col gap-8 w-3/4 md:w-1/3 h-auto bg-stone-300 dark:bg-stone-700 p-4 rounded-md z-100">
 
-                <span className="text-sky-400 font-bold font-poppis text-lg">Create Player</span>
+                <span className="text-sky-400 font-bold font-poppins text-lg">Create Player</span>
 
                 <ImCross className="absolute top-3 right-3 text-rose-400" onClick={() => panel(false)} />
                 <Notification info={info} />
@@ -123,7 +123,7 @@ function CreatePlayer({ panel }) {
                         </div>
                     </div>
 
-                    <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins">Submit</button>
+                    <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins hover:cursor-pointer hover:bg-violet-600 hover:scale-101 transition">Submit</button>
 
                 </form>
 

@@ -159,7 +159,7 @@ function CreateCharging({ panel }) {
                         <input type="text" name="note" id="note" placeholder="ex. Gone for Walk" value={note} onChange={(e) => { setNote(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200" />
                     </div>
 
-                    <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins">Submit</button>
+                    <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins hover:cursor-pointer hover:bg-violet-600 hover:scale-101 transition">Submit</button>
 
                 </form>
 

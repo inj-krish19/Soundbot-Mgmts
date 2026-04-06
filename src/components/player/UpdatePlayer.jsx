@@ -120,7 +120,7 @@ function UpdatePlayer({ player, panel }) {
                         </div>
                     </div>
 
-                    <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins">Submit</button>
+                    <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins hover:cursor-pointer hover:bg-violet-600 hover:scale-101 transition">Submit</button>
 
                 </form>
 

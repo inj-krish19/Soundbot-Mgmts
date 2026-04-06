@@ -114,7 +114,7 @@ function CreateSession({ panel }) {
         <>
             <div className="fixed top-1/2 left-1/2 -translate-1/2  flex flex-col gap-8 w-3/4 md:w-1/3 h-auto bg-stone-300 dark:bg-stone-700 rounded-md p-4 z-100">
 
-                <span className="text-emerald-400 text-lg font-bold">Create Session</span>
+                <span className="text-emerald-400 text-lg font-poppins font-bold">Create Session</span>
 
                 <ImCross className="absolute top-3 right-3 text-rose-400" onClick={() => { panel(false); }} />
                 <Notification info={info} />
@@ -204,7 +204,7 @@ function CreateSession({ panel }) {
                             <input type="text" name="note" id="note" value={note} onChange={(e) => setNote(e.target.value)} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200" placeholder="ex. Listening Eminem" />
                         </div>
 
-                        <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins">Submit</button>
+                        <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins hover:cursor-pointer hover:bg-violet-600 hover:scale-101 transition">Submit</button>
 
                     </form>
 
