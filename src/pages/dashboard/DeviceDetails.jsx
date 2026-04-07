@@ -2,54 +2,48 @@ import { responseHandler } from "@/utils/response-handler";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-import Loading from "@/components/ui/Loading";
 import NotFound from "@/pages/system/NotFound";
+import Loading from "@/components/ui/Loading";
 import Notification from "@/components/ui/Notification";
 
-import PlayerMiniCard from "@/components/player/PlayerMiniCard";
-import UpdatePlayer from "@/components/player/UpdatePlayer";
-import DeletePlayer from "@/components/player/DeletePlayer";
 
-import { BACKEND_URL } from "@/store/UrlStore";
-import { eclipseNumber } from "@/utils/eclipse-text";
+import DeviceMiniCard from "@/components/device/DeviceMiniCard";
+import UpdateDevice from "@/components/device/UpdateDevice";
+import DeleteDevice from "@/components/device/DeleteDevice";
+
 
 import { SiSession } from "react-icons/si";
 import { LuActivity } from "react-icons/lu";
-import { TbRecharging } from "react-icons/tb";
-import { IoCalendar, IoMusicalNote, IoTrendingUp } from "react-icons/io5";
+import { BACKEND_URL } from "@/store/UrlStore";
+import { eclipseNumber } from "@/utils/eclipse-text";
+import { IoCalendar, IoTrendingUp } from "react-icons/io5";
 
 
-function PlayerDetails() {
+function DeviceDetails() {
 
     const params = useParams();
     const id = params.id;
 
     const [summary, setSummary] = useState({
-        "last_session": {
-            title: "Last Used Session", component: <SiSession size={24} className='text-teal-400 dark:text-slate-200' />,
+        "yearly_device_sessions": {
+            title: "Yearly Sessions", component: <SiSession size={24} className='text-teal-400 dark:text-slate-200' />,
         },
-        "current_streak": {
-            title: "Current Streak", component: <LuActivity size={24} className='text-teal-400 dark:text-slate-200' />,
+        "longest_yearly_session": {
+            title: "Longest Session", component: <LuActivity size={24} className='text-teal-400 dark:text-slate-200' />,
         },
-        "longest_streak": {
-            title: "Longest Streak", component: <IoTrendingUp size={24} className='text-teal-400 dark:text-slate-200' />,
+        "average_listen_time": {
+            title: "Average Listen Time", component: <IoTrendingUp size={24} className='text-teal-400 dark:text-slate-200' />,
         },
-        "yearly_sessions": {
-            title: "Yearly Sessions", component: <IoCalendar size={24} className='text-teal-400 dark:text-slate-200' />,
+        "yearly_listening_time": {
+            title: "Yearly Listening Time", component: <IoCalendar size={24} className='text-teal-400 dark:text-slate-200' />,
         },
-        "total_chargings": {
-            title: "Lifetime Chargings", component: <TbRecharging size={24} className='text-teal-400 dark:text-slate-200' />,
-        },
-        "total_stream_time": {
-            title: "Lifetime Playback", component: <IoMusicalNote size={24} className='text-teal-400 dark:text-slate-200' />,
-        }
     });
     const [info, setInfo] = useState({
         'message': '',
         type: ''
     })
 
-    const [player, setPlayer] = useState(null);
+    const [device, setDevice] = useState(null);
     const [forbidden, setForbidden] = useState(false);
 
     const [updateVisibility, setUpdateVisibility] = useState(false);
@@ -58,7 +52,7 @@ function PlayerDetails() {
 
     const main = async () => {
 
-        let res = await fetch(`${BACKEND_URL}/player/${id}`, {
+        let res = await fetch(`${BACKEND_URL}/device/${id}`, {
             method: 'GET',
             headers: {
                 "content-type": "application/json"
@@ -73,14 +67,14 @@ function PlayerDetails() {
             setForbidden(true);
         }
 
-        setPlayer(response?.data);
+        setDevice(response?.data);
 
     }
 
 
     const getSummary = async () => {
 
-        let res = await fetch(`${BACKEND_URL}/dashboard/player/${id}`, {
+        let res = await fetch(`${BACKEND_URL}/dashboard/device/${id}`, {
             method: 'GET',
             headers: {
                 "content-type": "application/json"
@@ -119,14 +113,14 @@ function PlayerDetails() {
         <main className='relative flex flex-col gap-8 min-h-screen w-full h-full px-4 md:px-8 py-4'>
             <Notification info={info} />
 
-            {updateVisibility && <UpdatePlayer player={player} panel={setUpdateVisibility} />}
-            {deleteVisibility && <DeletePlayer player={player} panel={setDeleteVisibility} />}
+            {updateVisibility && <UpdateDevice device={device} panel={setUpdateVisibility} />}
+            {deleteVisibility && <DeleteDevice device={device} panel={setDeleteVisibility} />}
 
 
             <div className="flex flex-col-reverse md:flex-col gap-6">
 
                 <div className="flex flex-row w-full flex-wrap gap-8 md:px-8 py-4 justify-around">
-                    {!player ? <Loading /> : <PlayerMiniCard player={player} privilegeMenu={true} setPlayer={setPlayer} setUpdateVisibility={setUpdateVisibility} setDeleteVisibility={setDeleteVisibility} />}
+                    {!device ? <Loading /> : <DeviceMiniCard device={device} privilegeMenu={true} setDevice={setDevice} setUpdateVisibility={setUpdateVisibility} setDeleteVisibility={setDeleteVisibility} />}
                 </div>
 
                 <div className="flex flex-wrap flex-row gap-4 justify-center">
@@ -152,4 +146,4 @@ function PlayerDetails() {
 
 }
 
-export default PlayerDetails;
+export default DeviceDetails;

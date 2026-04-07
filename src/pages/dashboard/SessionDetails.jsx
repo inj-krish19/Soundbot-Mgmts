@@ -59,13 +59,13 @@ function SessionDetails() {
             credentials: "include"
         });
 
-        if (res.status === 403) {
+        responseHandler(res.clone(), setInfo);
+        let response = await res.json();
+
+        console.log(response);
+        if (response.code === 403 || response.code === 401) {
             setForbidden(true);
         }
-
-        responseHandler(res.clone(), setInfo);
-
-        let response = await res.json();
 
         response.data['volume'] = Math.round(response.data['volume'] * 100, 2);
         response.data['startDate'] = cleanDate(response.data['startDate']);

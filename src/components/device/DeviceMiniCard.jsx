@@ -1,19 +1,20 @@
 import { FaTrashAlt } from "react-icons/fa";
 import { LuPencil } from "react-icons/lu";
 import { GoArrowUpRight } from "react-icons/go";
+import { getSVGByDeviceType } from "@/utils/getSVG";
 
 function DeviceMiniCard({ device, privilegeMenu, setDevice, setUpdateVisibility, setDeleteVisibility }) {
 
     return (
         <div className="relative w-full lg:w-3/5 flex flex-col sm:flex-row px-4 py-2 gap-8 border border-purple-400/20 rounded-md items-center justify-evenly" key={device._id}>
-            {/* <div className="flex flex-col gap-2 items-center">
-                <img src={`/device/` + device.type + `.png`} className='size-36' />
+            <div className="flex flex-col gap-2 items-center">
+                {getSVGByDeviceType(device.type, 'size-12 text-purple-400 dark:text-violet-400')}
                 <p className='text-sm capitalize text-indigo-400'><span className='font-bold font-poppins'>{device.type}</span></p>
-            </div> */}
+            </div>
             <div className="flex flex-col gap-1 sm:w-2/5">
                 <p className='text-slate-700 dark:text-slate-300 text-sm'>Name: <span className='font-bold font-poppins'>{device.name}</span></p>
                 <p className='text-slate-700 dark:text-slate-300 text-sm'>Nickname: <span className='font-bold font-poppins'>{device.nickname}</span></p>
-                <p className='text-slate-700 dark:text-slate-300 text-sm'>Type: <span className='font-bold font-poppins'>{device.type}</span></p>
+                <p className='text-slate-700 dark:text-slate-300 text-sm capitalize'>Type: <span className='font-bold font-poppins'>{device.type}</span></p>
                 <p className='text-slate-700 dark:text-slate-300 text-sm'>Company: <span className='font-bold font-poppins'>{device.company}</span></p>
             </div>
 

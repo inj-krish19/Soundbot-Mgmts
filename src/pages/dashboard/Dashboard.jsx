@@ -9,7 +9,7 @@ import { SiAudiomack } from 'react-icons/si'
 import { GoArrowUpRight } from 'react-icons/go'
 
 
-import { BsCalendarWeek } from 'react-icons/bs'
+import { BsBattery, BsBatteryFull, BsBatteryHalf, BsCalendarWeek } from 'react-icons/bs'
 import { MdCalendarMonth, MdAudiotrack, MdList } from 'react-icons/md'
 import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer, PieChart, Pie, Sector, CartesianGrid, AreaChart, Area } from 'recharts'
 
@@ -30,10 +30,11 @@ import CreateCharging from '@/components/charging/CreateCharging'
 
 import Loading from '@/components/ui/Loading'
 import Notification from '@/components/ui/Notification'
+import DeviceCard from '@/components/device/DeviceCard'
+
+import PlayerCard from '@/components/player/PlayerCard'
 import UpdatePlayer from '@/components/player/UpdatePlayer'
 import DeletePlayer from '@/components/player/DeletePlayer'
-import PlayerCard from '@/components/player/PlayerCard'
-import DeviceCard from '@/components/device/DeviceCard'
 
 
 const ChartLoading = () => {
@@ -76,6 +77,12 @@ function Dashboard() {
         },
         "buddy_player": {
             title: "Buddy Player", component: getSVGByPlayerType('headphone', 'text-teal-400 dark:text-slate-200')
+        },
+        "companion_device": {
+            title: "Companion Device", component: getSVGByDeviceType('others', 'text-teal-400 dark:text-slate-200')
+        },
+        "battery_health": {
+            title: "Player Health", component: null
         }
     });
 
@@ -252,38 +259,50 @@ function Dashboard() {
     }
 
 
+    const getSummary = async () => {
+
+        let res = await fetch(`${BACKEND_URL}/dashboard/`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        responseHandler(res.clone(), setInfo);
+        let response = await res.json();
+
+        const updatedSummary = { ...summary };
+
+        for (let key in response.data) {
+            updatedSummary[key] = {
+                ...updatedSummary[key],
+                data: response.data[key].data,
+                type: response.data[key].type,
+                units: response.data[key].units
+            }
+        }
+
+        let batteryHealth = response.data['battery_health'].data;
+        if (batteryHealth === "Full Focus") {
+            updatedSummary['battery_health']['component'] = <BsBatteryFull size={24} className='text-teal-400 dark:text-slate-200' />
+        } else if (batteryHealth === "Stable n Steady") {
+            updatedSummary['battery_health']['component'] = <BsBatteryHalf size={24} className='text-teal-400 dark:text-slate-200' />
+        } else if (batteryHealth === "About 2 End") {
+            updatedSummary['battery_health']['component'] = <BsBattery size={24} className='text-teal-400 dark:text-slate-200' />
+        }
+
+        setSummary(updatedSummary);
+    }
+
+
     useEffect(() => {
 
 
         try {
 
-            const main = async () => {
 
-                let res = await fetch(`${BACKEND_URL}/dashboard/`, {
-                    method: 'GET',
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    credentials: "include"
-                });
-
-                responseHandler(res.clone(), setInfo);
-                let response = await res.json();
-
-                const updatedSummary = { ...summary };
-
-                for (let key in response.data) {
-                    updatedSummary[key] = {
-                        ...updatedSummary[key],
-                        data: response.data[key].data,
-                        type: response.data[key].type,
-                        units: response.data[key].units
-                    }
-                }
-
-                setSummary(updatedSummary);
-            }
-            main();
+            getSummary();
             getMe();
 
         } catch (err) {
@@ -465,7 +484,7 @@ function Dashboard() {
 
                     <div className="flex flex-row gap-2 justify-between items-center bg-stone-300 dark:bg-stone-700 px-4 py-2 rounded-md">
                         <span className='font-poppins text-emerald-400 font-bold text-xl'>Analytical Charts</span>
-                        <div className="flex flex-row gap-2 items-center">
+                        <div className="hidden md:flex flex-row gap-2 items-center">
                             <MdList onClick={() => { localStorage.setItem("preference", "list"); setView("list"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-sky-300 p-1 ${view === "list" ? 'bg-sky-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
                             <IoGrid onClick={() => { localStorage.setItem("preference", "grid"); setView("grid"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-emerald-300 p-1 ${view === "grid" ? 'bg-emerald-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
                         </div>

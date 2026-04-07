@@ -2,11 +2,13 @@ function HowItWorks() {
 
     const steps = [
         { step: 1, title: 'Sign In', description: 'Sign In on Soundbot Mgmts with Email Verification or Continue with Platforms' },
-        { step: 2, title: 'Create Player', description: 'Create Streaming Player for storing the details of usage sessions and charging info' },
-        { step: 3, title: 'Create Sessions', description: 'Create Session and provide the details as per the conventional use of streaming player (ex. volume, start time, end time)' },
-        { step: 4, title: 'Create Charging', description: 'Create Charging and provide ranges of first and last date for tracking usage (note: if chargeless device then you set charging as usage range)' },
-        { step: 5, title: 'Dashboard', description: 'Visualize Charts in order to get track the details of session, player and usage' },
-        { step: 6, title: 'AI Insights', description: 'Access AI Isights that helps you to use the streaming player, so you can listen making sure without damage' },
+        { step: 2, title: 'Create Player', description: 'Create Streaming Player for storing the details of player, usage sessions and charging info' },
+        { step: 3, title: 'Create Device', description: 'Create Digital Device for storing the details of the device that access the player in session' },
+        { step: 4, title: 'Create Sessions', description: 'Create Session and provide the details as per the conventional use of streaming player (ex. volume, start time, end time)' },
+        { step: 5, title: 'Create Charging', description: 'Create Charging and provide ranges of first and last date for tracking usage (note: if chargeless device then you set charging as usage range)' },
+        { step: 6, title: 'Dashboard', description: 'Visualize Charts in order to get track the details of session, player and usage' },
+        { step: 7, title: 'AI Insights', description: 'Access AI Isights that helps you to use the streaming player, so you can listen making sure without damage' },
+        { step: 8, title: 'Report Generation', description: 'Generate the reports for data available on platform so can be accessed anywhere portably, analyse and store as document' },
     ];
 
     return (

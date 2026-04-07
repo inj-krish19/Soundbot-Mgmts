@@ -35,7 +35,7 @@ function UpdateDevice({ device, panel }) {
                 },
                 credentials: 'include',
                 body: JSON.stringify({
-                    name, nickname, company, type,
+                    name, nickname, company, type
                 })
             });
 
@@ -102,19 +102,6 @@ function UpdateDevice({ device, panel }) {
                             </ListboxOptions>
                         </Listbox>
 
-                    </div>
-
-                    <div className="flex flex-row justify-start items-center gap-3">
-
-                        <div className="flex flex-row gap-2 ">
-                            <label htmlFor="wireless" className="text-slate-800 dark:text-slate-200 " >Wireless</label>
-                            <input type="checkbox" name="wireless" id="wireless" value="Wireless" checked={wireless} onChange={(e) => { setWireless(!wireless) }} />
-                        </div>
-
-                        <div className="flex flex-row gap-2 ">
-                            <label htmlFor="rgb" className="text-slate-700 dark:text-slate-300 " >RGB</label>
-                            <input type="checkbox" name="rgb" id="rgb" value="RGB" checked={RGB} onChange={(e) => { setRGB(!RGB); }} />
-                        </div>
                     </div>
 
                     <button type="submit" className="p-2 bg-violet-500 text-slate-200 rounded-md font-bold font-poppins hover:cursor-pointer hover:bg-violet-600 hover:scale-101 transition">Submit</button>

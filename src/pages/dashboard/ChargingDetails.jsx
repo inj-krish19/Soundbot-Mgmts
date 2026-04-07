@@ -1,23 +1,28 @@
 import { useParams } from "react-router";
 import { cleanDate } from "@/utils/date";
 import { useEffect, useState } from "react";
-import { BACKEND_URL } from "@/store/UrlStore";
-import { responseHandler } from "@/utils/response-handler";
+
 
 import Loading from "@/components/ui/Loading";
 import NotFound from "@/pages/system/NotFound";
 import Notification from "@/components/ui/Notification";
-import ChargingMiniCard from "@/components/charging/ChargingMiniCard";
+
+import UpdateCharging from "@/components/charging/UpdateCharging";
+import DeleteCharging from "@/components/charging/DeleteCharging";
 import SessionMiniCard from "@/components/session/SessionMiniCard";
-import { IoMdTime } from "react-icons/io";
-import { TiEquals } from "react-icons/ti";
-import { IoCalendarClear, IoPieChart, IoTrendingUp } from "react-icons/io5";
-import { eclipseNumber } from "@/utils/eclipse-text";
-import { PiArrowsHorizontal, PiArrowsHorizontalBold } from "react-icons/pi";
-import { MdAccessTime } from "react-icons/md";
+import ChargingMiniCard from "@/components/charging/ChargingMiniCard";
+
 import { FaListOl } from "react-icons/fa6";
+import { MdAccessTime } from "react-icons/md";
 import { RiNumbersFill } from "react-icons/ri";
+import { IoTrendingUp } from "react-icons/io5";
+import { PiArrowsHorizontalBold } from "react-icons/pi";
 import { HiMiniArrowTrendingDown } from "react-icons/hi2";
+
+import { BACKEND_URL } from "@/store/UrlStore";
+import { responseHandler } from "@/utils/response-handler";
+import { eclipseNumber } from "@/utils/eclipse-text";
+
 
 function ChargingDetails() {
 
@@ -53,6 +58,9 @@ function ChargingDetails() {
     const [charging, setCharging] = useState(null);
     const [forbidden, setForbidden] = useState(false);
 
+    const [updateVisibility, setUpdateVisibility] = useState(false);
+    const [deleteVisibility, setDeleteVisibility] = useState(false);
+
     const fetchCharging = async () => {
 
         let res = await fetch(`${BACKEND_URL}/charging/${id}`, {
@@ -63,18 +71,17 @@ function ChargingDetails() {
             credentials: "include"
         });
 
-        if (res.status === 401) {
-            setForbidden(true);
-        }
-
         responseHandler(res.clone(), setInfo);
-
         let response = await res.json();
 
-        response.data['firstSessionDate'] = cleanDate(response.data['firstSessionDate'])
-        response.data['lastSessionDate'] = cleanDate(response.data['lastSessionDate'])
-        response.data['chargingStartDate'] = cleanDate(response.data['chargingStartDate'])
-        response.data['chargingEndDate'] = cleanDate(response.data['chargingEndDate'])
+        if (response.code === 403 || response.code === 401) {
+            setForbidden(true);
+        } else {
+            response.data['firstSessionDate'] = cleanDate(response.data['firstSessionDate'])
+            response.data['lastSessionDate'] = cleanDate(response.data['lastSessionDate'])
+            response.data['chargingStartDate'] = cleanDate(response.data['chargingStartDate'])
+            response.data['chargingEndDate'] = cleanDate(response.data['chargingEndDate'])
+        }
 
         setCharging(response.data);
 
@@ -134,8 +141,8 @@ function ChargingDetails() {
 
     useEffect(() => {
         try {
-            getSummary();
             fetchCharging();
+            getSummary();
             fetchSessions();
         } catch (err) { }
     }, [])
@@ -146,9 +153,13 @@ function ChargingDetails() {
         <main className='relative flex flex-col gap-8 min-h-screen w-full h-full px-4 md:px-8 py-4'>
             <Notification info={info} />
 
+            {updateVisibility && <UpdateCharging charging={charging} panel={setUpdateVisibility} />}
+            {deleteVisibility && <DeleteCharging charging={charging} panel={setDeleteVisibility} />}
+
+
             <div className="flex flex-col-reverse md:flex-col gap-6">
                 <div className="flex flex-row w-full flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
-                    {!charging ? <Loading /> : <ChargingMiniCard charging={charging} />}
+                    {!charging ? <Loading /> : <ChargingMiniCard charging={charging} previlegeMenu={true} setCharging={setCharging} setUpdateVisibility={setUpdateVisibility} setDeleteVisibility={setDeleteVisibility} />}
                 </div>
 
                 <div className="flex flex-row flex-wrap gap-4 justify-center">
