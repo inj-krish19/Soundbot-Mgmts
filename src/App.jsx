@@ -20,6 +20,7 @@ const Sessions = lazy(() => import('@/pages/dashboard/Sessions'));
 const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'));
 
 
+const DeviceDetails = lazy(() => import('@/pages/dashboard/DeviceDetails'));
 const PlayerDetails = lazy(() => import('@/pages/dashboard/PlayerDetails'));
 const SessionDetails = lazy(() => import('@/pages/dashboard/SessionDetails'));
 const ChargingDetails = lazy(() => import('@/pages/dashboard/ChargingDetails'));
@@ -121,6 +122,7 @@ function App() {
 
 
                 <Route path='/player/:id' element={<PlayerDetails />} />
+                <Route path='/device/:id' element={<DeviceDetails />} />
                 <Route path='/session/:id' element={<SessionDetails />} />
                 <Route path='/charging/:id' element={<ChargingDetails />} />
 
