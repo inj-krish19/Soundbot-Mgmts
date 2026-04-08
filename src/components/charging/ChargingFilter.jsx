@@ -138,7 +138,7 @@ function ChargingFilter({ panelState, loadingState, setData, setPage, setFilteri
 
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-1">
-                            <span className="text-sky-300 text-sm font-semibold">Player</span>
+                            <span className="text-sky-500 text-sm font-semibold">Player</span>
 
                             <div className="flex flex-col gap-1">
                                 <Listbox value={player} onChange={setPlayer}>
@@ -170,7 +170,7 @@ function ChargingFilter({ panelState, loadingState, setData, setPage, setFilteri
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <span className="text-sky-300 text-sm font-semibold">Session Date Range</span>
+                            <span className="text-sky-500 text-sm font-semibold">Session Date Range</span>
                             <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
 
                                 <div className="flex flex-col gap-1 w-full sm:w-1/2" >
@@ -187,7 +187,7 @@ function ChargingFilter({ panelState, loadingState, setData, setPage, setFilteri
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <span className="text-sky-300 font-semibold text-sm">Charging Date Range</span>
+                            <span className="text-sky-500 font-semibold text-sm">Charging Date Range</span>
                             <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
 
                                 <div className="flex flex-col gap-1 w-full sm:w-1/2">
@@ -204,7 +204,7 @@ function ChargingFilter({ panelState, loadingState, setData, setPage, setFilteri
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <span className="text-sky-300 font-semibold text-sm">Charging Time Range</span>
+                            <span className="text-sky-500 font-semibold text-sm">Charging Time Range</span>
                             <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
 
                                 <div className="flex flex-col gap-1 w-full sm:w-1/2">
@@ -221,7 +221,7 @@ function ChargingFilter({ panelState, loadingState, setData, setPage, setFilteri
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
-                            <span className="text-sky-300 text-sm font-semibold">Charging Duration</span>
+                            <span className="text-sky-500 text-sm font-semibold">Charging Duration</span>
 
                             <div className="flex flex-row gap-2">
                                 <span className={`hover:cursor-pointer bg-purple-500 text-slate-200 px-2 py-1 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm text-sm ${chargingDurationActive === "lte" ? "border-2 outline font-bold" : "border"} `} onClick={() => setChargingDurationActive("lte")}>{"<="}</span>

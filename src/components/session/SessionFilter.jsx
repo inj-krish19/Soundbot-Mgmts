@@ -188,19 +188,19 @@ function SessionFilter({ panelState, loadingState, setData, setPage, setFilterin
                                         {devices.length === 0 && <span className="text-rose-400 text-sm">Please add streaming player first</span>}
 
                                         {devices.length !== 0 && <ListboxButton className='px-2 py-1 border-2 border-slate-800 dark:border-slate-200 outline-slate-800 dark:outline-slate-200 rounded-sm flex items-center gap-2'>
-                                            {device?.type !== 'none' && getSVGByDeviceType(device.type, 'size-4 text-indigo-400')}
-                                            <span className="text-indigo-400 text-sm">{device.nickname}</span>
+                                            {device?.type !== 'none' && getSVGByDeviceType(device.type, 'size-4 text-emerald-400')}
+                                            <span className="text-teal-400 text-sm">{device.nickname}</span>
                                         </ListboxButton>}
 
                                         {devices.length !== 0 && <ListboxOptions className='outline-2 outline-slate-800 dark:outline-slate-200 rounded-sm'>
-                                            <ListboxOption value={{ type: 'none', nickname: 'All Devices Selected' }} className='px-2 py-1 flex items-center gap-2 hover:bg-sky-200 hover:cursor-pointer'>
-                                                <span className="text-indigo-400 text-sm">All Devices Selected</span>
+                                            <ListboxOption value={{ type: 'none', nickname: 'All Devices Selected' }} className='px-2 py-1 flex items-center gap-2 hover:bg-emerald-200 hover:cursor-pointer'>
+                                                <span className="text-teal-400 text-sm">All Devices Selected</span>
                                             </ListboxOption>
                                             {devices.map(digitalDevice => {
                                                 return (
-                                                    <ListboxOption key={digitalDevice._id} value={digitalDevice} className='px-2 py-1 flex items-center gap-2 hover:bg-sky-200 hover:cursor-pointer'>
-                                                        {getSVGByDeviceType(digitalDevice.type, 'size-4 text-indigo-400')}
-                                                        <span className="text-indigo-500 text-sm">{digitalDevice.nickname}</span>
+                                                    <ListboxOption key={digitalDevice._id} value={digitalDevice} className='px-2 py-1 flex items-center gap-2 hover:bg-emerald-200 hover:cursor-pointer'>
+                                                        {getSVGByDeviceType(digitalDevice.type, 'size-4 text-emerald-400')}
+                                                        <span className="text-teal-400 text-sm">{digitalDevice.nickname}</span>
                                                     </ListboxOption>
                                                 )
                                             })}
