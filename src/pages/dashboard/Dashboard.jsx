@@ -82,7 +82,7 @@ function Dashboard() {
             title: "Companion Device", component: getSVGByDeviceType('others', 'text-teal-400 dark:text-slate-200')
         },
         "battery_health": {
-            title: "Player Health", component: null
+            title: "Player Health", component: <BsBatteryHalf size={24} className='text-teal-400 dark:text-slate-200' />
         }
     });
 

@@ -107,7 +107,7 @@ function ChargingDetails() {
             resp['volume'] = Math.round(resp['volume'] * 100);
         }
         console.log(response.data);
-        setSessions(response.data);
+        setSessions(response.data.reverse());
 
     }
 

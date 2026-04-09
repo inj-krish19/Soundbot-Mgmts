@@ -1,6 +1,6 @@
 # **_Details Dashboard Charts_**
 
-## **Session Chart - not Possible**/
+## **Session Chart - not possible**
 
 ## **Device Possible Charts**
 
@@ -9,7 +9,8 @@
 2. Session Duration Bar Chart (Bar)
 - one device uses too many players
 3. Player Count Distribution (Pie)
-4. Yearly Comparison of Usage (Bar)
+4. Yearly Comparison of Count Usage (Line)
+- duration but we'll show count on tooltip
 ```
 
 ## **Player Possible Charts**
@@ -20,6 +21,8 @@
 2. Usage Time Distribution (Bar)
 3. Session Duration (Bar)
 4. Yearly Charging Count Distribution (Line)
+5. Yearly Session Count Distribution (Line)
+6. Yearly Streaming Distribution (Line)
 ```
 
 ## **Charging Possible Charts**
