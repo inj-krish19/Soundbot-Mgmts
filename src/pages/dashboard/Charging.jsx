@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import { FiInfo } from 'react-icons/fi'
+import { FaPlus } from 'react-icons/fa6';
 import { HiRefresh } from 'react-icons/hi';
 import { IoCalendar } from 'react-icons/io5'
+
 import { IoIosFunnel } from 'react-icons/io';
+import { GoArrowUpRight } from 'react-icons/go';
 import { LuArrowUpDown, LuPencil } from 'react-icons/lu';
 import { FaHeadphones, FaListUl, FaTrashAlt } from 'react-icons/fa';
 
@@ -13,14 +16,13 @@ import { eclipseText, eclipseNumber } from '@/utils/eclipse-text';
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 
 import Loading from '@/components/ui/Loading';
+import Notification from '@/components/ui/Notification';
 import ChargingCard from '@/components/charging/ChargingCard';
 import ChargingFilter from '@/components/charging/ChargingFilter';
+
+import CreateCharging from '@/components/charging/CreateCharging';
 import UpdateCharging from '@/components/charging/UpdateCharging';
 import DeleteCharging from '@/components/charging/DeleteCharging';
-import Notification from '@/components/ui/Notification';
-import CreateCharging from '@/components/charging/CreateCharging';
-import { FaPlus } from 'react-icons/fa6';
-import { GoArrowUpRight } from 'react-icons/go';
 import ChargingMiniCard from '@/components/charging/ChargingMiniCard';
 
 function Charging() {
@@ -92,12 +94,41 @@ function Charging() {
                 resp['chargingStartDate'] = cleanDate(resp['chargingStartDate']);
             }
 
-            setChargings(response.data);
+            setChargings(response.data || []);
             setTimeout(() => { setLoading(false); }, 2000);
 
         } catch (err) {
             errorHandler(res, err);
         }
+
+    }
+
+
+    const getSummary = async () => {
+
+        let res = await fetch(`${BACKEND_URL}/dashboard/charging`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        responseHandler(res.clone(), setInfo);
+        let response = await res.json();
+
+        const updatedSummary = { ...summary };
+
+        for (let key in response.data) {
+            updatedSummary[key] = {
+                ...updatedSummary[key],
+                data: response.data[key].data,
+                type: response.data[key].type,
+                units: response.data[key].units
+            }
+        }
+
+        setSummary(updatedSummary);
 
     }
 
@@ -134,7 +165,11 @@ function Charging() {
             resp['lastSessionDate'] = cleanDate(resp['lastSessionDate']);
         }
 
-        setChargings(sorted ? [...chargings, ...response.data] : [...response.data.toReversed(), ...chargings]);
+        setChargings(
+            prev => sorted
+                ? [...prev, ...response.data]
+                : [...response.data.toReversed(), ...prev]
+        );
 
     }
 
@@ -164,34 +199,6 @@ function Charging() {
             );
 
             if (loaderRef.current) observer.observe(loaderRef.current);
-
-            const getSummary = async () => {
-
-                let res = await fetch(`${BACKEND_URL}/dashboard/charging`, {
-                    method: 'GET',
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    credentials: "include"
-                });
-
-                responseHandler(res.clone(), setInfo);
-                let response = await res.json();
-
-                const updatedSummary = { ...summary };
-
-                for (let key in response.data) {
-                    updatedSummary[key] = {
-                        ...updatedSummary[key],
-                        data: response.data[key].data,
-                        type: response.data[key].type,
-                        units: response.data[key].units
-                    }
-                }
-
-                setSummary(updatedSummary);
-
-            }
 
             getSummary();
             setTimeout(() => { setLoading(false) }, 2000);

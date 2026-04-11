@@ -8,7 +8,7 @@
 1. Listen Time Distribution (Bar)
 2. Session Duration Bar Chart (Bar)
 - one device uses too many players
-3. Player Count Distribution (Pie)
+3. Player Usage Distribution (Pie)
 4. Yearly Comparison of Count Usage (Line)
 - duration but we'll show count on tooltip
 ```
@@ -16,7 +16,7 @@
 ## **Player Possible Charts**
 
 ```
-1. Device Count Distrubution Chart (Pie)
+1. Device Usage Distrubution Chart (Pie)
 - one streaming player accessed by less devices
 2. Usage Time Distribution (Bar)
 3. Session Duration (Bar)

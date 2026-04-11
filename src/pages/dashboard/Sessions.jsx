@@ -94,6 +94,33 @@ function Sessions() {
     }
 
 
+
+    const getSummary = async () => {
+        let res = await fetch(`${BACKEND_URL}/dashboard/sessions`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        responseHandler(res.clone(), setInfo);
+        let response = await res.json();
+
+        const updatedSummary = { ...summary };
+        for (let key in response.data) {
+            updatedSummary[key] = {
+                ...updatedSummary[key],
+                data: response.data[key].data,
+                type: response.data[key].type,
+                units: response.data[key].units
+            };
+        }
+
+        setSummary(updatedSummary);
+    }
+
+
     const main = async () => {
 
         if (isFiltering) return;
@@ -164,32 +191,7 @@ function Sessions() {
 
             if (loaderRef.current) observer.observe(loaderRef.current);
 
-            const getSummary = async () => {
-                let res = await fetch(`${BACKEND_URL}/dashboard/sessions`, {
-                    method: 'GET',
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    credentials: "include"
-                });
-
-                responseHandler(res.clone(), setInfo);
-                let response = await res.json();
-
-                const updatedSummary = { ...summary };
-                for (let key in response.data) {
-                    updatedSummary[key] = {
-                        ...updatedSummary[key],
-                        data: response.data[key].data,
-                        type: response.data[key].type,
-                        units: response.data[key].units
-                    };
-                }
-
-                setSummary(updatedSummary);
-            }
             getSummary();
-
             setTimeout(() => { setLoading(false) }, 2000);
             return () => observer.disconnect();
 
