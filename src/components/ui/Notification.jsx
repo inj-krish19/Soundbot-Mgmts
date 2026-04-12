@@ -49,7 +49,6 @@ function Notification(props) {
                 <span className='text-white'>{message}</span>
             </div>
 
-            {/* Manual Close */}
             <button onClick={() => { setVisible(false) }}>
                 <RxCross2 className='text-slate-200' />
             </button>
