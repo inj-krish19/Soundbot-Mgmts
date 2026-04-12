@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import BackToTop from "@/components/layout/BackToTop";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 import { FaCompactDisc, FaHeadphones, FaWaveSquare, FaMusic } from "react-icons/fa";
+import { IoIosMusicalNote } from "react-icons/io";
 
 function NotFound() {
 
@@ -42,7 +43,6 @@ function NotFound() {
     return (
         <main className="relative flex flex-col gap-12 px-4 md:px-8 py-6 min-h-screen w-full justify-center items-center transition duration-300 bg-white dark:bg-black">
 
-            {/* Floating Waves */}
             {waves.map((pos, i) => (
                 <motion.div
                     key={i}
@@ -54,7 +54,6 @@ function NotFound() {
                 </motion.div>
             ))}
 
-            {/* Floating Music */}
             {musics.map((pos, i) => (
                 <motion.div
                     key={i}
@@ -66,7 +65,6 @@ function NotFound() {
                 </motion.div>
             ))}
 
-            {/* Floating Headphones */}
             {headphones.map((pos, i) => (
                 <motion.div
                     key={i}
@@ -78,7 +76,6 @@ function NotFound() {
                 </motion.div>
             ))}
 
-            {/* Rotating Discs */}
             {discs.map((pos, i) => (
                 <motion.div
                     key={i}
@@ -90,7 +87,6 @@ function NotFound() {
                 </motion.div>
             ))}
 
-            {/* Main Content */}
             <div className="flex flex-col items-center text-center gap-5">
 
                 <motion.h1
@@ -108,8 +104,8 @@ function NotFound() {
                     <FaCompactDisc className="text-indigo-300 dark:text-slate-100 hover:text-sky-400 hover:dark:text-emerald-400 transition" size={48} />
                 </motion.div>
 
-                <p className="text-lg font-semibold text-slate-700 dark:text-slate-300">
-                    Oops! This track seems to be missing 🎵
+                <p className="flex justify-center items-center text-lg font-semibold text-slate-700 dark:text-slate-300 gap-2 ">
+                    Oops! This track seems to be missing <IoIosMusicalNote />
                 </p>
 
                 <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md">

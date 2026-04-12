@@ -28,22 +28,16 @@ import CreateDevice from '@/components/device/CreateDevice'
 import CreateSession from '@/components/session/CreateSession'
 import CreateCharging from '@/components/charging/CreateCharging'
 
-import Loading from '@/components/ui/Loading'
+
+import ChartLoading from '@/components/ui/ChartLoading'
+import OrbitLoading from '@/components/ui/OrbitLoading'
 import Notification from '@/components/ui/Notification'
 import DeviceCard from '@/components/device/DeviceCard'
+
 
 import PlayerCard from '@/components/player/PlayerCard'
 import UpdatePlayer from '@/components/player/UpdatePlayer'
 import DeletePlayer from '@/components/player/DeletePlayer'
-
-
-const ChartLoading = () => {
-    return (
-        <div className="flex flex-col w-auto h-full justify-center">
-            <Loading />
-        </div>
-    );
-}
 
 
 function Dashboard() {
@@ -526,7 +520,7 @@ function Dashboard() {
 
                             <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Daily Usage Trend</span>
 
-                            {dailyUsageInfo.length === 0 ? <ChartLoading />
+                            {dailyUsageInfo.length === 0 ? <OrbitLoading />
                                 : <ResponsiveContainer >
                                     <LineChart data={dailyUsageInfo} >
                                         <XAxis dataKey="day" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }} >
@@ -571,7 +565,7 @@ function Dashboard() {
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Player Usage Distribution</span>
 
-                            {playerUsageInfo.length === 0 ? <ChartLoading />
+                            {playerUsageInfo.length === 0 ? <OrbitLoading />
                                 : <ResponsiveContainer >
                                     <PieChart>
                                         <Pie activeShape={renderActiveShape} data={playerUsageInfo} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="percent" nameKey="nickname" >
@@ -622,7 +616,7 @@ function Dashboard() {
 
                             <span className="font-oswald font-bold text-md tracking-wide text-sky-400">Charging Playback Trend</span>
 
-                            {chargingPlaybackTrend.length === 0 ? <ChartLoading />
+                            {chargingPlaybackTrend.length === 0 ? <OrbitLoading />
                                 : <ResponsiveContainer >
                                     <LineChart data={chargingPlaybackTrend} >
                                         <XAxis dataKey="key" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }} >
@@ -668,7 +662,7 @@ function Dashboard() {
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Session vs Total Usage</span>
 
-                            {sessionTotalUsageInfo.length === 0 ? <ChartLoading />
+                            {sessionTotalUsageInfo.length === 0 ? <OrbitLoading />
                                 : <ResponsiveContainer>
                                     <BarChart data={sessionTotalUsageInfo} barCategoryGap={totalUsageBarGap} >
                                         {/* <CartesianGrid strokeDasharray="3 3" vertical={false} /> */}
@@ -737,7 +731,7 @@ function Dashboard() {
 
                             <span className='font-oswald font-bold text-md tracking-wide text-sky-400'>Cumulative Usage</span>
 
-                            {cumulativeUsageInfo.length === 0 ? <ChartLoading />
+                            {cumulativeUsageInfo.length === 0 ? <OrbitLoading />
                                 : <ResponsiveContainer>
                                     <AreaChart data={cumulativeUsageInfo} >
                                         <XAxis dataKey="date" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }}  >
