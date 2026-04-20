@@ -1,21 +1,26 @@
 import { useParams } from "react-router";
-import { cleanDate } from "@/utils/date";
 import { useEffect, useState } from "react";
-import { BACKEND_URL } from "@/store/UrlStore";
-import { responseHandler } from "@/utils/response-handler";
 
 import Loading from "@/components/ui/Loading";
 import NotFound from "@/pages/system/NotFound";
 import Notification from "@/components/ui/Notification";
+
 import UpdateSession from "@/components/session/UpdateSession";
 import DeleteSession from "@/components/session/DeleteSession";
 import SessionMiniCard from "@/components/session/SessionMiniCard";
+import SessionLoading from "@/components/charts_loading/SessionLoading";
 
+import { MdList } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
 import { TiEquals } from "react-icons/ti";
-import { eclipseNumber } from "@/utils/eclipse-text";
-import { IoCalendarClear, IoPieChart } from "react-icons/io5";
+import { IoCalendarClear, IoGrid, IoPieChart } from "react-icons/io5";
 import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
+
+import { cleanDate } from "@/utils/date";
+import { BACKEND_URL } from "@/store/UrlStore";
+import { eclipseNumber } from "@/utils/eclipse-text";
+import { responseHandler } from "@/utils/response-handler";
+import { XAxis, YAxis, Line, Label, LineChart, Tooltip, ResponsiveContainer } from 'recharts'
 
 
 function SessionDetails() {
@@ -47,6 +52,10 @@ function SessionDetails() {
 
     const [updateVisibility, setUpdateVisibility] = useState(false);
     const [deleteVisibility, setDeleteVisibility] = useState(false);
+
+    const [monthlyTrend, setMonthlyTrend] = useState([]);
+    const [yearlyDateTrend, setYearlyDateTrend] = useState([]);
+    const [view, setView] = useState(localStorage.getItem("preference") || 'grid');
 
 
     const main = async () => {
@@ -119,12 +128,37 @@ function SessionDetails() {
     }
 
 
+    const getChartsInfo = async () => {
+
+        try {
+
+            let res = await fetch(`${BACKEND_URL}/analytics/session/${id}`, {
+                method: "GET",
+                headers: {
+                    "content-type": "application/json"
+                },
+                credentials: "include"
+            });
+
+            let response = await res.json();
+
+            setMonthlyTrend(response?.data?.['monthly-trend'] || []);
+            setYearlyDateTrend(response?.data?.['yearly-date-trend'] || []);
+
+        } catch (err) {
+            setMonthlyTrend([]);
+            setYearlyDateTrend([]);
+        }
+
+    }
+
 
     useEffect(() => {
 
         try {
             main();
             getSummary();
+            getChartsInfo();
         } catch (err) { }
 
     }, [])
@@ -163,9 +197,83 @@ function SessionDetails() {
 
                 </div>
 
+                <div className="flex flex-col gap-4 w-full h-auto justify-content px-4 py-4">
+
+                    <div className="flex flex-row gap-2 justify-between items-center bg-stone-300 dark:bg-stone-700 px-4 py-2 rounded-md">
+                        <span className='font-poppins text-sky-400 font-bold text-xl'>Session Analytical Charts</span>
+                        <div className="hidden md:flex flex-row gap-2 items-center">
+                            <MdList onClick={() => { localStorage.setItem("preference", "list"); setView("list"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-sky-300 p-1 ${view === "list" ? 'bg-sky-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
+                            <IoGrid onClick={() => { localStorage.setItem("preference", "grid"); setView("grid"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-emerald-300 p-1 ${view === "grid" ? 'bg-emerald-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 justify-center items-center">
+
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+
+                            <span className="font-oswald font-bold text-md tracking-wide text-purple-400">{new Date(session?.startDate).toLocaleString('en-US', { month: 'long' })} Trend</span>
+
+                            {monthlyTrend.length === 0 ? <SessionLoading />
+                                : <ResponsiveContainer >
+                                    <LineChart data={monthlyTrend} >
+                                        <XAxis dataKey="date" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }} >
+                                            <Label value='Duration' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
+                                        </XAxis>
+                                        <YAxis tick={{ fontSize: 12 }}>
+                                            <Label value='Duration' angle={-90} offset={20} position='insideLeft' style={{ fontSize: 12 }} />
+                                        </YAxis>
+
+                                        <Line type="monotone" dataKey="duration" stroke="var(--color-violet-600)" strokeWidth={2} />
+                                        <Tooltip content={TrendToolTip} cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            }
+                        </div>
+
+
+
+                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+
+                            <span className="font-oswald font-bold text-md tracking-wide text-purple-400">Yearly {new Date(session?.startDate).getDate()} Date Trend</span>
+
+                            {yearlyDateTrend.length === 0 ? <SessionLoading />
+                                : <ResponsiveContainer >
+                                    <LineChart data={yearlyDateTrend} >
+                                        <XAxis dataKey="date" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }} >
+                                            <Label value='Duration' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
+                                        </XAxis>
+                                        <YAxis tick={{ fontSize: 12 }}>
+                                            <Label value='Duration' angle={-90} offset={20} position='insideLeft' style={{ fontSize: 12 }} />
+                                        </YAxis>
+
+                                        <Line type="monotone" dataKey="duration" stroke="var(--color-fuchsia-600)" strokeWidth={2} />
+                                        <Tooltip content={TrendToolTip} cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+
             </main>
         </>
     )
 }
+
+
+const TrendToolTip = ({ active, payload, label }) => {
+
+    return (
+        <div className='px-2 py-1 bg-white rounded-sm '>
+            <p className='text-sm text-violet-600'>{payload[0]?.payload?.['date']}</p>
+            <p className='text-sm text-violet-600'>Duration : {payload[0]?.payload?.['duration']}</p>
+            <p className='text-sm text-indigo-500'>Start Time : {payload[0]?.payload?.['startTime']}</p>
+            <p className='text-sm text-indigo-500'>End Time : {payload[0]?.payload?.['endTime']}</p>
+        </div>
+    );
+
+}
+
 
 export default SessionDetails;

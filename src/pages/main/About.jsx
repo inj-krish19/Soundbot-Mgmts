@@ -43,7 +43,7 @@ function About() {
                 <span className='text-slate-900 dark:text-slate-100 font-bold font-poppins text-lg'>Team</span>
 
                 <div className="flex flex-col md:flex-row items-center px-4 md:px-8 py-8 gap-8">
-                    <img src="https://scontent.famd4-1.fna.fbcdn.net/v/t39.30808-1/450385511_1021522579591605_8648500625122602823_n.jpg?stp=c0.0.1536.1536a_dst-jpg_s200x200_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_ohc=rKMn93XZ1ScQ7kNvwGhBmZK&_nc_oc=Adkr1akyrDPTPQZDDNjyPnZpGIaLCulY7h3xIl7qICVb0tqxviS09zFbcpekw-op0Ww&_nc_zt=24&_nc_ht=scontent.famd4-1.fna&_nc_gid=Qjfyj-kqIFI4EVG_ymjZkw&oh=00_AftYx3ha6E7qX43sUTTfYZ2WK7_QYYyakGLRmA9C20KzAA&oe=698601C9" className='size-64 border border-indigo-400 p-2 rounded-sm' />
+                    <img src="https://avatars.githubusercontent.com/u/133616289?v=4" className='size-64 border border-indigo-400 p-2 rounded-sm' />
 
                     <div className="flex flex-col gap-4">
 

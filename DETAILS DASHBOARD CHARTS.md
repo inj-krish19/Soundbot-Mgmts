@@ -1,6 +1,11 @@
 # **_Details Dashboard Charts_**
 
-## **Session Chart - not possible**
+## **Session Charts**
+
+```
+1. Start Date 's monthly trend (Line)
+2. Start Date 's Day previous yearly sessions trend (Line)
+```
 
 ## **Device Possible Charts**
 
