@@ -227,7 +227,7 @@ function PlayerDetails() {
 
                     <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
-                        <span className="font-oswald font-bold text-md tracking-wide text-purple-400">Yearly Streaming </span>
+                        <span className="font-oswald font-bold text-md tracking-wide text-violet-400">Yearly Streaming </span>
 
                         {yearlyStreamingDistribution.length === 0 ? <PlayerLoading />
                             : <ResponsiveContainer >
@@ -236,7 +236,7 @@ function PlayerDetails() {
                                         <Label value='Year' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
                                     </XAxis>
                                     <YAxis tick={{ fontSize: 12 }}>
-                                        <Label value='Listening Time' angle={-90} offset={0} position='insideLeft' style={{ fontSize: 12 }} />
+                                        <Label value='Streaming Minutes' angle={-90} offset={0} position='insideLeft' style={{ fontSize: 12 }} />
                                     </YAxis>
 
                                     <Line type="monotone" dataKey="duration" stroke="var(--color-violet-600)" strokeWidth={2} />
@@ -250,13 +250,13 @@ function PlayerDetails() {
 
                     <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
-                        <span className="font-oswald font-bold text-md tracking-wide text-purple-400">Usage Time Distribution</span>
+                        <span className="font-oswald font-bold text-md tracking-wide text-violet-400">Usage Time Distribution</span>
 
                         {usageTimeDistribution.length === 0 ? <PlayerLoading />
                             : <ResponsiveContainer >
                                 <BarChart data={usageTimeDistribution} barCategoryGap={timeBarGap}  >
                                     <XAxis dataKey="key" tick={{ fontSize: 12 }} >
-                                        <Label offset={-2} value="Session Duration Distribution" position="insideBottom" style={{ fontSize: 12 }} />
+                                        <Label offset={-2} value="Time" position="insideBottom" style={{ fontSize: 12 }} />
                                     </XAxis>
                                     <YAxis tick={{ fontSize: 12 }} >
                                         <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
@@ -281,7 +281,7 @@ function PlayerDetails() {
 
                     <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
-                        <span className='font-oswald font-bold text-md tracking-wide text-purple-400'>Device Usage Distribution</span>
+                        <span className='font-oswald font-bold text-md tracking-wide text-violet-400'>Device Usage Distribution</span>
 
                         {deviceUsageDistribution.length === 0 ? <PlayerLoading />
                             : <ResponsiveContainer >
@@ -302,7 +302,7 @@ function PlayerDetails() {
 
                     <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
-                        <span className="font-oswald font-bold text-md tracking-wide text-purple-400">Yearly Session Count</span>
+                        <span className="font-oswald font-bold text-md tracking-wide text-violet-400">Yearly Session Count</span>
 
                         {yearlySessionCountDistribution.length === 0 ? <PlayerLoading />
                             : <ResponsiveContainer >
@@ -325,7 +325,7 @@ function PlayerDetails() {
 
                     <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
-                        <span className="font-oswald font-bold text-md tracking-wide text-purple-400">Yearly Charging Count</span>
+                        <span className="font-oswald font-bold text-md tracking-wide text-violet-400">Yearly Charging Count</span>
 
                         {yearlyChargingCountDistribution.length === 0 ? <PlayerLoading />
                             : <ResponsiveContainer >
@@ -348,13 +348,13 @@ function PlayerDetails() {
 
                     <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
-                        <span className="font-oswald font-bold text-md tracking-wide text-purple-400">Session Duration Distribution</span>
+                        <span className="font-oswald font-bold text-md tracking-wide text-violet-400">Session Duration Distribution</span>
 
                         {sessionDurationDistribution.length === 0 ? <PlayerLoading />
                             : <ResponsiveContainer >
                                 <BarChart data={sessionDurationDistribution} barCategoryGap={sessionBarGap}  >
                                     <XAxis dataKey="key" tick={{ fontSize: 12 }} >
-                                        <Label offset={-2} value="Session Duration Distribution" position="insideBottom" style={{ fontSize: 12 }} />
+                                        <Label offset={-2} value="Session Duration" position="insideBottom" style={{ fontSize: 12 }} />
                                     </XAxis>
                                     <YAxis tick={{ fontSize: 12 }} >
                                         <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />

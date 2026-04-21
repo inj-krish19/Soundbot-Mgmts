@@ -494,7 +494,7 @@ function Dashboard() {
                                 : <ResponsiveContainer >
                                     <BarChart data={sessionDurationInfo} barCategoryGap={sessionBarGap}  >
                                         <XAxis dataKey="key" tick={{ fontSize: 12 }} >
-                                            <Label offset={-2} value="Session Duration Distribution" position="insideBottom" style={{ fontSize: 12 }} />
+                                            <Label offset={-2} value="Session Duration" position="insideBottom" style={{ fontSize: 12 }} />
                                         </XAxis>
                                         <YAxis tick={{ fontSize: 12 }} >
                                             <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
@@ -524,7 +524,7 @@ function Dashboard() {
                                 : <ResponsiveContainer >
                                     <LineChart data={dailyUsageInfo} >
                                         <XAxis dataKey="day" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }} >
-                                            <Label value='Duration' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
+                                            <Label value='Day' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
                                         </XAxis>
                                         <YAxis tick={{ fontSize: 12 }}>
                                             <Label value='Duration' angle={-90} offset={20} position='insideLeft' style={{ fontSize: 12 }} />
