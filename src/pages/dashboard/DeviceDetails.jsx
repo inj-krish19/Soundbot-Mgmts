@@ -24,7 +24,9 @@ import { IoCalendar, IoGrid, IoTrendingUp } from "react-icons/io5";
 import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer, PieChart, Pie, Sector, CartesianGrid, AreaChart, Area } from 'recharts'
 
 
-const COLORS = ['var(--color-teal-400)', 'var(--color-purple-400)', 'var(--color-rose-400)', 'var(--color-indigo-400)', 'var(--color-emerald-400)', 'var(--color-orange-400)', 'var(--color-sky-300)',]
+const COLORS = ['var(--color-purple-600)', 'var(--color-teal-600)', 'var(--color-orange-600)', 'var(--color-pink-600)', 'var(--color-cyan-600)', 'var(--color-lime-600)', 'var(--color-fuchsia-600)', 'var(--color-indigo-600)', 'var(--color-emerald-600)', 'var(--color-amber-600)', 'var(--color-rose-600)', 'var(--color-sky-600)',
+];
+
 
 function DeviceDetails() {
 

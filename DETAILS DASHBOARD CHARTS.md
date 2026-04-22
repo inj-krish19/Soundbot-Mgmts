@@ -39,6 +39,8 @@
 4. Weekdays vs Weekend Usage Distribution (Pie - duration & share both) - surely has some values
 5. Day vs Evening vs Night Usage Distribution (Bar) - based on user
 6. Volume Distribution (Pie)
+7. Device Usage Distribution (Pie)
+8. Week and its Usage Distribution (Bar)
 ```
 
 ---

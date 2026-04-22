@@ -223,7 +223,7 @@ function SessionDetails() {
                                             <Label value='Duration' angle={-90} offset={20} position='insideLeft' style={{ fontSize: 12 }} />
                                         </YAxis>
 
-                                        <Line type="monotone" dataKey="duration" stroke="var(--color-violet-600)" strokeWidth={2} />
+                                        <Line type="monotone" dataKey="duration" stroke="var(--color-blue-600)" strokeWidth={2} />
                                         <Tooltip content={TrendToolTip} cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
                                     </LineChart>
                                 </ResponsiveContainer>
@@ -246,7 +246,7 @@ function SessionDetails() {
                                             <Label value='Duration' angle={-90} offset={20} position='insideLeft' style={{ fontSize: 12 }} />
                                         </YAxis>
 
-                                        <Line type="monotone" dataKey="duration" stroke="var(--color-fuchsia-600)" strokeWidth={2} />
+                                        <Line type="monotone" dataKey="duration" stroke="var(--color-emerald-600)" strokeWidth={2} />
                                         <Tooltip content={TrendToolTip} cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
                                     </LineChart>
                                 </ResponsiveContainer>

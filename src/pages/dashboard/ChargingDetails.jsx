@@ -27,8 +27,8 @@ import { eclipseNumber } from "@/utils/eclipse-text";
 
 import { XAxis, YAxis, Line, Legend, Label, LineChart, Tooltip, BarChart, Bar, Cell, ResponsiveContainer, PieChart, Pie, Sector, CartesianGrid, AreaChart, Area } from 'recharts'
 
-
-const COLORS = ['var(--color-purple-400)', 'var(--color-rose-400)', 'var(--color-indigo-400)', 'var(--color-emerald-400)', 'var(--color-orange-400)', 'var(--color-sky-300)', 'var(--color-teal-400)',];
+const COLORS = ['var(--color-indigo-600)', 'var(--color-emerald-600)', 'var(--color-amber-600)', 'var(--color-rose-600)', 'var(--color-sky-600)', 'var(--color-purple-600)', 'var(--color-teal-600)', 'var(--color-orange-600)', 'var(--color-pink-600)', 'var(--color-cyan-600)', 'var(--color-lime-600)', 'var(--color-fuchsia-600)'
+];
 
 
 function ChargingDetails() {
@@ -77,6 +77,11 @@ function ChargingDetails() {
     const [divisonBarGap, setDivisonBarGap] = useState(4);
     const [divisonIndex, setDivisonIndex] = useState(null);
 
+    const [weekBarGap, setWeekBarGap] = useState(4);
+    const [weekIndex, setWeekIndex] = useState(null);
+
+
+
     const [cumulativeTrend, setCumulativeTrend] = useState([]);
     const [sessionDurationShare, setSessionDurationShare] = useState([]);
 
@@ -85,6 +90,10 @@ function ChargingDetails() {
 
     const [divisonDistribution, setDivisonDistribution] = useState([]);
     const [volumeDistribution, setVolumeDistribution] = useState([]);
+
+    const [deviceDistribution, setDeviceDistribution] = useState([]);
+    const [weeklyUsageDistribution, setWeeklyUsageDistribution] = useState([]);
+
 
     const [view, setView] = useState(localStorage.getItem("preference") || 'grid');
 
@@ -192,6 +201,10 @@ function ChargingDetails() {
             setVolumeDistribution(response?.data?.['volume-distribution'] || []);
             setDivisonDistribution(response?.data?.['divison-usage-distribution'] || []);
 
+            setDeviceDistribution(response?.data?.['device-distribution'] || []);
+            setWeeklyUsageDistribution(response?.data?.['weekly-usage-distribution'] || []);
+
+
         } catch (err) {
 
             setCumulativeTrend([]);
@@ -202,6 +215,9 @@ function ChargingDetails() {
 
             setVolumeDistribution([]);
             setDivisonDistribution([]);
+
+            setDeviceDistribution([]);
+            setWeeklyUsageDistribution([]);
 
         }
 
@@ -269,7 +285,7 @@ function ChargingDetails() {
             {menu === "chart" && <div className="flex flex-col gap-4 w-full h-auto justify-content px-4 py-4">
 
                 <div className="flex flex-row gap-2 justify-between items-center bg-stone-300 dark:bg-stone-700 px-4 py-2 rounded-md">
-                    <span className='font-poppins text-sky-400 font-bold text-xl'>Player Analytical Charts</span>
+                    <span className='font-poppins text-sky-400 font-bold text-xl'>Charging Analytical Charts</span>
                     <div className="hidden md:flex flex-row gap-2 items-center">
                         <MdList onClick={() => { localStorage.setItem("preference", "list"); setView("list"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-sky-300 p-1 ${view === "list" ? 'bg-sky-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
                         <IoGrid onClick={() => { localStorage.setItem("preference", "grid"); setView("grid"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-emerald-300 p-1 ${view === "grid" ? 'bg-emerald-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
@@ -326,28 +342,28 @@ function ChargingDetails() {
 
                     <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
 
-                        <span className="font-oswald font-bold text-md tracking-wide text-emerald-400">Usage Time Distribution</span>
+                        <span className="font-oswald font-bold text-md tracking-wide text-emerald-400">Weekly Usage Distribution</span>
 
-                        {usageTimeDistribution.length === 0 ? <ChargingLoading />
+                        {weeklyUsageDistribution.length === 0 ? <ChargingLoading />
                             : <ResponsiveContainer >
-                                <BarChart data={usageTimeDistribution} barCategoryGap={timeBarGap}  >
-                                    <XAxis dataKey="key" tick={{ fontSize: 12 }} >
-                                        <Label offset={-2} value="Time" position="insideBottom" style={{ fontSize: 12 }} />
+                                <BarChart data={weeklyUsageDistribution} barCategoryGap={weekBarGap}  >
+                                    <XAxis dataKey="week" tick={{ fontSize: 12 }} >
+                                        <Label offset={-2} value="Week" position="insideBottom" style={{ fontSize: 12 }} />
                                     </XAxis>
                                     <YAxis tick={{ fontSize: 12 }} >
                                         <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
                                     </YAxis>
 
-                                    <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setTimeIndex(null)} >
-                                        {usageTimeDistribution.map((entry, index) => (
+                                    <Bar dataKey="duration" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setWeekIndex(null)} >
+                                        {weeklyUsageDistribution.map((entry, index) => (
                                             <Cell key={`cell-${index}`}
-                                                fill={index === timeIndex ? "var(--color-sky-400)" : "var(--color-teal-400)"}
-                                                onMouseEnter={() => { setTimeIndex(index); setTimeBarGap(4); }}
-                                                onMouseLeave={() => { setTimeBarGap(12) }}
+                                                fill={index === weekIndex ? "var(--color-blue-400)" : "var(--color-indigo-400)"}
+                                                onMouseEnter={() => { setWeekIndex(index); setWeekBarGap(4); }}
+                                                onMouseLeave={() => { setWeekBarGap(12) }}
                                             />
                                         ))}
                                     </Bar>
-                                    <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                    <Tooltip content={WeekToolTip} cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
                                 </BarChart>
                             </ResponsiveContainer>
                         }
@@ -378,14 +394,14 @@ function ChargingDetails() {
 
                     <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
 
-                        <span className='font-oswald font-bold text-md tracking-wide text-emerald-400'>Volume Distribution</span>
+                        <span className='font-oswald font-bold text-md tracking-wide text-emerald-400'>Device Distribution</span>
 
-                        {volumeDistribution.length === 0 ? <ChargingLoading />
+                        {deviceDistribution.length === 0 ? <ChargingLoading />
                             : <ResponsiveContainer >
                                 <PieChart>
-                                    <Pie activeShape={renderActiveShape} data={volumeDistribution} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="share" nameKey="volume" >
+                                    <Pie activeShape={renderActiveShape} data={deviceDistribution} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="percent" nameKey="nickname" >
                                         {volumeDistribution.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[Math.abs(index) % COLORS.length]} />
+                                            <Cell key={`cell-${index}`} fill={COLORS[(COLORS.length - Math.abs(index) + 6) % COLORS.length]} />
                                         ))}
                                     </Pie>
                                     <Tooltip formatter={(value) => `${value}%`} contentStyle={{ borderRadius: "12px", border: "none" }} />
@@ -428,11 +444,76 @@ function ChargingDetails() {
 
 
 
+                    <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+
+                        <span className="font-oswald font-bold text-md tracking-wide text-emerald-400">Usage Time Distribution</span>
+
+                        {usageTimeDistribution.length === 0 ? <ChargingLoading />
+                            : <ResponsiveContainer >
+                                <BarChart data={usageTimeDistribution} barCategoryGap={timeBarGap}  >
+                                    <XAxis dataKey="key" tick={{ fontSize: 12 }} >
+                                        <Label offset={-2} value="Time" position="insideBottom" style={{ fontSize: 12 }} />
+                                    </XAxis>
+                                    <YAxis tick={{ fontSize: 12 }} >
+                                        <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
+                                    </YAxis>
+
+                                    <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setTimeIndex(null)} >
+                                        {usageTimeDistribution.map((entry, index) => (
+                                            <Cell key={`cell-${index}`}
+                                                fill={index === timeIndex ? "var(--color-sky-400)" : "var(--color-teal-400)"}
+                                                onMouseEnter={() => { setTimeIndex(index); setTimeBarGap(4); }}
+                                                onMouseLeave={() => { setTimeBarGap(12) }}
+                                            />
+                                        ))}
+                                    </Bar>
+                                    <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        }
+                    </div>
+
+
+
+                    <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+
+                        <span className='font-oswald font-bold text-md tracking-wide text-emerald-400'>Volume Distribution</span>
+
+                        {volumeDistribution.length === 0 ? <ChargingLoading />
+                            : <ResponsiveContainer >
+                                <PieChart>
+                                    <Pie activeShape={renderActiveShape} data={volumeDistribution} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="share" nameKey="volume" >
+                                        {volumeDistribution.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[Math.abs(index) % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip formatter={(value) => `${value}%`} contentStyle={{ borderRadius: "12px", border: "none" }} />
+                                    <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: "14px" }} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        }
+                    </div>
+
                 </div>
             </div>}
 
         </main>
     );
+}
+
+
+const WeekToolTip = ({ active, payload, label }) => {
+
+    return (
+        <div className='px-2 py-1 bg-white rounded-sm '>
+            <p className='text-sm text-emerald-400 text-ms'>Week {payload[0]?.payload?.['week']}</p>
+            <p className='text-sm text-indigo-600'>{payload[0]?.payload?.['min']}</p>
+            <p className='text-sm text-indigo-600'>{payload[0]?.payload?.['max']}</p>
+            <p className='text-sm text-purple-400'>Count : {payload[0]?.payload?.['count']}</p>
+            <p className='text-sm text-purple-400'>Duration : {payload[0]?.payload?.['duration']}</p>
+        </div>
+    );
+
 }
 
 
