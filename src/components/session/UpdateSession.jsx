@@ -1,11 +1,12 @@
 import { ImCross } from "react-icons/im";
 import { useEffect, useState } from "react";
-import Notification from "@/components/ui/Notification";
-import { getSVGByDeviceType, getSVGByPlayerType } from '@/utils/getSVG';
-
 import { BACKEND_URL } from "@/store/UrlStore";
+import Notification from "@/components/ui/Notification";
+
+import { getSVGByDeviceType, getSVGByPlayerType } from '@/utils/getSVG';
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions, ListboxSelectedOption } from "@headlessui/react";
+
 
 function UpdateSession({ session, panel }) {
 

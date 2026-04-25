@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { BACKEND_URL } from "@/store/UrlStore";
 import Notification from "@/components/ui/Notification";
 import { errorHandler, responseHandler } from "@/utils/response-handler";
-import { useState } from "react";
 
 function DeletePlayer({ player, panel }) {
 

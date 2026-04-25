@@ -1,5 +1,5 @@
-import { FaTrashAlt } from "react-icons/fa";
 import { LuPencil } from "react-icons/lu";
+import { FaTrashAlt } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
 
 function PlayerMiniCard({ player, privilegeMenu, setPlayer, setUpdateVisibility, setDeleteVisibility }) {

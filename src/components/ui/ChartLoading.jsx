@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { FaChartBar, FaWaveSquare } from 'react-icons/fa';
 
 function ChartLoading() {
     return (

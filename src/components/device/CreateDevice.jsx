@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { ImCross } from "react-icons/im";
-
-
-import Notification from "@/components/ui/Notification";
 import { BACKEND_URL } from "@/store/UrlStore";
+
+
+import { getSVGByDeviceType } from "@/utils/getSVG";
+import Notification from "@/components/ui/Notification";
 import { errorHandler, responseHandler } from "@/utils/response-handler";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
-import { getSVGByDeviceType } from "@/utils/getSVG";
+
 
 function CreateDevice({ panel }) {
 

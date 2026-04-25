@@ -1,5 +1,5 @@
-import { FaTrashAlt } from "react-icons/fa";
 import { LuPencil } from "react-icons/lu";
+import { FaTrashAlt } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
 import { getSVGByDeviceType } from "@/utils/getSVG";
 

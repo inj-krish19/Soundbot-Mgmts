@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-
 import { ImCross } from "react-icons/im";
 import { cleanDate } from "@/utils/date";
+
 import { BACKEND_URL } from '@/store/UrlStore';
 import { getSVGByDeviceType, getSVGByPlayerType } from "@/utils/getSVG";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'

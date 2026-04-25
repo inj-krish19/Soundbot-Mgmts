@@ -5,8 +5,8 @@ import { BsEarbuds } from "react-icons/bs";
 import { FaHeadphones } from "react-icons/fa6";
 
 import { BACKEND_URL } from '@/store/UrlStore';
-import Notification from '@/components/ui/Notification';
 import { getSVGByPlayerType } from "@/utils/getSVG";
+import Notification from '@/components/ui/Notification';
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 

@@ -1,5 +1,5 @@
+import { Link } from "react-router";
 import useAuth from "@/store/AuthStore";
-import { Link, NavLink } from "react-router";
 
 function Navbar() {
 

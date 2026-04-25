@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ImCross } from "react-icons/im";
-import { getSVGByDeviceType } from "@/utils/getSVG";
-
 import { BACKEND_URL } from '@/store/UrlStore';
+
+import { getSVGByDeviceType } from "@/utils/getSVG";
 import Notification from '@/components/ui/Notification';
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
