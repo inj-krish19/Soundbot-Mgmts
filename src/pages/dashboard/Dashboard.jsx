@@ -429,12 +429,10 @@ function Dashboard() {
                         <div className="flex flex-col">
                             {quickActions.map(action => {
                                 return (
-                                    <>
-                                        <Link to={action.link} className='text-slate-700 dark:text-slate-300 text-sm flex flex-row gap-2 hover:text-slate-800 hover:dark:text-slate-200 items-center' key={action.title} >
-                                            {action.title}
-                                            <GoArrowUpRight className='text-slate-800 dark:text-slate-200' />
-                                        </Link>
-                                    </>
+                                    <Link to={action.link} className='text-slate-700 dark:text-slate-300 text-sm flex flex-row gap-2 hover:text-slate-800 hover:dark:text-slate-200 items-center' key={action.title} >
+                                        {action.title}
+                                        <GoArrowUpRight className='text-slate-800 dark:text-slate-200' />
+                                    </Link>
                                 );
                             })}
                         </div>

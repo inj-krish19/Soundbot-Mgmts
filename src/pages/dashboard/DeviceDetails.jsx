@@ -1,6 +1,6 @@
-import { responseHandler } from "@/utils/response-handler";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { responseHandler } from "@/utils/response-handler";
 
 import { BACKEND_URL } from "@/store/UrlStore";
 import Loading from "@/components/ui/Loading";
@@ -195,131 +195,132 @@ function DeviceDetails() {
                         )
                     })}
                 </div>
-
-
-                <div className="flex flex-col gap-4 w-full h-auto justify-content px-4 py-4">
-
-                    <div className="flex flex-row gap-2 justify-between items-center bg-stone-300 dark:bg-stone-700 px-4 py-2 rounded-md">
-                        <span className='font-poppins text-sky-400 font-bold text-xl'>Player Analytical Charts</span>
-                        <div className="hidden md:flex flex-row gap-2 items-center">
-                            <MdList onClick={() => { localStorage.setItem("preference", "list"); setView("list"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-sky-300 p-1 ${view === "list" ? 'bg-sky-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
-                            <IoGrid onClick={() => { localStorage.setItem("preference", "grid"); setView("grid"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-emerald-300 p-1 ${view === "grid" ? 'bg-emerald-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 justify-center items-center">
-
-
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
-
-                            <span className="font-oswald font-bold text-md tracking-wide text-indigo-400">Listen Time Distribution</span>
-
-                            {listenTimeDistribution.length === 0 ? <DeviceLoading />
-                                : <ResponsiveContainer >
-                                    <BarChart data={listenTimeDistribution} barCategoryGap={timeBarGap}  >
-                                        <XAxis dataKey="key" tick={{ fontSize: 12 }} >
-                                            <Label offset={-2} value="Listen Time Distribution" position="insideBottom" style={{ fontSize: 12 }} />
-                                        </XAxis>
-                                        <YAxis tick={{ fontSize: 12 }} >
-                                            <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
-                                        </YAxis>
-
-                                        <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setTimeIndex(null)} >
-                                            {listenTimeDistribution.map((entry, index) => (
-                                                <Cell key={`cell-${index}`}
-                                                    fill={index === timeIndex ? "var(--color-sky-400)" : "var(--color-teal-400)"}
-                                                    onMouseEnter={() => { setTimeIndex(index); setTimeBarGap(4); }}
-                                                    onMouseLeave={() => { setTimeBarGap(12) }}
-                                                />
-                                            ))}
-                                        </Bar>
-                                        <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            }
-                        </div>
+            </div>
 
 
 
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+            <div className="flex flex-col gap-4 w-full h-auto justify-content px-4 py-4">
 
-                            <span className='font-oswald font-bold text-md tracking-wide text-indigo-400'>Player Usage Distribution</span>
-
-                            {playerUsageDistribution.length === 0 ? <DeviceLoading />
-                                : <ResponsiveContainer >
-                                    <PieChart>
-                                        <Pie activeShape={renderActiveShape} data={playerUsageDistribution} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="percent" nameKey="nickname" >
-                                            {playerUsageDistribution.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[Math.abs(COLORS.length - index - 1) % COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip formatter={(value) => `${value}%`} contentStyle={{ borderRadius: "12px", border: "none" }} />
-                                        <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: "14px" }} />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                            }
-                        </div>
-
-
-
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
-
-                            <span className="font-oswald font-bold text-md tracking-wide text-indigo-400">Yearly Count</span>
-
-                            {yearlyCountDistribution.length === 0 ? <DeviceLoading />
-                                : <ResponsiveContainer >
-                                    <LineChart data={yearlyCountDistribution} >
-                                        <XAxis dataKey="year" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }} >
-                                            <Label value='Year' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
-                                        </XAxis>
-                                        <YAxis tick={{ fontSize: 12 }}>
-                                            <Label value='Session Count' angle={-90} offset={20} position='insideLeft' style={{ fontSize: 12 }} />
-                                        </YAxis>
-
-                                        <Line type="monotone" dataKey="count" stroke="var(--color-orange-400)" strokeWidth={2} />
-                                        <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
-                                    </LineChart>
-                                </ResponsiveContainer>
-                            }
-                        </div>
-
-
-
-                        <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
-
-                            <span className="font-oswald font-bold text-md tracking-wide text-indigo-400">Session Duration Distribution</span>
-
-                            {sessionDurationDistribution.length === 0 ? <DeviceLoading />
-                                : <ResponsiveContainer >
-                                    <BarChart data={sessionDurationDistribution} barCategoryGap={sessionBarGap}  >
-                                        <XAxis dataKey="key" tick={{ fontSize: 12 }} >
-                                            <Label offset={-2} value="Session Duration Distribution" position="insideBottom" style={{ fontSize: 12 }} />
-                                        </XAxis>
-                                        <YAxis tick={{ fontSize: 12 }} >
-                                            <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
-                                        </YAxis>
-
-                                        <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setSessionIndex(null)} >
-                                            {sessionDurationDistribution.map((entry, index) => (
-                                                <Cell key={`cell-${index}`}
-                                                    fill={index === sessionIndex ? "var(--color-blue-400)" : "var(--color-indigo-400)"}
-                                                    onMouseEnter={() => { setSessionIndex(index); setSessionBarGap(4); }}
-                                                    onMouseLeave={() => { setSessionBarGap(12) }}
-                                                />
-                                            ))}
-                                        </Bar>
-                                        <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            }
-                        </div>
-
-
-
+                <div className="flex flex-row gap-2 justify-between items-center bg-stone-300 dark:bg-stone-700 px-4 py-2 rounded-md">
+                    <span className='font-poppins text-sky-400 font-bold text-xl'>Device Analytical Charts</span>
+                    <div className="hidden md:flex flex-row gap-2 items-center">
+                        <MdList onClick={() => { localStorage.setItem("preference", "list"); setView("list"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-sky-300 p-1 ${view === "list" ? 'bg-sky-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
+                        <IoGrid onClick={() => { localStorage.setItem("preference", "grid"); setView("grid"); }} size={30} className={`text-slate-800 dark:text-slate-200 rounded-sm hover:bg-emerald-300 p-1 ${view === "grid" ? 'bg-emerald-300' : 'bg-stone-400 dark:bg-stone-600'} `} />
                     </div>
                 </div>
 
+                <div className="grid grid-cols-2 gap-4 justify-center items-center">
+
+
+                    <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+
+                        <span className="font-oswald font-bold text-md tracking-wide text-indigo-400">Listen Time Distribution</span>
+
+                        {listenTimeDistribution.length === 0 ? <DeviceLoading />
+                            : <ResponsiveContainer >
+                                <BarChart data={listenTimeDistribution} barCategoryGap={timeBarGap}  >
+                                    <XAxis dataKey="key" tick={{ fontSize: 12 }} >
+                                        <Label offset={-2} value="Listen Time Distribution" position="insideBottom" style={{ fontSize: 12 }} />
+                                    </XAxis>
+                                    <YAxis tick={{ fontSize: 12 }} >
+                                        <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
+                                    </YAxis>
+
+                                    <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setTimeIndex(null)} >
+                                        {listenTimeDistribution.map((entry, index) => (
+                                            <Cell key={`cell-${index}`}
+                                                fill={index === timeIndex ? "var(--color-sky-400)" : "var(--color-teal-400)"}
+                                                onMouseEnter={() => { setTimeIndex(index); setTimeBarGap(4); }}
+                                                onMouseLeave={() => { setTimeBarGap(12) }}
+                                            />
+                                        ))}
+                                    </Bar>
+                                    <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        }
+                    </div>
+
+
+
+                    <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1'}`}>
+
+                        <span className='font-oswald font-bold text-md tracking-wide text-indigo-400'>Player Usage Distribution</span>
+
+                        {playerUsageDistribution.length === 0 ? <DeviceLoading />
+                            : <ResponsiveContainer >
+                                <PieChart>
+                                    <Pie activeShape={renderActiveShape} data={playerUsageDistribution} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="percent" nameKey="nickname" >
+                                        {playerUsageDistribution.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[Math.abs(COLORS.length - index - 1) % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip formatter={(value) => `${value}%`} contentStyle={{ borderRadius: "12px", border: "none" }} />
+                                    <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: "14px" }} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        }
+                    </div>
+
+
+
+                    <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+
+                        <span className="font-oswald font-bold text-md tracking-wide text-indigo-400">Yearly Count</span>
+
+                        {yearlyCountDistribution.length === 0 ? <DeviceLoading />
+                            : <ResponsiveContainer >
+                                <LineChart data={yearlyCountDistribution} >
+                                    <XAxis dataKey="year" tick={{ fontSize: 12 }} padding={{ left: 10, right: 10 }} >
+                                        <Label value='Year' offset={-2} position='insideBottom' style={{ fontSize: 12 }} />
+                                    </XAxis>
+                                    <YAxis tick={{ fontSize: 12 }}>
+                                        <Label value='Session Count' angle={-90} offset={20} position='insideLeft' style={{ fontSize: 12 }} />
+                                    </YAxis>
+
+                                    <Line type="monotone" dataKey="count" stroke="var(--color-orange-400)" strokeWidth={2} />
+                                    <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        }
+                    </div>
+
+
+
+                    <div className={`row-span-1 flex flex-col gap-3 bg-stone-300 dark:bg-stone-700 p-4 rounded-xl border border-sky-300 dark:border-purple-400 w-full max:w-3/4 h-100 shadow-md items-center ${view === "list" ? 'col-span-2' : 'col-span-2 md:col-span-1 '}`}>
+
+                        <span className="font-oswald font-bold text-md tracking-wide text-indigo-400">Session Duration Distribution</span>
+
+                        {sessionDurationDistribution.length === 0 ? <DeviceLoading />
+                            : <ResponsiveContainer >
+                                <BarChart data={sessionDurationDistribution} barCategoryGap={sessionBarGap}  >
+                                    <XAxis dataKey="key" tick={{ fontSize: 12 }} >
+                                        <Label offset={-2} value="Session Duration Distribution" position="insideBottom" style={{ fontSize: 12 }} />
+                                    </XAxis>
+                                    <YAxis tick={{ fontSize: 12 }} >
+                                        <Label angle={-90} offset={20} value="Count" position="insideLeft" style={{ fontSize: 12 }} />
+                                    </YAxis>
+
+                                    <Bar dataKey="count" fill='var(--color-fuchsia-400)' radius={[4, 4, 0, 0]} onMouseLeave={() => setSessionIndex(null)} >
+                                        {sessionDurationDistribution.map((entry, index) => (
+                                            <Cell key={`cell-${index}`}
+                                                fill={index === sessionIndex ? "var(--color-blue-400)" : "var(--color-indigo-400)"}
+                                                onMouseEnter={() => { setSessionIndex(index); setSessionBarGap(4); }}
+                                                onMouseLeave={() => { setSessionBarGap(12) }}
+                                            />
+                                        ))}
+                                    </Bar>
+                                    <Tooltip cursor={{ fill: "var(--color-purple-200)" }} contentStyle={{ borderRadius: "8px", border: "none" }} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        }
+                    </div>
+
+
+
+                </div>
             </div>
+
 
         </main>
     );

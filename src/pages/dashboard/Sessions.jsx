@@ -1,15 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
-
 import { HiRefresh } from 'react-icons/hi'
 import { IoIosFunnel } from 'react-icons/io'
 import { GoArrowUpRight } from 'react-icons/go';
+import { useEffect, useRef, useState } from 'react';
+
 import { GiCalendarHalfYear } from 'react-icons/gi'
 import { FaListUl, FaTrashAlt } from 'react-icons/fa'
 import { FaPlus, FaPuzzlePiece } from 'react-icons/fa6'
 import { LuAudioLines, LuArrowDownUp, LuPencil } from 'react-icons/lu'
 
-import { BACKEND_URL } from '@/store/UrlStore';
+
 import { cleanDate } from '@/utils/date';
+import { BACKEND_URL } from '@/store/UrlStore';
 import { eclipseNumber, eclipseText } from '@/utils/eclipse-text';
 import { responseHandler, errorHandler } from '@/utils/response-handler';
 
@@ -18,11 +19,11 @@ import Notification from '@/components/ui/Notification';
 import SessionCard from '@/components/session/SessionCard';
 import SessionMiniCard from '@/components/session/SessionMiniCard';
 
+import { getSVGByDeviceType } from '@/utils/getSVG';
 import SessionFilter from '@/components/session/SessionFilter';
 import UpdateSession from '@/components/session/UpdateSession';
 import DeleteSession from '@/components/session/DeleteSession';
 import CreateSession from '@/components/session/CreateSession';
-import { getSVGByDeviceType } from '@/utils/getSVG';
 
 function Sessions() {
 
@@ -276,7 +277,7 @@ function Sessions() {
                                     <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endTime}</td>
                                     <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume}</td>
                                     <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
-                                    <td className='w-3/16 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 50) || "-"}</td>
+                                    <td className='w-3/16 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 35) || "-"}</td>
 
                                     <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { window.location.href = `/session/${session._id}` }}>
                                         <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />

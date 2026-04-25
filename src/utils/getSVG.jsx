@@ -1,7 +1,7 @@
 import { BsEarbuds } from "react-icons/bs";
+import { GiEarbuds } from "react-icons/gi";
 import { FaHeadphones } from "react-icons/fa";
 import { FaTabletScreenButton, FaTv } from "react-icons/fa6";
-import { GiEarbuds } from "react-icons/gi";
 import { MdDesktopWindows, MdPhoneAndroid } from "react-icons/md";
 
 const getSVGByPlayerType = (type, className) => {

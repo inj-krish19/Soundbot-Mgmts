@@ -13,8 +13,8 @@ import SessionLoading from "@/components/charts_loading/SessionLoading";
 import { MdList } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
 import { TiEquals } from "react-icons/ti";
-import { IoCalendarClear, IoGrid, IoPieChart } from "react-icons/io5";
 import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
+import { IoCalendarClear, IoGrid, IoPieChart } from "react-icons/io5";
 
 import { cleanDate } from "@/utils/date";
 import { BACKEND_URL } from "@/store/UrlStore";
