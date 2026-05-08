@@ -1,0 +1,8 @@
+- Monthly Recap page
+- Yearly Recap page
+- Monthly mail of report and usage
+- Yearly mail of report and usage
+- Integarting profile page
+- Interaction with the Characters.
+- Prediction of next Session usage (based on last 7 days)
+- Recommendation of Company to purchase player

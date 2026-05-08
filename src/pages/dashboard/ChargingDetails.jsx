@@ -400,7 +400,7 @@ function ChargingDetails() {
                             : <ResponsiveContainer >
                                 <PieChart>
                                     <Pie activeShape={renderActiveShape} data={deviceDistribution} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="percent" nameKey="nickname" >
-                                        {volumeDistribution.map((entry, index) => (
+                                        {deviceDistribution.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[(COLORS.length - Math.abs(index) + 6) % COLORS.length]} />
                                         ))}
                                     </Pie>
