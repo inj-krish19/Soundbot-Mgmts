@@ -271,24 +271,24 @@ function Charging() {
                             <th className='w-1/8 text-slate-800 dark:text-slate-200'>Player</th>
                             <th className='w-3/16  text-slate-800 dark:text-slate-200 text-left'>Note</th>
                         </tr>
-                        {chargings.map(charging => {
+                        {chargings.map(_charging => {
                             return (
-                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={charging._id} onMouseEnter={(e) => { setChargingVisibility(true); setCharging(charging); }} onMouseLeave={(e) => { setChargingVisibility(false); setCharging(null); }}  >
-                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.firstSessionDate}</td>
-                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.lastSessionDate}</td>
-                                    <td className='w-3/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingStartDate}</td>
-                                    <td className='w-3/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingEndDate}</td>
-                                    <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingStartTime}</td>
-                                    <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{charging.chargingEndTime}</td>
-                                    <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{charging.player.nickname}</td>
-                                    <td className='w-7/32 text-slate-700 dark:text-slate-300 text-sm text-left'>{eclipseText(charging.note, 35) || "-"}</td>
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { window.location.href = `/charging/${charging._id}` }}>
+                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={_charging._id} onMouseEnter={(e) => { setChargingVisibility(true); setCharging(_charging); }} onMouseLeave={(e) => { setChargingVisibility(false); setCharging(null); }}  >
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{_charging.firstSessionDate}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{_charging.lastSessionDate}</td>
+                                    <td className='w-3/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{_charging.chargingStartDate}</td>
+                                    <td className='w-3/32 text-slate-700 dark:text-slate-300 text-sm text-center'>{_charging.chargingEndDate}</td>
+                                    <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{_charging.chargingStartTime}</td>
+                                    <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{_charging.chargingEndTime}</td>
+                                    <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{_charging.player.nickname}</td>
+                                    <td className='w-7/32 text-slate-700 dark:text-slate-300 text-sm text-left'>{eclipseText(_charging.note, 35) || "-"}</td>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { window.location.href = `/charging/${_charging._id}` }}>
                                         <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
                                     </td>
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setCharging(charging); setChargingVisibility(false); }}>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setCharging(_charging); setChargingVisibility(false); }}>
                                         <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
                                     </td>
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setCharging(charging); setChargingVisibility(false); }}>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setCharging(_charging); setChargingVisibility(false); }}>
                                         <FaTrashAlt size={16} className='text-rose-400' />
                                     </td>
                                 </tr >
@@ -299,8 +299,8 @@ function Charging() {
 
 
                 {!loading && <div className="flex flex-row lg:hidden flex-wrap gap-8 px-4 md:px-8 py-4 justify-around">
-                    {chargings.map(charging => {
-                        return <ChargingMiniCard charging={charging} key={charging._id} previlegeMenu={true} setCharging={setCharging} setUpdateVisibility={setUpdateVisibility} setDeleteVisibility={setDeleteVisibility} />
+                    {chargings.map(_charging => {
+                        return <ChargingMiniCard charging={_charging} key={_charging._id} previlegeMenu={true} setCharging={setCharging} setUpdateVisibility={setUpdateVisibility} setDeleteVisibility={setDeleteVisibility} />
                     })}
                 </div>}
 
