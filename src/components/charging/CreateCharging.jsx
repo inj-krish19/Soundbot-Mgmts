@@ -88,7 +88,7 @@ function CreateCharging({ panel }) {
 
     return (
         <>
-            <div className="fixed top-1/2 left-1/2 -translate-1/2  flex flex-col gap-8 w-3/4 md:w-1/3 h-auto bg-stone-300 dark:bg-stone-700 p-4 rounded-md z-100">
+            <div className="fixed top-1/2 left-1/2 -translate-1/2  flex flex-col gap-8 w-3/4 md:w-1/3 max-h-9/10 overflow-y-scroll h-auto bg-stone-300 dark:bg-stone-700 p-4 rounded-md z-100">
 
                 <span className="text-rose-400 font-bold font-poppins text-lg">Create Charging</span>
 
