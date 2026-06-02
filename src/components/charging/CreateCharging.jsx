@@ -21,6 +21,10 @@ function CreateCharging({ panel }) {
     const [firstSessionDate, setFirstSessionDate] = useState(new Date().toISOString().split('T')[0]);
     const [lastSessionDate, setLastSessionDate] = useState(new Date().toISOString().split('T')[0]);
 
+    const [firstSessionTime, setFirstSessionTime] = useState("00:00");
+    const [lastSessionTime, setLastSessionTime] = useState("23:59");
+
+
     const [note, setNote] = useState('');
     const [info, setInfo] = useState({
         message: 'If the player does not require charging, use it for tracking and maintaining active listening time.',
@@ -68,7 +72,7 @@ function CreateCharging({ panel }) {
                 },
                 credentials: "include",
                 body: JSON.stringify({
-                    player: player._id, chargingStartDate, chargingEndDate, chargingStartTime, chargingEndTime, firstSessionDate, lastSessionDate, note
+                    player: player._id, chargingStartDate, chargingEndDate, chargingStartTime, chargingEndTime, firstSessionDate, lastSessionDate, firstSessionTime, lastSessionTime, note
                 })
             });
 
@@ -147,6 +151,17 @@ function CreateCharging({ panel }) {
                     <div className="flex flex-col gap-1">
                         <label htmlFor="firstSessionDate" className="text-slate-700 dark:text-slate-300 text-sm">First Session Date</label>
                         <input type="date" name="firstSessionDate" id="firstSessionDate" value={firstSessionDate} onChange={(e) => { setFirstSessionDate(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-2 w-full">
+                        <div className="flex flex-col gap-1 w-full sm:w-1/2">
+                            <label htmlFor="firstSessionTime" className="text-slate-700 dark:text-slate-300 text-sm">First Session Time</label>
+                            <input type="time" name="firstSessionTime" id="firstSessionTime" value={firstSessionTime} onChange={(e) => { setFirstSessionTime(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                        </div>
+                        <div className="flex flex-col gap-1 w-full sm:w-1/2">
+                            <label htmlFor="lastSessionTime" className="text-slate-700 dark:text-slate-300 text-sm">Last Session Time</label>
+                            <input type="time" name="lastSessionTime" id="lastSessionTime" value={lastSessionTime} onChange={(e) => { setLastSessionTime(e.target.value) }} className="px-2 py-1 border-2 border-slate-200 outline-slate-200 rounded-sm text-slate-800 dark:text-slate-200 [color-scheme:light] dark:[color-scheme:dark]" />
+                        </div>
                     </div>
 
                     <div className="flex flex-col gap-1">
