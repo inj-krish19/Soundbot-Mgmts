@@ -399,7 +399,7 @@ function ChargingDetails() {
                         {deviceDistribution.length === 0 ? <ChargingLoading />
                             : <ResponsiveContainer >
                                 <PieChart>
-                                    <Pie activeShape={renderActiveShape} data={deviceDistribution} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="percent" nameKey="nickname" >
+                                    <Pie activeShape={renderActiveShape} data={deviceDistribution} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="duration" nameKey="nickname" >
                                         {deviceDistribution.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[(COLORS.length - Math.abs(index) + 6) % COLORS.length]} />
                                         ))}
@@ -551,7 +551,7 @@ const renderActiveShape = ({
             <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
             <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="var(--color-emerald-400)" fontSize={18} fontWeight={700} >{`${payload.key || payload.duration}`}</text>
             <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="var(--color-fuchsia-400)" fontSize={12}>
-                {`(Contribution ${(percent ?? 1)}%)`}
+                {`(Contribution ${Math.round(payload.percent ?? payload.share, 2)}%)`}
             </text>
         </g>
     );
