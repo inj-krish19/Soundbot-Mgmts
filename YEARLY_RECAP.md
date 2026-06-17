@@ -71,7 +71,7 @@ _How you compare. Where you rank. What you earned._
 | #   | Metric                | Format                 | Example Headline              | Example Text                                                                                      |
 | --- | --------------------- | ---------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------- |
 | 17  | vs Last Year          | Arrow + hrs difference | **↑ 34 hrs more than 2024**   | You listened more this year than last. Growth looks good on you.                                  |
-| 18  | Device Loyalty Score  | % + loyalty badge      | **87% on one device**         | Almost all of it, on one trusty device. You're not a switcher. You're committed.                  |
+| 18  | Device Loyalty Score  | % + loyalty badge      | **87% on one device**         | Almost all of it, on one trusty device. You're committed.                                         |
 | 19  | Listening Personality | Combined tag card      | **"The Midnight Marathoner"** | Long sessions, late nights. You run deep when the world goes quiet.                               |
 | 20  | Top User Rank         | Leaderboard tier badge | **Top 5% of all listeners**   | Out of everyone on Soundbot this year — you're in the top 5%. That's not luck. That's dedication. |
 
@@ -150,17 +150,18 @@ _Based on — Total Listening Time compared across all Soundbot users that year_
 
 _Shown as the absolute final card of the Yearly Recap_
 
-**Logic — Listening Style Tag + Time of Day Persona + Seasonal Personality:**
+**Logic — Listening Style Tag + Time of Day Persona + Consistency Tag + Seasonal Personality + User Rank Tag:**
 
-| Combination                    | Final Personality        | Headline                        | Text                                                                                                   |
-| ------------------------------ | ------------------------ | ------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Marathoner + Night Owl + Any   | **Midnight Marathoner**  | _You're a Midnight Marathoner._ | Long sessions, late nights, all year long. You run deep when the world goes quiet.                     |
-| Marathoner + Early Bird + Any  | **Dawn Runner**          | _You're a Dawn Runner._         | Up before the world, headphones already on. You front-loaded every single day.                         |
-| Steady + Evening + Winter      | **The Ritual Keeper**    | _You're a Ritual Keeper._       | Same time, same vibe, same commitment — every evening, all year. You turned listening into a ceremony. |
-| Sprinter + Weekday + Any       | **Commute Chaser**       | _You're a Commute Chaser._      | Quick hits between everything life threw at you. Every gap was a session.                              |
-| Any + Unbreakable + All-Season | **The Constant**         | _You're The Constant._          | Every tag, every metric, every quarter — it all points to one thing. You never stop.                   |
-| Occasional + Any + Any         | **The Weekend Escapist** | _You're a Weekend Escapist._    | You saved up the silence all year just to break it on your own terms.                                  |
-| Any + Legend Tier              | **The Soundbot Legend**  | _You're a Soundbot Legend._     | Top 1%. A full year of listening. There is no higher tier — and you earned every second of it.         |
+| Combination                        | Final Personality        | Headline                        | Text                                                                                                                                                  |
+| ---------------------------------- | ------------------------ | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Marathoner + Night Owl + Any       | **Midnight Marathoner**  | _You're a Midnight Marathoner._ | Long sessions, late nights, all year long. You run deep when the world goes quiet.                                                                    |
+| Marathoner + Early Bird + Any      | **Dawn Runner**          | _You're a Dawn Runner._         | Up before the world, headphones already on. You front-loaded every single day.                                                                        |
+| Steady + Evening + Winter          | **The Ritual Keeper**    | _You're a Ritual Keeper._       | Same time, same vibe, same commitment — every evening, all year. You turned listening into a ceremony.                                                |
+| Sprinter + Consistent + Any        | **Commute Chaser**       | _You're a Commute Chaser._      | Quick hits between everything life threw at you. Every gap was a session.                                                                             |
+| Any + Unbreakable + All-Season     | **The Constant**         | _You're The Constant._          | Every tag, every metric, every quarter — it all points to one thing. You never stop.                                                                  |
+| Occasional + Any + Any             | **The Weekend Escapist** | _You're a Weekend Escapist._    | You saved up the silence all year just to break it on your own terms.                                                                                 |
+| Any + Legend Tier                  | **The Soundbot Legend**  | _You're a Soundbot Legend._     | Top 1%. A full year of listening. There is no higher tier — and you earned every second of it.                                                        |
+| Any yearly combo not matched above | **The Anomaly**          | _You're The Anomaly._           | A full year of data. Hundreds of sessions. Every model we ran — and you still didn't fit one. You're not an edge case. You're a category of your own. |
 
 ---
 

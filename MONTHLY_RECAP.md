@@ -68,20 +68,38 @@ _Based on — Weekend vs Weekday split (metric #6)_
 
 ---
 
+## Comparison Trend <sup>(9 )</sup>
+
+_Based on — % change in Total Listening Time compared to previous month_
+
+| Condition        | Headline                  | Text                                                                     |
+| ---------------- | ------------------------- | ------------------------------------------------------------------------ |
+| ↑ > 50%          | **↑ 52% more than April** | You went absolutely off this month. April didn't know what hit it.       |
+| ↑ 10–50%         | **↑ 34% more than April** | Big jump. Something this month had you locked in more than usual.        |
+| ↑ 1–9%           | **↑ 7% more than April**  | Almost identical to last month — but you edged it out. Consistency wins. |
+| = 0% (flat)      | **Same as April**         | Perfectly matched last month to the minute. Eerily consistent.           |
+| ↓ 1–9%           | **↓ 7% from April**       | Slight dip from last month. Life probably got in the way — it's okay.    |
+| ↓ 10–50%         | **↓ 33% from April**      | Quieter month than usual. Everyone needs a breather sometimes.           |
+| ↓ > 50%          | **↓ 58% from April**      | Big drop this month. Whatever pulled you away — hope it was worth it.    |
+| No Previous Data | **Your First Recap**      | No last month to compare — this is where your story starts.              |
+
+---
+
 ### 🏅 Combined Monthly Personality Card <sup>(10)</sup>
 
 > Shown at the very end of the Monthly Recap as the final card.
 
-**Logic — combine Listening Style Tag + Time of Day Persona:**
+**Logic — combine Listening Style Tag + Time of Day Persona + Consistency Tag + Weekend Personality:**
 
-| Combination                 | Final Personality        | Headline                        | Text                                                                              |
-| --------------------------- | ------------------------ | ------------------------------- | --------------------------------------------------------------------------------- |
-| Marathoner + Night Owl      | **Midnight Marathoner**  | _You're a Midnight Marathoner._ | Long sessions, late nights. You run deep when the world goes quiet.               |
-| Marathoner + Early Bird     | **Dawn Runner**          | _You're a Dawn Runner._         | Up before the world, headphones already on. You front-load your day with sound.   |
-| Sprinter + Weekday Warrior  | **Commute Chaser**       | _You're a Commute Chaser._      | Quick hits between meetings and metro rides. Every gap in your day is a session.  |
-| Steady + Evening Unwinder   | **The Ritual Keeper**    | _You're a Ritual Keeper._       | Same time, same vibe, every evening. You've turned listening into a ceremony.     |
-| Occasional + Weekend Binger | **The Weekend Escapist** | _You're a Weekend Escapist._    | You save up the silence all week just to break it all at once.                    |
-| Any + Unbreakable           | **The Constant**         | _You're The Constant._          | Every single tag, every calculation — it all points to one thing. You never stop. |
+| Combination                 | Final Personality        | Headline                        | Text                                                                                                    |
+| --------------------------- | ------------------------ | ------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Marathoner + Night Owl      | **Midnight Marathoner**  | _You're a Midnight Marathoner._ | Long sessions, late nights. You run deep when the world goes quiet.                                     |
+| Marathoner + Early Bird     | **Dawn Runner**          | _You're a Dawn Runner._         | Up before the world, headphones already on. You front-load your day with sound.                         |
+| Sprinter + Weekday Warrior  | **Commute Chaser**       | _You're a Commute Chaser._      | Quick hits between meetings and metro rides. Every gap in your day is a session.                        |
+| Steady + Evening Unwinder   | **The Ritual Keeper**    | _You're a Ritual Keeper._       | Same time, same vibe, every evening. You've turned listening into a ceremony.                           |
+| Occasional + Weekend Binger | **The Weekend Escapist** | _You're a Weekend Escapist._    | You save up the silence all week just to break it all at once.                                          |
+| Any + Unbreakable           | **The Constant**         | _You're The Constant._          | Every single tag, every calculation — it all points to one thing. You never stop.                       |
+| Any combo not matched above | **Tough Knight**         | _You're a Tough Knight._        | Algorithms tried. Patterns failed. You don't fit a box — and that's exactly what makes you interesting. |
 
 ---
 
