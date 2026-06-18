@@ -1,6 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { RiArrowLeftLine, RiArrowRightLine } from "react-icons/ri"
 
+/**
+ * RecapNav
+ * Floating prev/next arrows fixed at bottom of screen.
+ * Works for both monthly and yearly.
+ *
+ * Props:
+ *   currentCard — 0-indexed current slide
+ *   totalCards  — total number of slides
+ *   onPrev      — fn
+ *   onNext      — fn
+ */
 const RecapNav = ({ currentCard, totalCards, onPrev, onNext }) => (
     <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -11,8 +22,11 @@ const RecapNav = ({ currentCard, totalCards, onPrev, onNext }) => (
         <AnimatePresence>
             {currentCard > 0 && (
                 <motion.button key="prev"
-                    initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }}
-                    whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.94 }}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.94 }}
                     onClick={onPrev}
                     className="flex items-center justify-center w-10 h-10 rounded-full bg-stone-800/80 border border-stone-700 text-slate-500 hover:text-slate-200 hover:border-purple-400/40 backdrop-blur-sm transition-colors duration-200"
                 >
@@ -28,8 +42,11 @@ const RecapNav = ({ currentCard, totalCards, onPrev, onNext }) => (
         <AnimatePresence>
             {currentCard < totalCards - 1 && (
                 <motion.button key="next"
-                    initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }}
-                    whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.94 }}
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.94 }}
                     onClick={onNext}
                     className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-400/12 border border-purple-400/30 text-purple-300 hover:bg-purple-400/22 backdrop-blur-sm transition-colors duration-200"
                 >

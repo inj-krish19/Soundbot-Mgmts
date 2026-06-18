@@ -1,6 +1,16 @@
 import { motion } from "framer-motion"
 
-const RecapHeader = ({ monthName, year, currentCard, totalCards }) => (
+/**
+ * RecapHeader
+ * Fixed top bar with animated progress pills.
+ * Works for both monthly and yearly.
+ *
+ * Props:
+ *   label       — string shown as subtitle e.g. "May 2026 · Recap" or "Your Sound Story · 2026"
+ *   currentCard — 0-indexed current slide
+ *   totalCards  — total number of slides
+ */
+const RecapHeader = ({ label, currentCard, totalCards }) => (
     <motion.div
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -12,9 +22,7 @@ const RecapHeader = ({ monthName, year, currentCard, totalCards }) => (
             <span className="text-purple-400 text-[10px] font-bold uppercase tracking-[0.22em] font-poppins">
                 Soundbot
             </span>
-            <span className="text-slate-300 text-xs font-poppins">
-                {monthName} {year} · Recap
-            </span>
+            <span className="text-slate-300 text-xs font-poppins">{label}</span>
         </div>
 
         <div className="flex items-center gap-1.5">
