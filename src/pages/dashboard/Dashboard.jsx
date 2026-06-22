@@ -37,7 +37,12 @@ import DeviceCard from '@/components/device/DeviceCard'
 
 import PlayerCard from '@/components/player/PlayerCard'
 import UpdatePlayer from '@/components/player/UpdatePlayer'
-import DeletePlayer from '@/components/player/DeletePlayer'
+import DeletePlayer from '@/components/player/DeletePlayer';
+
+
+import RecapBanner from '@/components/recap/monthly/RecapBanner';
+import YearlyRecapBanner from '@/components/recap/yearly/YearlyRecapBanner'
+
 
 
 function Dashboard() {
@@ -334,13 +339,21 @@ function Dashboard() {
 
                 <div className="flex flex-col gap-8">
 
+                    {/* Welcome text — unchanged */}
                     <div className="flex flex-col gap-1">
                         <p className='text-slate-800 dark:text-slate-200 text-sm'>Welcome,
                             <span className='font-bold text-md'>{" " + nickname}</span>
                         </p>
-                        <p className='text-slate-700 dark:text-slate-300 text-sm'>Track your audio usage and insights.</p>
+                        <p className='text-slate-700 dark:text-slate-300 text-sm'>
+                            Track your audio usage and insights.
+                        </p>
                     </div>
 
+                    {/* ↓ ADD THIS — recap banner, self-hides outside the window */}
+                    <RecapBanner />
+                    <YearlyRecapBanner />
+
+                    {/* Summary cards — unchanged */}
                     <div className="flex flex-wrap flex-row w-full gap-4 justify-center">
                         {Object.entries(summary).map(([index, summary]) => {
                             return (
@@ -348,7 +361,12 @@ function Dashboard() {
                                     {summary.component}
                                     <div className="flex flex-col">
                                         <p className='text-cyan-600 text-sm'>{summary.title}</p>
-                                        <p className='text-sky-600 dark:text-purple-300 text-sm'><span className='font-bold font-poppins text-md'>{summary.type === "number" ? eclipseNumber(summary.data) : summary.data}</span>{summary.units}</p>
+                                        <p className='text-sky-600 dark:text-purple-300 text-sm'>
+                                            <span className='font-bold font-poppins text-md'>
+                                                {summary.type === "number" ? eclipseNumber(summary.data) : summary.data}
+                                            </span>
+                                            {summary.units}
+                                        </p>
                                     </div>
                                 </div>
                             )

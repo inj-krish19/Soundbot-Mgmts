@@ -60,6 +60,9 @@ const CookiePolicy = lazy(() => import('@/pages/legal/CookiePolicy'));
 const PrivacyPolicy = lazy(() => import('@/pages/legal/PrivacyPolicy'));
 
 
+const MonthlyRecap = lazy(() => import('@/pages/recap/Monthly'));
+const YearlyRecap = lazy(() => import('@/pages/recap/Yearly'));
+
 
 function App() {
 
@@ -159,6 +162,10 @@ function App() {
                 <Route path='/update-and-changes' element={<UpdateNChanges />} />
 
               </Route>
+
+
+              <Route path='/recap/:year/:month' element={<MonthlyRecap />} />
+              <Route path='/recap/:year' element={<YearlyRecap />} />
 
             </Routes>
 
