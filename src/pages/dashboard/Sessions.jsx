@@ -264,28 +264,28 @@ function Sessions() {
                             <th className='w-9/32 text-slate-800 dark:text-slate-200 text-md text-left'>Note</th>
                         </tr>
 
-                        {sessions.map(session => {
+                        {sessions.map(_session => {
                             return (
-                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={session._id} onMouseEnter={(e) => { setSessionVisibility(true); setSession(session); }} onMouseLeave={(e) => { setSessionVisibility(false); setSession(null); }} >
+                                <tr className='flex w-full py-1 border-b border-slate-700 hover:cursor-pointer items-center ' key={_session._id} onMouseEnter={(e) => { setSessionVisibility(true); setSession(_session); }} onMouseLeave={(e) => { setSessionVisibility(false); setSession(null); }} >
 
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibility(false); }}>
-                                        {getSVGByDeviceType(session.device.type, 'text-indigo-400')}
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(_session); setSessionVisibility(false); }}>
+                                        {getSVGByDeviceType(_session.device.type, 'text-indigo-400')}
                                     </td>
-                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startDate}</td>
-                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endDate}</td>
-                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.startTime}</td>
-                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.endTime}</td>
-                                    <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{session.volume}</td>
-                                    <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{session.player.nickname}</td>
-                                    <td className='w-3/16 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(session.note, 35) || "-"}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{_session.startDate}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{_session.endDate}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{_session.startTime}</td>
+                                    <td className='w-1/8 text-slate-700 dark:text-slate-300 text-sm text-center'>{_session.endTime}</td>
+                                    <td className='w-1/16 text-slate-700 dark:text-slate-300 text-sm text-center'>{_session.volume}</td>
+                                    <td className='w-1/8 text-sky-600 dark:text-purple-400 text-sm text-center font-bold'>{_session.player.nickname}</td>
+                                    <td className='w-3/16 text-slate-700 dark:text-slate-300 text-sm text-center text-left'>{eclipseText(_session.note, 35) || "-"}</td>
 
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { window.location.href = `/session/${session._id}` }}>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { window.location.href = `/session/${_session._id}` }}>
                                         <GoArrowUpRight size={16} className='text-slate-800 dark:text-slate-200' />
                                     </td>
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(session); setSessionVisibility(false); }}>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setUpdateVisibility(true); setSession(_session); setSessionVisibility(false); }}>
                                         <LuPencil size={16} className='text-slate-800 dark:text-slate-200' />
                                     </td>
-                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setSession(session); setSessionVisibility(false); }}>
+                                    <td className='flex justify-center items-center w-1/32 text-slate-700 dark:text-slate-300 text-sm text-center text-left' onClick={() => { setDeleteVisibility(true); setSession(_session); setSessionVisibility(false); }}>
                                         <FaTrashAlt size={16} className='text-rose-400' />
                                     </td>
                                 </tr >

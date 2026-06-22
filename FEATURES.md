@@ -1,5 +1,5 @@
-- Monthly Recap page
-- Yearly Recap page
+- Monthly Recap page (Done)
+- Yearly Recap page (Done)
 - Monthly mail of report and usage
 - Yearly mail of report and usage
 - Integarting profile page
