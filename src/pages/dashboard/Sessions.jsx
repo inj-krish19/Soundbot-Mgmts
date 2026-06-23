@@ -159,25 +159,24 @@ function Sessions() {
                 : [...response.data.toReversed(), ...prev]
         );
 
-        console.log(response.data);
+        // console.log(response.data);
 
     }
 
 
     useEffect(() => {
         (async () => { main(); })();
-        console.log("Page", page);
+        // console.log("Page", page);
     }, [page]);
 
 
     useEffect(() => {
 
-        console.log("Filtering", isFiltering);
+        // console.log("Filtering", isFiltering);
         if (isFiltering) return;
 
         try {
 
-            console.log("Here it goes");
             setLoading(true);
             if (!loaderRef.current) return;
 

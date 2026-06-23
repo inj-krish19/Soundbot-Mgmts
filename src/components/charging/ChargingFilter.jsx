@@ -67,7 +67,6 @@ function ChargingFilter({ panelState, loadingState, setData, setPage, setFilteri
             }
 
             setPage(-1);
-            console.log(response.data)
             setData([...response.data]);
 
             setTimeout(() => {

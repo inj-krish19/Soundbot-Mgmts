@@ -71,7 +71,6 @@ function SessionDetails() {
         responseHandler(res.clone(), setInfo);
         let response = await res.json();
 
-        console.log(response);
         if (response.code === 403 || response.code === 401) {
             setForbidden(true);
         }

@@ -176,7 +176,6 @@ function Charging() {
 
     useEffect(() => {
         (async () => { main(); })();
-        console.log("Page", page)
     }, [page]);
 
 

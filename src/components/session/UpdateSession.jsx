@@ -25,6 +25,7 @@ function UpdateSession({ session, panel }) {
     const [volume, setVolume] = useState(session?.volume || "");
     const [note, setNote] = useState(session?.note);
 
+    const [sessionId, setSessionId] = useState(session?._id || null);
     const [info, setInfo] = useState({
         message: '',
         type: ''
@@ -77,7 +78,7 @@ function UpdateSession({ session, panel }) {
 
             e.preventDefault();
 
-            let res = await fetch(`${BACKEND_URL}/session/${session._id}`, {
+            let res = await fetch(`${BACKEND_URL}/session/${sessionId}`, {
                 method: "PUT",
                 headers: {
                     "content-type": "application/json"
