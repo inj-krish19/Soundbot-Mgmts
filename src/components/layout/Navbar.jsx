@@ -13,6 +13,7 @@ function Navbar() {
         { title: 'Dashboard', route: 'dashboard' },
         { title: 'Sessions', route: 'sessions' },
         { title: 'Charging', route: 'charging' },
+        { title: 'Profile', route: 'profile' },
         { title: 'Sign Out', route: 'signout' },
     ] : [
         { title: 'About', route: 'about' },

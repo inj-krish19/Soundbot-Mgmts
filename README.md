@@ -1,4 +1,4 @@
-# 🎧 Soundbot Mgmts – UI
+# 🎧 Soundbot Mgmts 
 
 Soundbot Mgmts is a listening session and device management platform that allows users to track their daily, monthly, and yearly audio usage. It provides powerful dashboard visualizations and insights into listening patterns, device charging data, and usage behavior.
 
@@ -10,7 +10,7 @@ This repository contains the **Web Application** built using **Vite + React**.
 
 - Vercel
 
-Website: `https://soundbot-mgmt-ui.vercel.app`
+Website: `https://soundbot-mgmts.vercel.app`
 
 ---
 
@@ -96,7 +96,7 @@ src/
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/inj-krish19/Soundbot-Mgmt-UI.git
+git clone https://github.com/inj-krish19/Soundbot-Mgmts.git
 cd frontend
 ```
 
