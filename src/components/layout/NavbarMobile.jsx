@@ -1,6 +1,7 @@
 import { FaHome } from "react-icons/fa";
 import { IoCall } from "react-icons/io5";
 import { GoPerson } from "react-icons/go";
+import { TiUser } from "react-icons/ti";
 import { SiSession } from "react-icons/si";
 
 import { Link } from "react-router";
@@ -20,6 +21,7 @@ function NavbarMobile() {
         { title: 'Dashboard', route: 'dashboard', component: <TbLayoutDashboardFilled /> },
         { title: 'Sessions', route: 'sessions', component: <SiSession /> },
         { title: 'Charging', route: 'charging', component: <TbRecharging /> },
+        { title: 'Profile', route: 'profile', component: <TiUser /> },
         { title: 'Sign Out', route: 'signout', component: <VscSignOut /> },
     ] : [
         { title: 'About', route: 'about', component: <GoPerson /> },
