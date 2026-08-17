@@ -54,7 +54,7 @@ function Profile() {
 
     const handleChangeEmailRequest = async () => {
         try {
-            const res = await fetch(`${BACKEND_URL}/auth/request-change-email`, {
+            const res = await fetch(`${BACKEND_URL}/auth/email`, {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 credentials: "include"
@@ -68,7 +68,7 @@ function Profile() {
 
     const handleChangePasswordRequest = async () => {
         try {
-            const res = await fetch(`${BACKEND_URL}/auth/request-change-password`, {
+            const res = await fetch(`${BACKEND_URL}/auth/change-password`, {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 credentials: "include"
@@ -103,7 +103,7 @@ function Profile() {
 
     const content = {
 
-        profile: <ProfileContent data={data} />,
+        profile: <ProfileContent data={data} setData={setData} setInfo={setInfo} />,
         password: (
             <MagicLinkSection
                 title="Change Password"
@@ -193,25 +193,140 @@ function Profile() {
 
 
 /* Profile */
-function ProfileContent({ data }) {
+function ProfileContent({ data, setData, setInfo }) {
+    const [pfps, setPfps] = useState([]);
+    const [selectedPfp, setSelectedPfp] = useState(data.profile_picture);
+    const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
+
+    const fetchPfps = async () => {
+        try {
+            setLoading(true);
+
+            const res = await fetch(`${BACKEND_URL}/pfp`, {
+                method: "GET",
+                credentials: "include"
+            });
+
+            responseHandler(res.clone(), setInfo);
+
+            if (!res.ok) return;
+
+            const response = await res.json();
+            setPfps(response.data || []);
+        } catch (err) {
+            errorHandler(err, setInfo);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const updatePfp = async () => {
+        if (!selectedPfp || selectedPfp === data.profile_picture) return;
+
+        try {
+            setSaving(true);
+
+            const res = await fetch(`${BACKEND_URL}/user/change-profile-picture`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    profile_picture: selectedPfp
+                }),
+                credentials: "include"
+            });
+
+            responseHandler(res.clone(), setInfo);
+
+            if (!res.ok) return;
+
+            setData(prev => ({
+                ...prev,
+                profile_picture: selectedPfp
+            }));
+        } catch (err) {
+            errorHandler(err, setInfo);
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPfps();
+    }, []);
+
     return (
         <div className="flex flex-col gap-8">
             <SectionHeading
                 title="Your Profile"
-                description="View the information associated with your Soundbot Mgmts account."
+                description="View and manage the information associated with your Soundbot Mgmts account."
             />
+
             <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-                <img
-                    src={`${BACKEND_URL}${data.profile_picture}`}
-                    alt="Profile"
-                    className="size-28 rounded-full object-cover border-4 border-stone-400 dark:border-stone-600"
-                />
+                <div className="flex flex-col items-center gap-3 w-1/4">
+                    <img
+                        src={`${BACKEND_URL}${selectedPfp}`}
+                        alt="Profile"
+                        className="size-28 rounded-full object-cover border-4 border-stone-400 dark:border-stone-600"
+                    />
+
+                    {selectedPfp !== data.profile_picture && (
+                        <button
+                            onClick={updatePfp}
+                            disabled={saving}
+                            className="px-4 py-2 rounded-md bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white text-sm font-semibold transition"
+                        >
+                            {saving ? "Updating..." : "Update Picture"}
+                        </button>
+                    )}
+                </div>
+
                 <div className="flex flex-col gap-4 w-full">
                     <ProfileField label="Name" value={data.name} />
                     <ProfileField label="Email" value={data.email} />
                     <ProfileField label="Nickname" value={data.nickname} />
                     <ProfileField label="Country" value={data.country} />
                 </div>
+            </div>
+
+            <div className="flex flex-col gap-4">
+                <div>
+                    <h3 className="font-semibold text-slate-800 dark:text-slate-200">
+                        Choose Profile Picture
+                    </h3>
+                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                        Select one of the available profile pictures for your account.
+                    </p>
+                </div>
+
+                {loading ? (
+                    <Loading />
+                ) : pfps.length === 0 ? (
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                        No profile pictures available.
+                    </p>
+                ) : (
+                    <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-4">
+                        {pfps.map((pfp, index) => (
+                            <button
+                                key={`${pfp}-${index}`}
+                                onClick={() => setSelectedPfp(pfp)}
+                                className={`size-20 sm:size-24 justify-center items-center rounded-full p-2 transition ${selectedPfp === pfp
+                                    ? "ring-2 ring-emerald-500 ring-offset-2 ring-offset-stone-300 dark:ring-offset-stone-700"
+                                    : "opacity-80 hover:opacity-100"
+                                    }`}
+                            >
+                                <img
+                                    src={`${BACKEND_URL}${pfp}`}
+                                    alt={`Profile ${index + 1}`}
+                                    className="size-16 sm:size-20 rounded-full object-cover"
+                                />
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -320,6 +435,5 @@ function SectionHeading({ title, description }) {
         </div>
     );
 }
-
 
 export default Profile;
