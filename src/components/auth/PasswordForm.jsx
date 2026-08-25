@@ -32,7 +32,7 @@ function PasswordForm(props) {
                         </div>
 
                         {alternate && <span className='text-sm text-rose-400'><Link onClick={(e) => { alternate.call(e) }}>{alternate.text}</Link></span>}
-                        <button type="submit" className='bg-violet-700 hover:bg-violet-600 hover:scale-101 hover:cursor-pointer transition text-white p-2 rounded-md'>Submit</button>
+                        <button type="submit" name="submit" className='bg-violet-700 hover:bg-violet-600 hover:scale-101 hover:cursor-pointer transition text-white p-2 rounded-md'>Submit</button>
 
 
                     </form>

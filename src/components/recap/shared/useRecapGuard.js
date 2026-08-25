@@ -4,11 +4,11 @@
  * Works for both monthly and yearly.
  *
  * Rules:
- *   "monthly" — previous month, visible days 1–7 of the current month
- *               e.g. May recap → visible June 1–7
+ *   "monthly" — previous month, visible days 1-7 of the current month
+ *               e.g. May recap → visible June 1-7
  *
- *   "yearly"  — previous year, visible Jan 1–7 only
- *               e.g. 2025 recap → visible Jan 1–7 2026
+ *   "yearly"  — previous year, visible Jan 1-7 only
+ *               e.g. 2025 recap → visible Jan 1-7 2026
  *
  * Usage:
  *   const { allowed } = useRecapGuard("monthly", year, month)
