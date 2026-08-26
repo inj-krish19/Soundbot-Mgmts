@@ -72,11 +72,6 @@ function SignUp() {
 
         responseHandler(res.clone(), setInfo);
         if (res.ok) {
-            setInfo({
-                message: response.message,
-                type: 'success'
-            });
-
             setTimeout(() => {
                 window.location.href = '/dashboard';
             }, 5000);
