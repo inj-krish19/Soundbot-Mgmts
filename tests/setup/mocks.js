@@ -1,66 +1,37 @@
 import { vi } from 'vitest';
 
-/**
- * Proper fetch mock that supports res.clone() and res.json()
- */
-export const mockFetch = (data, status = 200) => {
-    global.fetch = vi.fn(() => {
-        const responseBody = JSON.stringify(data);
+export const createMockResponse = (data = {}, status = 200) => {
+    return {
+        ok: status >= 200 && status < 300,
+        status,
+        statusText: status >= 200 && status < 300 ? 'OK' : 'Error',
+        headers: {
+            get: vi.fn(() => 'application/json'),
+        },
+        json: vi.fn(() => Promise.resolve(data)),
+        text: vi.fn(() => Promise.resolve(JSON.stringify(data))),
+        clone() {
+            return createMockResponse(data, status);
+        },
+    };
+};
 
-        const response = {
-            ok: status >= 200 && status < 300,
-            status,
-            statusText: status === 200 ? 'OK' : 'Error',
-            headers: {
-                get: () => 'application/json',
-            },
-            json: () => Promise.resolve(data),
-            text: () => Promise.resolve(responseBody),
-            clone: function () {
-                // Return a new object with the same methods
-                return {
-                    ok: this.ok,
-                    status: this.status,
-                    statusText: this.statusText,
-                    headers: this.headers,
-                    json: () => Promise.resolve(data),
-                    text: () => Promise.resolve(responseBody),
-                    clone: this.clone,
-                };
-            },
-        };
+export const mockFetch = (data = {}, status = 200) => {
+    global.fetch = vi.fn(() => Promise.resolve(createMockResponse(data, status)));
+    return global.fetch;
+};
 
-        return Promise.resolve(response);
+export const mockFetchSequence = (...responses) => {
+    global.fetch = vi.fn();
+
+    responses.forEach(([data, status = 200]) => {
+        global.fetch.mockResolvedValueOnce(createMockResponse(data, status));
     });
-};
 
-/**
- * Always make fetch a spy (even when we don't care about the response)
- */
-export const mockFetchEmpty = () => {
-    global.fetch = vi.fn(() =>
-        Promise.resolve({
-            ok: true,
-            status: 200,
-            json: () => Promise.resolve({}),
-            text: () => Promise.resolve('{}'),
-            clone: function () {
-                return this;
-            },
-        })
-    );
-};
-
-export const mockAuthSuccess = () => {
-    mockFetch({ authenticated: true });
-};
-
-export const mockAuthFail = () => {
-    mockFetch({ authenticated: false }, 401);
+    return global.fetch;
 };
 
 export const resetMocks = () => {
     vi.clearAllMocks();
-    // Always restore fetch as a spy so .toHaveBeenCalled() works
     global.fetch = vi.fn();
 };
