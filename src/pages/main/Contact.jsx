@@ -5,8 +5,8 @@ import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 function Contact() {
 
     const links = [
-        { title: "Facebook", component: <FaLinkedin className='text-black dark:text-white hover:text-emerald-400' size={24} />, link: 'https://www.linkedin.com/' },
-        { title: "LinkedIn", component: <FaFacebook className='text-black dark:text-white hover:text-emerald-400' size={24} />, link: 'https://www.facebook.com/' },
+        { title: "LinkedIn", component: <FaLinkedin className='text-black dark:text-white hover:text-emerald-400' size={24} />, link: 'https://www.linkedin.com/' },
+        { title: "Facebook", component: <FaFacebook className='text-black dark:text-white hover:text-emerald-400' size={24} />, link: 'https://www.facebook.com/' },
         { title: "Instagram", component: <FaInstagram className='text-black dark:text-white hover:text-emerald-400' size={24} />, link: 'https://www.instagram.com/' },
         { title: "Mail", component: <IoMdMail className='text-black dark:text-white hover:text-emerald-400' size={24} />, link: 'mailto:support@soudbot.com' },
 

@@ -3,7 +3,7 @@ function Hero() {
     return (
         <>
             <section className="flex flex-col-reverse md:flex-row items-center gap-12 px-4 md:px-8 py-16 max-w-7xl mx-auto">
-                <img src='/logo.png' className='self-center size-48 lg:size-72 via-transparent' />
+                <img src='/logo.png' alt="Logo" className='self-center size-48 lg:size-72 via-transparent' />
 
                 <div className="flex flex-col gap-8">
                     <h1 className='text-sky-400 dark:text-emerald-400 font-poppins font-bold text-3xl lg:text-5xl'>Smarter audio usage, powered by insights.</h1>
