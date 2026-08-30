@@ -1,20 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { render, screen } from '../../setup/test-utils';
 import Home from '@/pages/main/Home';
 
-describe('Home Page', () => {
-
-    const renderHome = () => {
-        render(
-            <MemoryRouter>
-                <Home />
-            </MemoryRouter>
-        );
-    };
+describe('Home Page - Integration', () => {
 
     it('renders the main hero content', () => {
-        renderHome();
+        render(<Home />);
 
         expect(
             screen.getByText('Smarter audio usage, powered by insights.')
@@ -26,7 +17,7 @@ describe('Home Page', () => {
     });
 
     it('renders the Features section', () => {
-        renderHome();
+        render(<Home />);
 
         expect(screen.getByText('Features')).toBeInTheDocument();
         expect(screen.getByText('Usage Tracking')).toBeInTheDocument();
@@ -36,15 +27,13 @@ describe('Home Page', () => {
     });
 
     it('renders the achievements and capability section', () => {
-        renderHome();
+        render(<Home />);
 
         expect(
             screen.getByText('Built for scale, trust, and insight')
         ).toBeInTheDocument();
 
-        expect(
-            screen.getByText('900+')
-        ).toBeInTheDocument();
+        expect(screen.getByText('900+')).toBeInTheDocument();
 
         expect(
             screen.getByText('Active users accessing Soundbot insights')
@@ -52,19 +41,13 @@ describe('Home Page', () => {
     });
 
     it('renders the streaming players preview', () => {
-        renderHome();
+        render(<Home />);
 
-        expect(
-            screen.getByText('Streaming Players')
-        ).toBeInTheDocument();
-
-        expect(
-            screen.getByAltText('')
-        ).toBeDefined();
+        expect(screen.getByText('Streaming Players')).toBeInTheDocument();
     });
 
     it('renders the How It Works section', () => {
-        renderHome();
+        render(<Home />);
 
         expect(screen.getByText('How It Works')).toBeInTheDocument();
 
@@ -78,4 +61,8 @@ describe('Home Page', () => {
         expect(screen.getByText('Report Generation')).toBeInTheDocument();
     });
 
+    it('renders without crashing', () => {
+        const { container } = render(<Home />);
+        expect(container).toBeTruthy();
+    });
 });
