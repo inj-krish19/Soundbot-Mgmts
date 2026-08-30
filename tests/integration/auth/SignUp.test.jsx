@@ -46,7 +46,7 @@ describe('SignUp - Integration', () => {
         const user = userEvent.setup();
 
         mockFetchSequence(
-            [{ code: 200, data: ['/pfp/one.svg', '/pfp/two.svg', '/pfp/three.svg'] }],
+            [{ code: 200, data: ['/pfp/bleep.png', '/pfp/echo.png', '/pfp/wav.png'] }],
             [{ code: 200, status: 'OK', message: 'Signup Successfully' }]
         );
 
